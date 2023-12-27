@@ -1,0 +1,120 @@
+﻿@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+@{
+    var type = Model.ContentType.Alias ?? "";
+    switch (type)
+    {
+        case "digitalMenu":          
+            Layout = "Layouts/DigitalMenu";
+            break;
+        default:
+            Layout = "";
+            break;
+    }
+
+    var coverPhotoUrl = Model?.Value<IPublishedContent>("coverPhoto")?.MediaUrl() ?? "";
+    var socialMedia = Model?.Value<IEnumerable<BlockListItem>>("socialMedia");
+    var profilePhotoUrl = Model?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
+    var brandName = Model?.Value<string>("brandName") ?? "";
+    var promoText = Model?.Value<string>("promotionalText") ?? "";
+}
+
+<div class="page-content">
+
+    <div class="inner-content">
+        <section class="top-cover">
+            <div class="cover-container">
+                <div class="cover-image-container">
+                    @if (!string.IsNullOrEmpty(coverPhotoUrl))
+                    {
+                        <img class="cover-image" src="@coverPhotoUrl">
+                    }
+                </div>
+
+                @if (!string.IsNullOrEmpty(profilePhotoUrl))
+                {
+                    <div class="brand-image-container">
+                        <img class="brand-image" src="@profilePhotoUrl">
+                    </div>
+                }
+
+            </div>
+        </section>
+
+
+        <section class="the-shop">
+            <div class="shop-info">
+
+                <div class="shop-info-container">
+
+                    <div class="social-container">
+                        @if (socialMedia?.Any() ?? false)
+                        {
+                            foreach (var social in socialMedia)
+                            {
+                                var alias = social.Content.ContentType.Alias;
+                                var socialLink = social.Content.Value<Link>("socialLink");
+                                if (socialLink != null)
+                                {
+                                    var url = socialLink.Url ?? "#";
+                                    var imageSrc = "";
+
+                                    if (alias == "facebookSocial")
+                                    {
+                                        imageSrc = "/images/_3dtheme/light/social/facebook_social.png";
+                                    }
+                                    else if (alias == "instagramSocial")
+                                    {
+                                        imageSrc = "/images/_3dtheme/light/social/instagram_social.png";
+
+                                    }
+                                    else if (alias == "tiktokSocial")
+                                    {
+                                        imageSrc = "/images/_3dtheme/light/social/tiktok_social.png";
+                                    }
+
+                                    <a href="@url" target="_blank">
+                                        <img src="@imageSrc" class="social-icon">
+                                    </a>
+                                }
+
+                            }
+                        }
+                    </div>
+
+                    <div class="more-info-trigger">
+                        <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
+                    </div>
+                </div>
+
+                <span class="divider"></span>
+
+    
+            </div>
+            <div class="shop-menu">
+
+                <div class="promo-text">
+
+
+                    <span>
+                        @promoText
+                        @promoText
+
+                    </span>
+                </div>
+
+                <div class="menu-container">
+                    
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </div>
+ 
+</div>

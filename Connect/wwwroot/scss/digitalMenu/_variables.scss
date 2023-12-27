@@ -1,0 +1,15 @@
+$clr-primary: #3e60be;
+$clr-secondary: #23ded2;
+$clr-accent: #e5389b;
+$clr-neutral-light: #efefef;
+$clr-neutral-dark: #323232;
+
+$simple-gradient: $clr-primary, $clr-secondary;
+$complex-gradient: $clr-primary, $clr-secondary, $clr-accent;
+
+$scheme-default: $clr-neutral-light, $clr-primary;
+$scheme-secondary: $clr-neutral-dark, $clr-secondary;
+$scheme-accent-gradient: $clr-neutral-dark, $complex-gradient;
+$scheme-simple-gradient: $clr-neutral-dark, $simple-gradient;
+
+
