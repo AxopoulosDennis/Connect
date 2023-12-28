@@ -22,6 +22,7 @@
     var promoText = Model?.Value<string>("promotionalText") ?? "";
     var hideShareButton = Model?.Value<bool>("hideSocialShare") ?? false;
     var triggerColor = Model?.Value("aboutTriggerColor") ?? "ffffff";
+    var mainMenu = Model?.Value<IEnumerable<BlockListItem>>("menuGroup");
 }
 
 <div class="page-content">
@@ -47,7 +48,45 @@
         </section>
 
         <section class="content-container">
+
             <div class="brand-info-container">
+                <div class="social-container">
+                    @if (socialMedia?.Any() ?? false)
+                    {
+                        foreach (var social in socialMedia)
+                        {
+                            var alias = social.Content.ContentType.Alias;
+                            var socialLink = social.Content.Value<Link>("socialLink");
+                            if (socialLink != null)
+                            {
+                                var url = socialLink.Url ?? "#";
+                                var imageSrc = "";
+
+                                if (alias == "facebookSocial")
+                                {
+                                    imageSrc = "/images/_3dtheme/light/social/facebook_social.png";
+                                }
+                                else if (alias == "instagramSocial")
+                                {
+                                    imageSrc = "/images/_3dtheme/light/social/instagram_social.png";
+
+                                }
+                                else if (alias == "tiktokSocial")
+                                {
+                                    imageSrc = "/images/_3dtheme/light/social/tiktok_social.png";
+                                }
+
+                                <a href="@url"><img class="social-icon" src="@imageSrc"></a>
+
+                            }
+
+                        }
+                    }
+                    @if (!hideShareButton)
+                    {
+                        <a href="#"><img class="social-icon" src="/images/_3dtheme/light/social/share_social.png" /></a>
+                    }
+                </div>
                 <span class="brand-name">
                     @brandName
                 </span>
@@ -56,7 +95,7 @@
                 </span>
             </div>
 
-            <div class="search-container">
+@*             <div class="search-container">
 
                 <div class="search-row">
                     <div class="row-inner">
@@ -72,6 +111,103 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+ *@
+            <div class="menu-navigation-container">
+                @if (mainMenu?.Any() ?? false)
+                {
+                    var counter = 0;
+
+                    <nav class="nav swiper mySwiper">
+                        <ul class="navigation-list swiper-wrapper">
+                            @foreach (var category in mainMenu)
+                            {
+                                counter++;
+                                var catName = category.Content.Value<string>("groupName") ?? "";
+
+                                if(category == mainMenu.First())
+                                {
+                                    <li class="nav-item swiper-slide">
+                                        <a href="#" data-link="#category_@counter" class="nav-link active">@catName</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item swiper-slide">
+                                        <a href="#" data-link="#category_@counter" class="nav-link">@catName</a>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </nav>
+                }
+            </div>
+
+            <div class="menu-container">
+
+                @if (mainMenu?.Any() ?? false)
+                {
+                    var counter = 0;
+
+                    @foreach (var category in mainMenu)
+                    {
+                        bool hide = category.Content.Value<bool>("hide");
+                        if(!hide)
+                        {
+                            counter++;
+                            var catName = category.Content.Value<string>("groupName") ?? "";
+                            var catIcon = category.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? "";
+
+                            <section class="section" id="category_@counter">
+                                <div class="heading-icon-container">
+                                    <image class="heading-icon" src="@catIcon"></image>
+                                    <h2 class="heading">@catName</h2>
+                                </div>
+
+@*                                 <div class="products__container">
+
+                                    <div class="product">
+                                        <div class="product__text">
+                                            <h2>Double Smashed Burger</h2>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                            <p class="final__price has__discount">10,90 &#8364 <span class="original__price">11,20 &#8364</span></p>
+
+                                        </div>
+                                        <image src="/images/product.jpg" class="product__photo">
+                                    </div>
+
+                                    <div class="product">
+                                        <div class="product__text">
+                                            <h2>Triple Double Smashed Burger</h2>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                            <p class="final__price has__discount">10,90 &#8364 <span class="original__price">11,20 &#8364</span></p>
+
+                                        </div>
+                                        <image src="/images/product.jpg" class="product__photo">
+                                    </div>
+
+                                    <div class="product">
+                                        <div class="product__text">
+                                            <h2>HOT HOT Burger</h2>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                            <p class="final__price">10,90 &#8364 <span class="original__price"></span></p>
+
+                                        </div>
+                                        <image src="/images/product.jpg" class="product__photo">
+                                    </div>
+
+                                </div>
+ *@                            </section>
+                        }
+
+                        
+
+                    }
+
+                }
+
 
             </div>
 
