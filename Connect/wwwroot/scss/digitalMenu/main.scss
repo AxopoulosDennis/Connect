@@ -3,6 +3,8 @@
 
 * {
     font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 
 .divider {
@@ -16,22 +18,18 @@
 }
 
 .page-content {
-    display: block;
-    background: rgb(245,245,245);
-    background: linear-gradient(90deg, rgba(245,245,245,1) 0%, rgba(240,248,255,1) 89%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    display:flex;
+    justify-content:center;
 
     .inner-content {
+        flex-grow:1;
         max-width: 960px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        justify-content: start;
-        align-items: start;
-        padding: .4em;
+        padding: .5em;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        gap: 8px;
+
     }
 }
 
@@ -41,13 +39,11 @@
     display: flex;
     justify-content: center;
 
-
     .cover-container {
         flex-grow: 1;
         position: relative;
 
         .cover-image-container {
-            padding: .2em;
 
             .cover-image {
                 border: 1px solid whitesmoke;
@@ -56,130 +52,161 @@
                 min-height: 35vh;
                 max-height: 35vh;
                 object-fit: cover;
-                -webkit-box-shadow: 0px 8px 12px -4px rgba(0,0,0,0.76);
-                box-shadow: 0px 8px 12px -4px rgba(0,0,0,0.76);
+                -webkit-box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
+                box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
             }
         }
 
+
         .brand-image-container {
             position: absolute;
-            bottom: 3.5%;
-            left: 3.5%;
+            bottom: -45px;
+            right: 25px;
+            z-index: 10;
 
             .brand-image {
                 border: 1px solid whitesmoke;
                 border-radius: 20px 20px;
                 width: 100%;
-                min-height: 80px;
-                max-height: 80px;
-                min-width: 80px;
-                max-width: 80px;
+                min-height: 100px;
+                max-height: 100px;
+                min-width: 100px;
+                max-width: 100px;
                 object-fit: cover;
-                -webkit-box-shadow: 0px 8px 15px -4px rgba(0,0,0,0.76);
-                box-shadow: 0px 8px 15px -4px rgba(0,0,0,0.76);
+                -webkit-box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
+                box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
                 animation: 12s infinite glow linear;
             }
         }
     }
 }
 
-
-.the-shop {
+.content-container {
+    border: 1px solid whitesmoke;
+    border-radius: 20px 20px;
     width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    gap: 12px;
+    -webkit-box-shadow: 0 2px 3px #ccc;
+    box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
+    padding: .8em;
 
+    .brand-info-container {
+        margin-left: 10px;
+        margin-top: 10px;
+        display:flex;
+        flex-direction:column;
+        gap:4px;
 
-    .brand-name {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: center;
-        min-width: 50%;
-        max-width: 50%;
-        font-size: 1.4rem;
-        text-align: start;
-        padding: .2em 0.8em;
-        font-weight: 600;
-        color: black;
-        opacity: 80%;
-        letter-spacing: 2px;
-        line-height: 36px;
-        text-align: end;
-    }
-
-
-    .shop-info {
-        border: 1px solid whitesmoke;
-        border-radius: 20px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        -webkit-box-shadow: 0px 8px 15px -4px rgba(0,0,0,0.76);
-        box-shadow: 0px 8px 15px -4px rgba(0,0,0,0.76);
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        align-content: end;
-        gap: 4px;
-        padding: .1em;
-        flex-wrap: wrap;
-        flex-direction: column;
-        min-width: 30%;
-        max-height: 80px;
-
-        .shop-info-container {
+        .brand-name {
+            min-height: 30px;
+            max-width: 50%;
             display: flex;
-            justify-content: space-between;
-            padding: .2em .4em;
-
-            .social-container {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 0.2rem;
-                justify-content: start;
-                align-items: center;
-                margin-bottom: 0.4rem;
-                min-height: 33.6px;
-
-                .social-icon {
-                    max-width: 24px;
-                }
-            }
-
-            .more-info-trigger {
-                min-width: 10%;
-                display: flex;
-                justify-content: center;
-                align-items: start;
-                margin-top: 4px;
-                margin-right: 10px;
-            }
+            justify-content: start;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.9rem;
         }
-    }
-
-    .shop-menu {
-        padding: .8em 1.2em;
-        border: 1px solid whitesmoke;
-        border-radius: 20px;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        -webkit-box-shadow: 0px 8px 15px -4px rgba(0,0,0,0.76);
-        flex-grow: 1;
-
 
         .promo-text {
+            opacity: 60%;
+        }
+
+        margin-bottom: 2em;
+    }
+
+    .search-container {
+        width: 100%;
+
+        .search-row {
+            padding: 1px;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 380px;
+        }
+
+        .row-inner {
+            border-radius: 20px;
+        }
+
+        .container {
             display: flex;
+        }
+
+        .search-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-content: center;
-            text-align: start;
-            font-size: .6rem;
+            margin-right: 12px;
+
+            svg {
+                transform: translate(-1px, -1px);
+            }
         }
 
-        .menu-container{
 
+        .input-container {
+            width: 100%;
+            position: relative;
+
+            .close-icon {
+                position: absolute;
+                top:35%;
+                right:6%;
+            }
+        }
+
+        input {
+            background-color: #e3edf7;
+            padding: 12px 28px;
+            padding-right: 38px;
+            border: none;
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #a9b8c9;
+            -webkit-appearance: none;
+            transition: all 240ms ease-out;
+            width: 100%;
+
+            &::placeholder {
+                color: #6d7f8f;
+            }
+
+            &:focus {
+                outline: none;
+                color: #6d7f8f;
+                background-color: lighten(#e3edf7, 3%);
+            }
+        }
+
+
+
+        .input-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+
+            &:before,
+            &:after {
+                left: 0;
+                top: 0;
+                display: block;
+                content: "";
+                pointer-events: none;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+
+            &:before {
+                box-shadow: var(--bottom-shadow);
+            }
+
+            &:after {
+                box-shadow: var(--top-shadow);
+            }
         }
     }
 }
@@ -187,78 +214,44 @@
 
 
 
-    @keyframes glow {
-        0% {
-            border-color: whitesmoke;
-        }
 
-        25% {
-            border-color: aliceblue;
-        }
-
-        75% {
-            border-color: black;
-        }
-
-        100% {
-            border-color: whitesmoke;
-        }
-    }
-
-    @-webkit-keyframes glow {
-        0% {
-            border-color: whitesmoke;
-        }
-
-        25% {
-            border-color: aliceblue;
-        }
-
-        75% {
-            border-color: black;
-        }
-
-        100% {
-            border-color: whitesmoke;
-        }
-    }
-
-
-@keyframes glowName {
+@keyframes glow {
     0% {
-        color: whitesmoke;
+        border-color: whitesmoke;
     }
 
     25% {
-        color: aliceblue;
+        border-color: aliceblue;
     }
 
     75% {
-        color: black;
+        border-color: black;
     }
 
     100% {
-        color: whitesmoke;
+        border-color: whitesmoke;
     }
 }
 
-@-webkit-keyframes glowName {
+@-webkit-keyframes glow {
     0% {
-        color: whitesmoke;
+        border-color: whitesmoke;
     }
 
     25% {
-        color: aliceblue;
+        border-color: aliceblue;
     }
 
     75% {
-        color: black;
+        border-color: black;
     }
 
     100% {
-        color: whitesmoke;
+        border-color: whitesmoke;
     }
 }
+
+
 
     @mixin color-scheme($text, $bg) {
         // if we have a single bg color, then set a background-color
