@@ -240,7 +240,7 @@
         margin-bottom: 1.4em;
         position: -webkit-sticky;
         position: sticky;
-        top: 0;
+        top: -1px;
         z-index: 10;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
@@ -258,7 +258,7 @@
             border: 1px solid transparent;
             border-radius: 20px;
             margin: 0 -6px;
-
+            overflow:clip;
 
             .navigation-list {
                 margin: 0;
