@@ -38,6 +38,27 @@
 
                 </div>
 
+                
+                <div class="search-container">
+
+                    <div class="search-row">
+                        <div class="row-inner">
+                            <div class="container">
+                                <div class="search-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#657789" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                                </div>
+                                <div class="input-container">
+                                    <input placeholder="Search..." />
+                                    <i class="fa fa-close close-icon"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
                 @if (!string.IsNullOrEmpty(profilePhotoUrl))
                 {
                     <div class="brand-image-container">
@@ -94,26 +115,6 @@
                     @promoText
                 </span>
             </div>
-
-@*             <div class="search-container">
-
-                <div class="search-row">
-                    <div class="row-inner">
-                        <div class="container">
-                            <div class="search-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#657789" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-                            </div>
-                            <div class="input-container">
-                                <input placeholder="Search..." />
-                                <i class="fa fa-close close-icon"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
- *@
             <div class="menu-navigation-bg" id="menuNav">
                 <div class="menu-navigation-container">
                     @if (mainMenu?.Any() ?? false)
@@ -146,9 +147,6 @@
                     }
                 </div>
             </div>
-
-
-
             <div class="menu-container">
 
                 @if (mainMenu?.Any() ?? false)
