@@ -114,36 +114,40 @@
 
             </div>
  *@
-            <div class="menu-navigation-container">
-                @if (mainMenu?.Any() ?? false)
-                {
-                    var counter = 0;
+            <div class="menu-navigation-bg" id="menuNav">
+                <div class="menu-navigation-container">
+                    @if (mainMenu?.Any() ?? false)
+                    {
+                        var counter = 0;
 
-                    <nav class="nav swiper mySwiper">
-                        <ul class="navigation-list swiper-wrapper">
-                            @foreach (var category in mainMenu)
-                            {
-                                counter++;
-                                var catName = category.Content.Value<string>("groupName") ?? "";
-
-                                if(category == mainMenu.First())
+                        <nav class="nav swiper mySwiper">
+                            <ul class="navigation-list swiper-wrapper">
+                                @foreach (var category in mainMenu)
                                 {
-                                    <li class="nav-item swiper-slide">
-                                        <a href="#" data-link="#category_@counter" class="nav-link active">@catName</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="nav-item swiper-slide">
-                                        <a href="#" data-link="#category_@counter" class="nav-link">@catName</a>
-                                    </li>
-                                }
-                            }
+                                    counter++;
+                                    var catName = category.Content.Value<string>("groupName") ?? "";
 
-                        </ul>
-                    </nav>
-                }
+                                    if (category == mainMenu.First())
+                                    {
+                                        <li class="nav-item swiper-slide">
+                                            <a href="#" data-link="#category_@counter" class="nav-link active">@catName</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item swiper-slide">
+                                            <a href="#" data-link="#category_@counter" class="nav-link">@catName</a>
+                                        </li>
+                                    }
+                                }
+
+                            </ul>
+                        </nav>
+                    }
+                </div>
             </div>
+
+
 
             <div class="menu-container">
 
@@ -154,52 +158,84 @@
                     @foreach (var category in mainMenu)
                     {
                         bool hide = category.Content.Value<bool>("hide");
-                        if(!hide)
+                        var categoryItems = category.Content.Value<IEnumerable<BlockListItem>>("groupItems");
+                        if(!hide && (categoryItems?.Any() ?? false))
                         {
                             counter++;
                             var catName = category.Content.Value<string>("groupName") ?? "";
                             var catIcon = category.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? "";
 
-                            <section class="section" id="category_@counter">
+                            <section class="category" id="category_@counter">
                                 <div class="heading-icon-container">
                                     <image class="heading-icon" src="@catIcon"></image>
                                     <h2 class="heading">@catName</h2>
                                 </div>
 
-@*                                 <div class="products__container">
+                                <div class="products-container">
 
-                                    <div class="product">
-                                        <div class="product__text">
-                                            <h2>Double Smashed Burger</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                            <p class="final__price has__discount">10,90 &#8364 <span class="original__price">11,20 &#8364</span></p>
+                                    @foreach (var product in categoryItems)
+                                    {
+                                        var productName = product.Content.Value<string>("itemName") ?? "";
+                                        var productDesc = product.Content.Value<string>("itemDescription") ?? "";
+                                        decimal originalPrice = product.Content.Value<decimal>("originalPrice");
+                                        bool activateDiscount = product.Content.Value<bool>("activateDiscount");
+                                        var productPhotos = product.Content.Value<IEnumerable<IPublishedContent>>("itemPhotos");
+       
+                                        <div class="product">
+                                            <div class="product-text">
+                                                <h3>@productName</h3>
+                                                <p>@productDesc</p>
+                                                @if(activateDiscount)
+                                                {
+                                                    string discountType = product.Content.Value<string>("discountType");
+                                                    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+
+                                                    decimal finalPrice = originalPrice;
+
+                                                    if(discountType == "Final Price")
+                                                    {
+                                                        finalPrice = discountAmount;
+                                                    }
+                                                    else if(discountType == "Fixed Price")
+                                                    {
+                                                        finalPrice = originalPrice - discountAmount;
+
+                                                    }
+                                                    else if(discountType == "Percentage")
+                                                    {
+                                                        var discountPercentage = (discountAmount/100) * (originalPrice/1);
+                                                        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+
+                                                    }
+
+                                                    <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
+
+                                                }
+                                                else
+                                                {
+                                                    <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
+
+                                                }
+
+                                            </div>
+
+                                            @if (productPhotos?.Any() ?? false)
+                                            {
+                                                var mainPhoto = productPhotos?.FirstOrDefault()?.MediaUrl() ?? "";
+
+                                                <div class="product-photo-container">
+                                                    <img src="@mainPhoto" class="product-photo">
+                                                </div>
+                                            }
+
+                                 
 
                                         </div>
-                                        <image src="/images/product.jpg" class="product__photo">
-                                    </div>
 
-                                    <div class="product">
-                                        <div class="product__text">
-                                            <h2>Triple Double Smashed Burger</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                            <p class="final__price has__discount">10,90 &#8364 <span class="original__price">11,20 &#8364</span></p>
-
-                                        </div>
-                                        <image src="/images/product.jpg" class="product__photo">
-                                    </div>
-
-                                    <div class="product">
-                                        <div class="product__text">
-                                            <h2>HOT HOT Burger</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                            <p class="final__price">10,90 &#8364 <span class="original__price"></span></p>
-
-                                        </div>
-                                        <image src="/images/product.jpg" class="product__photo">
-                                    </div>
+                                    }
 
                                 </div>
- *@                            </section>
+                            </section>
                         }
 
                         

@@ -14,10 +14,6 @@
   box-shadow: 0px 8px 15px -4px rgba(0, 0, 0, 0.76);
 }
 
-.page-content {
-  display: flex;
-  justify-content: center;
-}
 .page-content .inner-content {
   flex-grow: 1;
   max-width: 960px;
@@ -197,21 +193,30 @@
 .content-container .search-container .input-container:after {
   box-shadow: var(--top-shadow);
 }
-.content-container .menu-navigation-container {
+.content-container .menu-navigation-bg {
+  margin-bottom: 1.4em;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.content-container .menu-navigation-bg.sticky {
+  background-color: white;
+  margin: 0 -0.8em;
+  margin-bottom: 0;
+  padding: 0.4em 0.8em;
+}
+.content-container .menu-navigation-bg .menu-navigation-container {
   background-color: #e3edf7;
   border: 1px solid transparent;
   border-radius: 20px;
   margin: 0 -6px;
-  overflow-x: hidden;
-  -webkit-box-shadow: 0px 8px 10px -12px rgba(0, 0, 0, 0.76);
-  box-shadow: 0px 8px 10px -12px rgba(0, 0, 0, 0.76);
-  margin-bottom: 1.4em;
 }
-.content-container .menu-navigation-container .navigation-list {
+.content-container .menu-navigation-bg .menu-navigation-container .navigation-list {
   margin: 0;
   padding: 0 10px;
 }
-.content-container .menu-navigation-container .navigation-list .nav-item {
+.content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,21 +224,22 @@
   padding: 0 12px;
   z-index: 1;
 }
-.content-container .menu-navigation-container .navigation-list .nav-item .nav-link {
+.content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item .nav-link {
   padding: 4px 16px;
   margin: 6px 0;
   color: black;
   opacity: 60%;
   font-weight: 500;
+  border-radius: 20px;
 }
-.content-container .menu-navigation-container .navigation-list .nav-item .nav-link.active {
+.content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item .nav-link.active {
   opacity: 100%;
   border-radius: 20px;
   color: white;
   background-color: slategrey;
 }
 .content-container .menu-container {
-  padding: 4px 12px;
+  padding: 4px 4px;
 }
 .content-container .menu-container .heading-icon-container {
   display: flex;
@@ -242,7 +248,7 @@
   justify-content: start;
   gap: 0.4em;
   border-bottom: 1px solid lightgray;
-  margin-bottom: 8px;
+  margin: 16px 0px;
 }
 .content-container .menu-container .heading-icon-container .heading-icon {
   margin-top: -0.6rem;
@@ -251,6 +257,69 @@
 }
 .content-container .menu-container .heading-icon-container .heading {
   font-size: 1.2rem;
+}
+.content-container .menu-container .product {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  padding: 12px 4px;
+  padding-bottom: 8px;
+  min-height: 0;
+  min-width: 0;
+  grid-column-gap: 6px;
+  border-bottom: 1px solid rgba(237, 231, 225, 0.75);
+}
+.content-container .menu-container .product .product-text {
+  padding: 0 6px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 60px 30px;
+  max-width: 550px;
+}
+.content-container .menu-container .product .product-text h3 {
+  font-size: 0.975rem;
+  grid-row: 1;
+}
+.content-container .menu-container .product .product-text p:not(.final-price) {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: black;
+  opacity: 40%;
+  grid-row: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.content-container .menu-container .product .product-text .final-price {
+  padding-bottom: 2px;
+  color: black;
+}
+.content-container .menu-container .product .product-text .final-price.has-discount {
+  color: red;
+}
+.content-container .menu-container .product .product-photo-container {
+  width: 100%;
+  height: 100%;
+  max-height: 110px;
+}
+.content-container .menu-container .product .product-photo-container .product-photo {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.content-container .menu-container .product .final-price {
+  font-size: 1rem;
+}
+.content-container .menu-container .product .final-price .original-price {
+  font-size: 1rem;
+  margin-left: 6px;
+  background: linear-gradient(to bottom, transparent 55%, lightgray 55% 62%, transparent 62%);
+  color: lightgray;
+}
+.content-container .menu-container .product:last-child {
+  border-bottom: 0;
 }
 
 @keyframes glow {
