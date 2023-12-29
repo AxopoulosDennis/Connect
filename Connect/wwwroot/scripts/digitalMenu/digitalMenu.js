@@ -39,14 +39,14 @@ $(document).ready(() => {
 
     window.addEventListener('scroll', () => {
 
-        if (window.scrollY >= navInitPosition + 10) {
+        //if (window.scrollY >= navInitPosition + 10) {
 
-            navigation.classList.add("sticky");
-        }
-        else if (window.scrollY <= navInitPosition ) {
-            navigation.classList.remove("sticky");
+        //    navigation.classList.add("sticky");
+        //}
+        //else if (window.scrollY <= navInitPosition ) {
+        //    navigation.classList.remove("sticky");
 
-        }
+        //}
 
         groupEls.forEach(groupEl => {
 
