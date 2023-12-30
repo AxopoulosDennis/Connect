@@ -6,7 +6,10 @@ const navInitPosition = navigation.offsetTop;
 const bottomSearch = document.getElementById('bottomSearch');
 var whiteSpaceLove = document.getElementById('whiteSpaceLove');
 
+const searchInput = document.getElementById('searchInput');
+
 let previousScrollY = 0;
+let lastPosBeforeSearch = 0;
 
 function isElementInViewport(el) {
     var rect = el.getBoundingClientRect();
@@ -104,11 +107,42 @@ $(document).ready(() => {
 
         });
     });
+
+    $(searchInput).on("focus", () => {
+        openSearch();
+
+    });
+
+    $("#closeFullScreen").on("click", () => {
+        closeSearch();
+    });
 });
 
+function openSearch() {
+
+    lastPosBeforeSearch = window.scrollY;
 
 
+    $(".search-page-container ").addClass("display");
+    $(".page-content").addClass("stop-scroll");
+    $("#closeFullScreen").addClass("display");
 
-//// e.g. 100x100 viewport and a 10x10px element at position {top: -1, left: 0, bottom: 9, right: 10}
-//elementIsVisibleInViewport(el); // false - (not fully visible)
-//elementIsVisibleInViewport(el, true); // true - (partially visible)
+}
+
+function closeSearch() {
+    $(".search-page-container ").removeClass("display");
+    $(".page-content").removeClass("stop-scroll");
+    $("#closeFullScreen").removeClass("display");
+
+
+    window.scrollTo({
+        top: lastPosBeforeSearch,
+        left: 0,
+        behavior: 'instant',
+    });
+
+    //$([document.documentElement, document.body]).animate({
+    //    scrollTop: (lastPosBeforeSearch)
+    //}, 0);
+
+}
