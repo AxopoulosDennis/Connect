@@ -134,16 +134,16 @@ $(document).ready(() => {
 
     $('.nav-filter').click(function (event) {
 
-        if ($(this).hasClass('selected')) {
+        if ($(this).find(".nav-item").hasClass('selected')) {
 
-            $(this).removeClass('selected');
+            $(this).find(".nav-item").removeClass('selected');
         }
         else {
-            $(this).addClass('selected');
+            $(this).find(".nav-item").addClass('selected');
 
         }
 
-        if ($(".nav-filter.selected").length) {
+        if ($(".nav-item.selected").length) {
             $(".clear-filters-container").addClass("active");
         }
         else {
@@ -154,7 +154,7 @@ $(document).ready(() => {
 
     $(".clear-filters-container").click(function () {
 
-        $(".nav-filter.selected").removeClass("selected");
+        $(".nav-item.selected").removeClass("selected");
         $(".clear-filters-container").removeClass("active");
 
     });
