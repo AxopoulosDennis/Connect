@@ -55,6 +55,21 @@ $(document).ready(() => {
 
     });
 
+    var swiper2 = new Swiper(".mySwiper3", {
+        slidesPerView: "auto",
+        spaceBetween: 2,
+        freeMode: true,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        //scrollbar: {
+        //    el: ".swiper-scrollbar",
+        //},
+
+    });
+
 
     //Click Scroll To Section
     navLinkEls.forEach(navLinkEl => {
@@ -156,6 +171,23 @@ $(document).ready(() => {
 
         $(".nav-item.selected").removeClass("selected");
         $(".clear-filters-container").removeClass("active");
+
+    });
+
+    $(".show-results-container").click(function () {
+        $(".search-results-inner-container").addClass("display");
+
+    });
+
+    $(".sort-icon").click(function () {
+        if ($(this).hasClass('inverse')) {
+
+            $(this).removeClass('inverse');
+        }
+        else {
+            $(this).addClass('inverse');
+
+        }
 
     });
 });
