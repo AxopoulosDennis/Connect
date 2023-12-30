@@ -40,6 +40,21 @@ $(document).ready(() => {
 
     });
 
+    var swiper2 = new Swiper(".mySwiper2", {
+        slidesPerView: "auto",
+        spaceBetween: 2,
+        freeMode: true,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        //scrollbar: {
+        //    el: ".swiper-scrollbar",
+        //},
+
+    });
+
 
     //Click Scroll To Section
     navLinkEls.forEach(navLinkEl => {
@@ -116,6 +131,33 @@ $(document).ready(() => {
     $("#closeFullScreen").on("click", () => {
         closeSearch();
     });
+
+    $('.nav-filter').click(function (event) {
+
+        if ($(this).hasClass('selected')) {
+
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+
+        }
+
+        if ($(".nav-filter.selected").length) {
+            $(".clear-filters-container").addClass("active");
+        }
+        else {
+            $(".clear-filters-container").removeClass("active");
+
+        }
+    });
+
+    $(".clear-filters-container").click(function () {
+
+        $(".nav-filter.selected").removeClass("selected");
+        $(".clear-filters-container").removeClass("active");
+
+    });
 });
 
 function openSearch() {
@@ -130,16 +172,20 @@ function openSearch() {
 }
 
 function closeSearch() {
-    $(".search-page-container ").removeClass("display");
-    $(".page-content").removeClass("stop-scroll");
-    $("#closeFullScreen").removeClass("display");
 
+    $(".page-content").removeClass("stop-scroll");
 
     window.scrollTo({
         top: lastPosBeforeSearch,
         left: 0,
         behavior: 'instant',
     });
+
+    $(".search-page-container ").removeClass("display");
+    $("#closeFullScreen").removeClass("display");
+
+
+
 
     //$([document.documentElement, document.body]).animate({
     //    scrollTop: (lastPosBeforeSearch)

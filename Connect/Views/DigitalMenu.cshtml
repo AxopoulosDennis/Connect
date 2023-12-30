@@ -277,6 +277,55 @@
 
 
             <div class="search-page-container">
+                <div class="filters-container">
+                    <div class="clear-filters-container">
+                        <span>Clear Filters</span>
+                    </div>
+                    <div class="filters-checks-container">
+                        <h3>Filters</h3>
+
+                        <div class="filter-checks">
+                            <nav class="nav swiper mySwiper2">
+                                <ul class="navigation-list swiper-wrapper">
+
+                                    <li class="nav-filter swiper-slide">
+                                        Vegan
+                                    </li>
+                                    <li class="nav-filter swiper-slide">
+                                        Vegeterian
+                                    </li>
+                                    <li class="nav-filter swiper-slide">
+                                        Spicy
+                                    </li>
+
+    @*                                 @foreach (var category in mainMenu)
+                                    {
+                                        var catName = category.Content.Value<string>("groupName") ?? "";
+
+                                        if (category == mainMenu.First())
+                                        {
+                                            <li class="nav-item swiper-slide">
+                                                <a href="#" active">@catName</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item swiper-slide">
+                                                <a href="#" >@catName</a>
+                                            </li>
+                                        }
+                                    } *@
+
+                                </ul>
+                            </nav>
+
+                        </div>
+         
+                    </div>
+                    <div class="sort-filter-container">
+                        <h3>Sort By</h3>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -349,10 +349,10 @@
 
 
                 p:not(.final-price) {
-                    font-weight: 400;
+                    font-weight: 500;
                     font-size: 0.875rem;
                     color: black;
-                    opacity: 40%;
+                    opacity: 50%;
                     grid-row: 2;
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
@@ -534,8 +534,8 @@
             opacity: 80%;
             display: none;
 
-            &.display{
-                display:block;
+            &.display {
+                display: block;
             }
         }
     }
@@ -553,10 +553,79 @@
             position: absolute;
             top: -3px;
         }
+
+        .filters-container {
+            padding: 1em;
+
+            .clear-filters-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: end;
+                align-items: end;
+                opacity: 50%;
+                font-weight: 500;
+                font-size: .9rem;
+
+                &.active {
+                    opacity: 80%;
+                }
+            }
+
+            h3 {
+                font-weight: 800;
+                font-size: 1.3rem;
+                opacity: 90%;
+            }
+
+            .navigation-list {
+                max-width: 100%;
+                list-style: none;
+                padding: 12px 0;
+                gap: 8px;
+
+                .nav-filter {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: max-content;
+                    padding: 1px 12px;
+                    z-index: 1;
+                    background-color: #e3edf7;
+                    border-radius: 20px;
+                    color: black;
+                    opacity: 80%;
+                    font-weight: 500;
+                    text-decoration: none;
+
+
+
+
+
+                    &.selected {
+                        background-color: darken( #e3edf7, 40%);
+                        color: white;
+                    }
+                }
+            }
+        }
     }
 }
 
 
+
+
+
+@-webkit-keyframes expand {
+    0% {
+        transform: scaleY(0);
+    }
+
+
+    100% {
+        transform: scaleY(1);
+    }
+}
 
 
     @keyframes glow {
