@@ -3,6 +3,22 @@ const groupEls = document.querySelectorAll('.category');
 const navigation = document.getElementById('menuNav');
 let currentGroup = "home";
 const navInitPosition = navigation.offsetTop;
+const bottomSearch = document.getElementById('bottomSearch');
+var whiteSpaceLove = document.getElementById('whiteSpaceLove');
+
+let previousScrollY = 0;
+
+function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    var rectTop = rect.top + 8;
+
+    if (rectTop < (window.innerHeight || document.documentElement.clientHeight)) {
+
+        return true;
+    }
+
+    return false;
+}
 
 $(document).ready(() => {
 
@@ -37,14 +53,31 @@ $(document).ready(() => {
         });
     });
 
+
+
     window.addEventListener('scroll', () => {
+
+        if (window.scrollY > previousScrollY) {
+
+            bottomSearch.classList.add("display");
+            previousScrollY = window.scrollY;
+        }
+        else if (window.scrollY < previousScrollY) {
+
+            if (isElementInViewport(whiteSpaceLove) == false) {
+                bottomSearch.classList.remove("display");
+            }
+
+            previousScrollY = window.scrollY;
+
+        }
 
         //if (window.scrollY >= navInitPosition + 10) {
 
-        //    navigation.classList.add("sticky");
+        //    bottomSearch.classList.add("display");
         //}
         //else if (window.scrollY <= navInitPosition ) {
-        //    navigation.classList.remove("sticky");
+        //    bottomSearch.classList.remove("display");
 
         //}
 
@@ -74,3 +107,8 @@ $(document).ready(() => {
 });
 
 
+
+
+//// e.g. 100x100 viewport and a 10x10px element at position {top: -1, left: 0, bottom: 9, right: 10}
+//elementIsVisibleInViewport(el); // false - (not fully visible)
+//elementIsVisibleInViewport(el, true); // true - (partially visible)
