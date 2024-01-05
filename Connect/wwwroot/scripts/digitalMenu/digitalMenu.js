@@ -25,6 +25,9 @@ function isElementInViewport(el) {
 
 $(document).ready(() => {
 
+    //#region SWIPER INIT
+
+    //MENU NAVIGATION SWIPER
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: "auto",
         spaceBetween: 2,
@@ -34,10 +37,7 @@ $(document).ready(() => {
             el: ".swiper-pagination",
             clickable: true,
         },
-        //scrollbar: {
-        //    el: ".swiper-scrollbar",
-        //},
-
+ 
     });
 
     var swiper2 = new Swiper(".mySwiper2", {
@@ -49,10 +49,6 @@ $(document).ready(() => {
             el: ".swiper-pagination",
             clickable: true,
         },
-        //scrollbar: {
-        //    el: ".swiper-scrollbar",
-        //},
-
     });
 
     var swiper2 = new Swiper(".mySwiper3", {
@@ -64,16 +60,15 @@ $(document).ready(() => {
             el: ".swiper-pagination",
             clickable: true,
         },
-        //scrollbar: {
-        //    el: ".swiper-scrollbar",
-        //},
 
     });
 
+    //#endregion
 
-    //Click Scroll To Section
+    //MENU ITEM CLICK SCROLL TO MENU GROUP
     navLinkEls.forEach(navLinkEl => {
-        $(navLinkEl).click(function (event) {
+
+        $(navLinkEl).on("click", (event) => {
             event.preventDefault();
 
             let group_id = navLinkEl.dataset.link
@@ -87,39 +82,15 @@ $(document).ready(() => {
     });
 
 
-
     window.addEventListener('scroll', () => {
 
-        if (window.scrollY > previousScrollY) {
+        //#region NAVIGATION FUNCTIONS
 
-            bottomSearch.classList.add("display");
-            previousScrollY = window.scrollY;
-        }
-        else if (window.scrollY < previousScrollY) {
-
-            if (isElementInViewport(whiteSpaceLove) == false) {
-                bottomSearch.classList.remove("display");
-            }
-
-            previousScrollY = window.scrollY;
-
-        }
-
-        //if (window.scrollY >= navInitPosition + 10) {
-
-        //    bottomSearch.classList.add("display");
-        //}
-        //else if (window.scrollY <= navInitPosition ) {
-        //    bottomSearch.classList.remove("display");
-
-        //}
-
+        //ON SCROLL CHANGE SELECTED NAVIGATION ITEM BASED ON CURRENT POSITION
         groupEls.forEach(groupEl => {
-
             if (window.scrollY >= (groupEl.offsetTop - 150)) {
                 currentGroup = groupEl.id;
             }
-
         });
 
         var counter = 0;
@@ -138,11 +109,30 @@ $(document).ready(() => {
         });
     });
 
+    //#endregion
+
+        //#region SERACH FUNCTIONS
+
+    //SEARCH TRIGGER DISPLAY HANDLER
+    //IF SCROLLING DOWN SHOW ELSE HIDE
+    if (window.scrollY > previousScrollY) {
+
+        bottomSearch.classList.add("display");
+        previousScrollY = window.scrollY;
+    }
+    else if (window.scrollY < previousScrollY) {
+
+        if (isElementInViewport(whiteSpaceLove) == false) {
+            bottomSearch.classList.remove("display");
+        }
+
+        previousScrollY = window.scrollY;
+
+    }
     $(searchInput).on("focus", () => {
         openSearch();
 
     });
-
     $("#closeFullScreen").on("click", () => {
         closeSearch();
     });
@@ -174,7 +164,30 @@ $(document).ready(() => {
             $(this).find(".cat-item").removeClass('selected');
         }
         else {
+
+            var allCatItems = $(".select-cat").find(".cat-item");
             $(this).find(".cat-item").addClass('selected');
+
+            allFoodFiltersArray = [];
+
+            allCatItems.forEach((currentElement) => {
+                var foodFilters = $(catItem).attr("data-foodFilters");
+                if (foodFilters) {
+                    var foodFiltersArray = foodFilters.split(",");
+                    foodFiltersArray.forEach((ele) => {
+                        if (allFoodFiltersArray.indexOf(ele) == -1) {
+                            allFoodFiltersArray.Add(ele);
+                        }
+
+                    }) 
+
+                }
+
+            })
+
+
+
+            alert(foodFiltersArray);     
 
         }
 
@@ -213,8 +226,22 @@ $(document).ready(() => {
     });
 
     $("#selectAll").click(function () {
-        $(".cat-item").addClass('selected');
+
+        if ($(this).attr("data-selected") == "false") {
+            $("#selectAll").attr("data-selected", "true");
+            $(".cat-item").addClass('selected');
+            $("#selectAll").text("Unselect All")
+        }
+        else {
+            $("#selectAll").attr("data-selected", "false");
+            $(".cat-item").removeClass('selected');
+            $("#selectAll").text("Select All")
+
+        }
+
     });
+
+    //#endregion
 });
 
 function openSearch() {
