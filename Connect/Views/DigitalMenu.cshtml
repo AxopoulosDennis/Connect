@@ -570,6 +570,8 @@
 
                         if(!hide && (subGroups?.Any() ?? false))
                         {
+                            var firstItemCounter = 0;
+
                             <div class="category" id="category_@counter">
                                 <div class="heading-icon-container">
                                     @if (!string.IsNullOrEmpty(catIcon))
@@ -581,15 +583,36 @@
 
                             @foreach (var subCategory in subGroups)
                             {
+                                    firstItemCounter++;
+                                var subCatName = subCategory.Content.Value<string>("groupName") ?? "";
+                                bool hideName = subCategory.Content.Value<bool>("hideName");
+
                                 var categoryItems = subCategory.Content.Value<IEnumerable<BlockListItem>>("groupItems");
 
 @*                              var catName = subCategory.Content.Value<string>("groupName") ?? "";
                                 var catIcon = subCategory.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? ""; *@
-                                bool hideSub = subCategory.Content.Value<bool>("hide");
+                                    bool hideSub = subCategory.Content.Value<bool>("hide");
 
-                                if (!hideSub && (categoryItems?.Any() ?? false))
-                                {
-   
+                                    if (!hideSub && (categoryItems?.Any() ?? false))
+                                    {
+                                        if(!hideName)
+                                        {
+                                            var borderClass = "";
+                                            if (firstItemCounter == 1)
+                                            {
+                                                borderClass = "no-top-border";
+                                            }
+
+                                            <div class="sub-cat-name-container @borderClass">
+                                                <div class="border-container">
+                                                    <h2 class="heading">@subCatName</h2>
+
+                                                </div>
+                                            </div>
+
+                                        }
+
+
                                         <div class="products-container">
 
                                             @foreach (var product in categoryItems)
@@ -597,9 +620,10 @@
                                                 var productName = product.Content.Value<string>("itemName") ?? "";
                                                 var productDesc = product.Content.Value<string>("itemDescription") ?? "";
                                                 decimal originalPrice = product.Content.Value<decimal>("originalPrice");
-                                                bool activateDiscount = product.Content.Value<bool>("activateDiscount");
                                                 var productPhotos = product.Content.Value<IEnumerable<IPublishedContent>>("itemPhotos");
                                                 var alias = product.Content.ContentType.Alias;
+                                                var servedIn = product.Content.Value<string>("servedIn") ?? "";
+                                                string discountType = product.Content.Value<string> ("discountType") ?? "";
 
                                                 <div class="product">
                                                     <div class="text-photo-container">
@@ -607,9 +631,9 @@
                                                             <h3>@productName</h3>
                                                             <p>@productDesc</p>
 
-                                                            @if (activateDiscount)
+
+                                                            @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
                                                             {
-                                                                string discountType = product.Content.Value<string>("discountType");
                                                                 decimal discountAmount = product.Content.Value<decimal>("discountAmount");
 
                                                                 decimal finalPrice = originalPrice;
@@ -658,13 +682,12 @@
                                                         decimal? alc = product.Content.Value<decimal>("alcohol");
                                                         int? ibu = product.Content.Value<int>("internationalBitternessUnits");
                                                         int? ml = product.Content.Value<int>("millilitre");
-                                                        var servedIn = product.Content.Value<string>("servedIn") ?? "";
 
                                                         <div class="tags-container" data-filters-type="beer">
 
-                                                            <span class="tag" data-ml="@ml">
+@*                                                             <span class="tag" data-ml="@ml">
                                                                 @ml ml
-                                                            </span>
+                                                            </span> *@
                                                             <span class="tag" data-abv="@alc">
                                                                 @alc% ABV
                                                             </span>

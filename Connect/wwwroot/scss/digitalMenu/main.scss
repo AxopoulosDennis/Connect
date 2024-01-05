@@ -307,6 +307,41 @@
             }
         }
 
+        .sub-cat-name-container {
+            display: flex;
+            width: 100%;
+            justify-content: end;
+            align-items: center;
+            padding: 8px;
+            padding-bottom: 0;
+            background: rgb(240,248,255);
+            background: -moz-linear-gradient(298deg, rgba(240,248,255,1) 0%, rgba(255,255,255,1) 89%);
+            background: -webkit-linear-gradient(298deg, rgba(240,248,255,1) 0%, rgba(255,255,255,1) 89%);
+            background: linear-gradient(298deg, rgba(240,248,255,1) 0%, rgba(255,255,255,1) 89%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0f8ff",endColorstr="#ffffff",GradientType=1); /*            border-top: 1px solid lightgray;
+*/
+            border-top: 1px solid rgba(237, 231, 225,0.75);
+
+            .border-container {
+                /*                border-left: 1px solid lightgray;
+                border-bottom: 1px solid lightgray;*/
+                padding: 4px;
+                padding-top: 0;
+
+                h2 {
+                    font-size: 0.875rem;
+                    opacity: 80%;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            &.no-border-top {
+                border-top:0;
+            }
+        }
+
+
 
         .product {
 
@@ -376,7 +411,7 @@
 
             .final-price {
                 font-size: 1rem;
-                position:relative;
+                position: relative;
 
                 .original-price {
                     font-size: 1rem;
@@ -384,7 +419,6 @@
                     background: linear-gradient(to bottom, transparent 55%, lightgray 55% 62%, transparent 62%);
                     color: lightgray;
                 }
-
             }
 
             border-bottom: 1px solid rgba(237, 231, 225,0.75);
@@ -397,8 +431,9 @@
                 display: flex;
                 padding: 4px;
                 gap: 8px;
-                margin-bottom: 8px;
+                margin-bottom: 12px;
                 flex-wrap: wrap;
+                justify-content:start;
 
                 .tag {
                     padding: 2px 12px;
