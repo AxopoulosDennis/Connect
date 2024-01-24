@@ -71,13 +71,13 @@ $(document).ready(() => {
         $(navLinkEl).on("click", (event) => {
             event.preventDefault();
 
-            let group_id = navLinkEl.dataset.link
-            group_id = group_id.substring(1)
-            var group = document.getElementById(group_id);
+            //let group_id = navLinkEl.dataset.link
+            //group_id = group_id.substring(1)
+            //var group = document.getElementById(group_id);
 
-            $([document.documentElement, document.body]).animate({
-                scrollTop: (group.offsetTop - 80)
-            }, 120);
+            //$([document.documentElement, document.body]).animate({
+            //    scrollTop: (group.offsetTop - 80)
+            //}, 120);
         });
     });
 
@@ -95,18 +95,18 @@ $(document).ready(() => {
 
         var counter = 0;
 
-        navLinkEls.forEach(navLinkEl => {
+        //navLinkEls.forEach(navLinkEl => {
 
-            if (navLinkEl.dataset.link.includes(currentGroup)) {
-                document.querySelector('.active').classList.remove('active');
-                navLinkEl.classList.add('active');
+        //    if (navLinkEl.dataset.link.includes(currentGroup)) {
+        //        document.querySelector('.active').classList.remove('active');
+        //        navLinkEl.classList.add('active');
 
-                swiper.slideTo(counter);
-            }
+        //        swiper.slideTo(counter);
+        //    }
 
-            counter++;
+        //    counter++;
 
-        });
+        //});
     });
 
     //#endregion
@@ -278,3 +278,39 @@ function closeSearch() {
     //}, 0);
 
 }
+
+
+var tabs = document.querySelector('.tabs-buttons .swiper-wrapper');
+var tabContent = new Swiper('.tabs-content', {
+});
+
+var tabButtons = new Swiper('.tabs-buttons', {
+    slidesPerView: "auto",
+    spaceBetween: 10,
+    freeMode: true,
+    grabCursor: true,
+
+});
+
+tabButtons.on('tap', function (swiper, event) {
+    if (event.target.classList.contains('swiper-slide') && !event.target.classList.contains('active-tab')) {
+        event.target.parentElement.querySelector('.active-tab').classList.remove('active-tab');
+        event.target.classList.add('active-tab');
+        tabContent.slideTo(swiper.clickedIndex);
+    }
+});
+
+
+
+tabContent.on('slideChange', function (swiper) {
+    var previous = tabs.children[swiper.previousIndex];
+    previous.classList.remove('active-tab');
+    var current = tabs.children[swiper.activeIndex];
+    current.classList.add('active-tab');
+
+    tabButtons.slideTo(swiper.activeIndex);
+
+});
+
+
+

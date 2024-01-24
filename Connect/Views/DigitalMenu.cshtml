@@ -23,184 +23,18 @@
     var promoText = Model?.Value<string>("promotionalText") ?? "";
     var hideShareButton = Model?.Value<bool>("hideSocialShare") ?? false;
     var triggerColor = Model?.Value("aboutTriggerColor") ?? "ffffff";
-    var mainMenu = Model?.Value<IEnumerable<BlockListItem>>("menuGroup");
+    var menuSections = Model?.Value<IEnumerable<BlockListItem>>("menuSection");
+    if (menuSections?.Any() ?? false)
+    {
+        menuSections = menuSections.Where(x => !x.Content.Value<bool>("hide"));
+    }
 
 
     List<string> foodFilters = new();
     DrinkFilters drinkFilters = new();
 
-    @if (mainMenu?.Any() ?? false)
-    {
-        foreach (var category in mainMenu)
-        {
-            bool hide = category.Content.Value<bool>("hide");
-            var categoryItems = category.Content.Value<IEnumerable<BlockListItem>>("groupItems");
-
-            if (!hide && (categoryItems?.Any() ?? false))
-            {
-                foreach (var product in categoryItems)
-                {
-                    var alias = product.Content.ContentType.Alias;
-                    if (alias == "foodItem")
-                    {
-                        var spicyName = Umbraco.GetDictionaryValue("spicy") ?? "Spicy";
-                        if (!foodFilters.Contains(spicyName))
-                        {
-                            var spiciness = product.Content.Value<int>("spiciness");
-                            if (spiciness > 0)
-                            {
-                                foodFilters.Add(spicyName);
-                            }
-                        }
-
-                        var foodExtraFilters = product.Content.Value<IEnumerable<string>>("foodFilters");
-
-                        if (foodExtraFilters?.Any() ?? false)
-                        {
-                            foreach (var item in foodExtraFilters)
-                            {
-                                if (!foodFilters.Contains(item))
-                                {
-                                    foodFilters.Add(item);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (alias == "beerBeverage")
-                        {
-                            decimal? alc = product.Content.Value<decimal>("alcohol");
-                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
-                            int? ml = product.Content.Value<int>("millilitre");
-                            var servedIn = product.Content.Value<string>("servedIn") ?? "";
-
-                            if (alc != null)
-                            {
-                                if (!drinkFilters.Alcohol.Contains(alc ?? 0))
-                                {
-                                    drinkFilters.Alcohol.Add(alc ?? 0);                                  
-                                }
-                            }
-
-                            if (ibu != null)
-                            {
-                                if (!drinkFilters.IBU.Contains(ibu ?? 0))
-                                {
-                                    drinkFilters.IBU.Add(ibu ?? 0);
-                                }
-                            }
-
-                            if (ml != null)
-                            {
-                                if (!drinkFilters.ML.Contains(ml ?? 0))
-                                {
-                                    drinkFilters.ML.Add(ml ?? 0);
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(servedIn))
-                            {
-                                if (!drinkFilters.ServedIn.Contains(servedIn))
-                                {
-                                    drinkFilters.ServedIn.Add(servedIn);
-                                }
-                            }
-
-                        }
-                        else if (alias == "wineBeverage")
-                        {
-                            decimal? alc = product.Content.Value<decimal>("alchocol");
-                            int? vintage = product.Content.Value<int>("vintage");
-                            int? ml = product.Content.Value<int>("millilitre");
-                            var country = product.Content.Value<string>("country");
-
-
-                            if (alc != null)
-                            {
-                                if (!drinkFilters.Alcohol.Contains(alc ?? 0))
-                                {
-                                    drinkFilters.Alcohol.Add(alc ?? 0);
-                                }
-                            }
-
-                            if (vintage != null)
-                            {
-                                if (!drinkFilters.Vintage.Contains(vintage ?? 0))
-                                {
-                                    drinkFilters.Vintage.Add(vintage ?? 0);
-                                }
-                            }
-
-                            if (ml != null)
-                            {
-                                if (!drinkFilters.ML.Contains(ml ?? 0))
-                                {
-                                    drinkFilters.ML.Add(ml ?? 0);
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(country))
-                            {
-                                if (!drinkFilters.Countries.Contains(country))
-                                {
-                                    drinkFilters.Countries.Add(country);
-                                }
-                            }
-
-                        }
-                        else if (alias == "cocktailBeverage")
-                        {
-                            int? spiciness = product.Content.Value<int>("spiciness");
-                           
-                            if(spiciness != null)
-                            {
-                                if (!drinkFilters.Spiciness.Contains(spiciness ?? 0))
-                                {
-                                    drinkFilters.Spiciness.Add(spiciness ?? 0);
-                                }
-                            }
-
-
-                        }
-                        else if (alias == "generalAlcoholicBeverage")
-                        {
-                            decimal? alc = product.Content.Value<decimal>("alchocol");
-
-                            if (alc != null)
-                            {
-                                if (!drinkFilters.Alcohol.Contains(alc ?? 0))
-                                {
-                                    drinkFilters.Alcohol.Add(alc ?? 0);
-                                }
-                            }
-
-                        }
-                        else if (alias == "nonAlcoholicDrink")
-                        {
-                            int? ml = product.Content.Value<int>("millilitre");
-
-                            if (ml != null)
-                            {
-                                if (!drinkFilters.ML.Contains(ml ?? 0))
-                                {
-                                    drinkFilters.ML.Add(ml ?? 0);
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-    }
 
 }
-
-
-
-
 
 
 <div class="page-content">
@@ -211,227 +45,35 @@
             <span class="select-all" id="selectAll" data-selected="false">Select All</span>
         </div>
 
+        <!-- ABSOLUTE NAVIGATION -->
         <div class="menu-navigation-container">
 
-            @if (mainMenu?.Where(x => x.Content.Value<bool>("hide") == false)?.Any() ?? false)
+            @if (menuSections?.Where(x => x.Content.Value<bool>("hide") == false)?.Any() ?? false)
             {
                 <nav class="nav swiper mySwiper3">
                     <ul class="navigation-list swiper-wrapper">
 
-                        @foreach (var category in mainMenu.Where(x => x.Content.Value<bool>("hide") == false))
+                        @foreach (var section in menuSections.Where(x => x.Content.Value<bool>("hide") == false))
                         {
-        @*                  bool hide = category.Content.Value<bool>("hide");
-         *@
-                            var categoryItems = category.Content.Value<IEnumerable<BlockListItem>>("groupItems");
-                            var catName = category.Content.Value<string>("groupName") ?? "";
-                            List<string> currentFoodCategoryFilters = new();
-                            bool catHasFoodFilters = false;
+                            var sectionName = section.Content.Value<string>("sectionName") ?? "";
+                            var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
 
-                            DrinkFilters currentDrinksCategoryFilters = new();
-
-
-                            if (categoryItems?.Any() ?? false)
+                            if (subSections?.Any() ?? false)
                             {
-                                foreach (var product in categoryItems)
-                                {
-                                    var alias = product.Content.ContentType.Alias;
-                                    if (alias == "foodItem")
-                                    {
-                                        var spicyName = Umbraco.GetDictionaryValue("spicy") ?? "Spicy";
-                                        if (!foodFilters.Contains(spicyName))
-                                        {
-                                            var spiciness = product.Content.Value<int>("spiciness");
-                                            if (spiciness > 0)
-                                            {
-                                                currentFoodCategoryFilters.Add(spicyName);
-                                            }
-                                        }
-
-                                        var foodExtraFilters = product.Content.Value<IEnumerable<string>>("foodFilters");
-
-                                        if (foodExtraFilters?.Any() ?? false)
-                                        {
-                                            foreach (var item in foodExtraFilters)
-                                            {
-                                                currentFoodCategoryFilters.Add(item);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (alias == "beerBeverage")
-                                        {
-                                            decimal? alc = product.Content.Value<decimal>("alcohol");
-                                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
-                                            int? ml = product.Content.Value<int>("millilitre");
-                                            var servedIn = product.Content.Value<string>("servedIn") ?? "";
-
-                                            if (alc != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.Alcohol.Contains(alc ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.Alcohol.Add(alc ?? 0);
-                                                }
-                                            }
-
-                                            if (ibu != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.IBU.Contains(ibu ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.IBU.Add(ibu ?? 0);
-                                                }
-                                            }
-
-                                            if (ml != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.ML.Contains(ml ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.ML.Add(ml ?? 0);
-                                                }
-                                            }
-
-                                            if (!string.IsNullOrEmpty(servedIn))
-                                            {
-                                                if (!currentDrinksCategoryFilters.ServedIn.Contains(servedIn))
-                                                {
-                                                    currentDrinksCategoryFilters.ServedIn.Add(servedIn);
-                                                }
-                                            }
-
-                                        }
-                                        else if (alias == "wineBeverage")
-                                        {
-                                            decimal? alc = product.Content.Value<decimal>("alchocol");
-                                            int? vintage = product.Content.Value<int>("vintage");
-                                            int? ml = product.Content.Value<int>("millilitre");
-                                            var country = product.Content.Value<string>("country");
-
-
-                                            if (alc != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.Alcohol.Contains(alc ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.Alcohol.Add(alc ?? 0);
-                                                }
-                                            }
-
-                                            if (vintage != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.Vintage.Contains(vintage ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.Vintage.Add(vintage ?? 0);
-                                                }
-                                            }
-
-                                            if (ml != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.ML.Contains(ml ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.ML.Add(ml ?? 0);
-                                                }
-                                            }
-
-                                            if (!string.IsNullOrEmpty(country))
-                                            {
-                                                if (!currentDrinksCategoryFilters.Countries.Contains(country))
-                                                {
-                                                    currentDrinksCategoryFilters.Countries.Add(country);
-                                                }
-                                            }
-
-                                        }
-                                        else if (alias == "cocktailBeverage")
-                                        {
-                                            int? spiciness = product.Content.Value<int>("spiciness");
-
-                                            if (spiciness != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.Spiciness.Contains(spiciness ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.Spiciness.Add(spiciness ?? 0);
-                                                }
-                                            }
-
-
-                                        }
-                                        else if (alias == "generalAlcoholicBeverage")
-                                        {
-                                            decimal? alc = product.Content.Value<decimal>("alchocol");
-
-                                            if (alc != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.Alcohol.Contains(alc ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.Alcohol.Add(alc ?? 0);
-                                                }
-                                            }
-
-                                        }
-                                        else if (alias == "nonAlcoholicDrink")
-                                        {
-                                            int? ml = product.Content.Value<int>("millilitre");
-
-                                            if (ml != null)
-                                            {
-                                                if (!currentDrinksCategoryFilters.ML.Contains(ml ?? 0))
-                                                {
-                                                    currentDrinksCategoryFilters.ML.Add(ml ?? 0);
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-
-                                if(currentFoodCategoryFilters?.Any() ?? false)
-                                {
-                                    catHasFoodFilters = true;
-                                    foodFilters.AddRange(currentFoodCategoryFilters.Where(x => !foodFilters.Contains(x)));
-
-                                }
-
-                                if(currentDrinksCategoryFilters?.Alcohol?.Any() ?? false)
-                                {
-                                    
-                                }
-                                if (currentDrinksCategoryFilters?.Countries?.Any() ?? false)
+                                foreach (var subSection in subSections)
                                 {
 
                                 }
-                                if (currentDrinksCategoryFilters?.IBU?.Any() ?? false)
-                                {
-
-                                }
-                                if (currentDrinksCategoryFilters?.ML?.Any() ?? false)
-                                {
-
-                                }
-                                if (currentDrinksCategoryFilters?.ServedIn?.Any() ?? false)
-                                {
-
-                                }
-                                if (currentDrinksCategoryFilters?.Spiciness?.Any() ?? false)
-                                {
-
-                                }
-                                if (currentDrinksCategoryFilters?.Vintage?.Any() ?? false)
-                                {
-
-                                }
+                              
                             }
 
-
                             <li class="select-cat swiper-slide">
-                                <span class="cat-item"
-                                      data-foodFilters="@(catHasFoodFilters? string.Join(",", currentFoodCategoryFilters ?? new()) : Html.Raw(""))">
-                                    @catName
+                                <span class="cat-item">
+                                    @sectionName
                                 </span>
                             </li>
 
-
-
                         }
-
                     </ul>
                 </nav>
             }
@@ -521,27 +163,28 @@
 
             <div class="menu-navigation-bg sticky" id="menuNav">
                 <div class="menu-navigation-container">
-                    @if (mainMenu?.Any() ?? false)
+                    @if (menuSections?.Any() ?? false)
                     {
                         var counter = 0;
 
                         <nav class="nav swiper mySwiper">
                             <ul class="navigation-list swiper-wrapper">
-                                @foreach (var category in mainMenu)
+
+                                @foreach (var section in menuSections)
                                 {
                                     counter++;
-                                    var catName = category.Content.Value<string>("groupName") ?? "";
+                                    var sectionName = section.Content.Value<string>("sectionName") ?? "";
 
-                                    if (category == mainMenu.First())
+                                    if (section == menuSections.First())
                                     {
                                         <li class="nav-item swiper-slide">
-                                            <a href="#" data-link="#category_@counter" class="nav-link active">@catName</a>
+                                            <a href="#" data-link="#category_@counter" class="nav-link active">@sectionName</a>
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="nav-item swiper-slide">
-                                            <a href="#" data-link="#category_@counter" class="nav-link">@catName</a>
+                                            <a href="#" data-link="#category_@counter" class="nav-link">@sectionName</a>
                                         </li>
                                     }
                                 }
@@ -552,23 +195,22 @@
                 </div>
             </div>
 
-            <!-- MENU -->
+            <!-- MENU CONTENT -->
 
             <div class="menu-container">
-                @if (mainMenu?.Any() ?? false)
+                @if (menuSections?.Any() ?? false)
                 {
                     var counter = 0;
 
-                    @foreach (var category in mainMenu)
+                    @foreach (var section in menuSections.Where(x=> x.Content.Value<bool>("hide") == false))
                     {
                         counter++;
 
-                        bool hide = category.Content.Value<bool>("hide");
-                        var subGroups = category.Content.Value<IEnumerable<BlockListItem>>("subgroups");
-                        var catName = category.Content.Value<string>("groupName") ?? "";
-                        var catIcon = category.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? "";
+                        var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
+                        var catName = section.Content.Value<string>("groupName") ?? "";
+                        var catIcon = section.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? "";
 
-                        if(!hide && (subGroups?.Any() ?? false))
+                        if (subSections?.Any() ?? false)
                         {
                             var firstItemCounter = 0;
 
@@ -581,22 +223,19 @@
                                     <h2 class="heading">@catName</h2>
                                 </div>
 
-                            @foreach (var subCategory in subGroups)
-                            {
+                                @foreach (var subSection in subSections.Where(x=> x.Content.Value<bool>("hide") == false))
+                                {
                                     firstItemCounter++;
-                                var subCatName = subCategory.Content.Value<string>("groupName") ?? "";
-                                bool hideName = subCategory.Content.Value<bool>("hideName");
+                                    var sectionItems = subSection.Content.Value<IEnumerable<BlockListItem>>("sectionItems");
 
-                                var categoryItems = subCategory.Content.Value<IEnumerable<BlockListItem>>("groupItems");
-
-@*                              var catName = subCategory.Content.Value<string>("groupName") ?? "";
-                                var catIcon = subCategory.Content.Value<IPublishedContent>("groupIcon")?.MediaUrl() ?? ""; *@
-                                    bool hideSub = subCategory.Content.Value<bool>("hide");
-
-                                    if (!hideSub && (categoryItems?.Any() ?? false))
+                                    if (sectionItems?.Any() ?? false)
                                     {
+                                        bool hideName = subSection.Content.Value<bool>("hideName");
+
                                         if(!hideName)
                                         {
+                                            var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
+
                                             var borderClass = "";
                                             if (firstItemCounter == 1)
                                             {
@@ -605,7 +244,7 @@
 
                                             <div class="sub-cat-name-container @borderClass">
                                                 <div class="border-container">
-                                                    <h2 class="heading">@subCatName</h2>
+                                                    <h2 class="heading">@subSectionName</h2>
 
                                                 </div>
                                             </div>
@@ -615,99 +254,272 @@
 
                                         <div class="products-container">
 
-                                            @foreach (var product in categoryItems)
+                                            @foreach (var product in sectionItems)
                                             {
                                                 var productName = product.Content.Value<string>("itemName") ?? "";
                                                 var productDesc = product.Content.Value<string>("itemDescription") ?? "";
-                                                decimal originalPrice = product.Content.Value<decimal>("originalPrice");
                                                 var productPhotos = product.Content.Value<IEnumerable<IPublishedContent>>("itemPhotos");
                                                 var alias = product.Content.ContentType.Alias;
                                                 var servedIn = product.Content.Value<string>("servedIn") ?? "";
+                                                decimal originalPrice = product.Content.Value<decimal>("originalPrice");
                                                 string discountType = product.Content.Value<string> ("discountType") ?? "";
+                                                bool hasVariations = false;
+                                                @if (alias == "beerBeverage")
+                                                {
+                                                   if(product?.Content?.Value<IEnumerable<BlockListItem>>("beerVariations")?.Any() ?? false)
+                                                   {
+                                                        hasVariations = true;
+                                                   }
 
-                                                <div class="product">
-                                                    <div class="text-photo-container">
-                                                        <div class="product-text">
-                                                            <h3>@productName</h3>
-                                                            <p>@productDesc</p>
+                                                }
+                                                if(hasVariations == false)
+                                                {
+                                                    <div class="product">
+                                                        <div class="text-photo-container">
+                                                            <div class="product-text">
+                                                                <h3>@productName</h3>
+                                                                <p>@productDesc</p>
 
 
-                                                            @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
+                                                                @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
+                                                                {
+                                                                    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+
+                                                                    decimal finalPrice = originalPrice;
+
+                                                                    if (discountType == "Final Price")
+                                                                    {
+                                                                        finalPrice = discountAmount;
+                                                                    }
+                                                                    else if (discountType == "Fixed Price")
+                                                                    {
+                                                                        finalPrice = originalPrice - discountAmount;
+
+                                                                    }
+                                                                    else if (discountType == "Percentage")
+                                                                    {
+                                                                        var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
+                                                                        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+
+                                                                    }
+
+                                                                    <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
+
+                                                                }
+
+                                                            </div>
+                                                            @if (productPhotos?.Any() ?? false)
                                                             {
-                                                                decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+                                                                var mainPhoto = productPhotos?.FirstOrDefault()?.MediaUrl() ?? "";
 
-                                                                decimal finalPrice = originalPrice;
-
-                                                                if (discountType == "Final Price")
-                                                                {
-                                                                    finalPrice = discountAmount;
-                                                                }
-                                                                else if (discountType == "Fixed Price")
-                                                                {
-                                                                    finalPrice = originalPrice - discountAmount;
-
-                                                                }
-                                                                else if (discountType == "Percentage")
-                                                                {
-                                                                    var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
-                                                                    finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
-
-                                                                }
-
-                                                                <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
-
+                                                                <div class="product-photo-container">
+                                                                    <img src="@mainPhoto" class="product-photo">
+                                                                </div>
                                                             }
 
                                                         </div>
-                                                        @if (productPhotos?.Any() ?? false)
-                                                        {
-                                                            var mainPhoto = productPhotos?.FirstOrDefault()?.MediaUrl() ?? "";
 
-                                                            <div class="product-photo-container">
-                                                                <img src="@mainPhoto" class="product-photo">
+                                                        @if (alias == "beerBeverage")
+                                                        {
+                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
+                                                            int? ml = product.Content.Value<int>("millilitre");
+
+                                                            <div class="tags-container" data-filters-type="beer">
+
+                                                                <span class="tag" data-abv="@alc">
+                                                                    @alc% ABV
+                                                                </span>
+                                                                <span class="tag" data-ibu="@ibu">
+                                                                    @ibu IBU
+                                                                </span>
+                                                                <span class="tag" data-serverd-in="@servedIn">
+                                                                    @if (servedIn == "Bottle")
+                                                                    {
+                                                                        <img src="/images/_3DTheme/Light/FoodTags/bottle-beer.png" style="height:20px;width:20px;" />
+                                                                    }
+                                                                    else if (servedIn == "Draft")
+                                                                    {
+                                                                        <img src="/images/_3DTheme/Light/FoodTags/draft-beer.png" style="height:16px; " />
+                                                                    }
+                                                                </span>
+
                                                             </div>
                                                         }
-
                                                     </div>
 
+                                                }
+                                                else
+                                                {
+                                                    IEnumerable<BlockListItem> variations = null;
 
 
-                                                    @if (alias == "beerBeverage")
-                                                    {
-                                                        decimal? alc = product.Content.Value<decimal>("alcohol");
-                                                        int? ibu = product.Content.Value<int>("internationalBitternessUnits");
-                                                        int? ml = product.Content.Value<int>("millilitre");
-
-                                                        <div class="tags-container" data-filters-type="beer">
-
-@*                                                             <span class="tag" data-ml="@ml">
-                                                                @ml ml
-                                                            </span> *@
-                                                            <span class="tag" data-abv="@alc">
-                                                                @alc% ABV
-                                                            </span>
-                                                            <span class="tag" data-ibu="@ibu">
-                                                                @ibu IBU
-                                                            </span>
-                                                            <span class="tag" data-serverd-in="@servedIn">
-                                                                @if (servedIn == "Bottle")
+                                                    <div class="product">
+                                                        <div class="text-photo-container">
+                                                            <div class="product-text">
+                                                                <h3>@productName</h3>
+                                                                @if(!string.IsNullOrEmpty(productDesc))
                                                                 {
-                                                                    <img src="/images/_3DTheme/Light/FoodTags/bottle-beer.png" style="height:20px;width:20px;" />
+                                                                    <p>@productDesc</p>
                                                                 }
-                                                                else if (servedIn == "Draft")
-                                                                {
-                                                                    <img src="/images/_3DTheme/Light/FoodTags/draft-beer.png" style="height:16px; " />
-                                                                }
-                                                            </span>
+
+                                                                <div class="swiper-container tabs-buttons">
+                                                                    <div class="swiper-wrapper">
+                                                                        @if(alias == "beerBeverage")
+                                                                        {
+                                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
+                                                                            int? mainMl = product.Content.Value<int>("millilitre");
+                                                                            variations = product?.Content?.Value<IEnumerable<BlockListItem>>("beerVariations");
+
+                                                                            <div class="swiper-slide active-tab">@mainMl ml</div>
+
+                                                                            @foreach (var item in variations)
+                                                                            {
+                                                                                var ml = item.Content.Value<decimal>("millilitre");
+                                                                                <div class="swiper-slide">@ml ml</div>
+                                                                            }
+
+                                                                        }
+
+  
+                                                                    </div>
+                                                                    <!--   <div class="swiper-scrollbar"></div> -->
+                                                                </div>
+
+                                                                <div class="swiper-container tabs-content">
+                                                                    <div class="swiper-wrapper">
+
+                                                                        @if(alias == "beerBeverage")
+                                                                        {
+                                                                            <div class="swiper-slide">
+                                                                                @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
+                                                                                {
+                                                                                    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+                                                                                    decimal finalPrice = originalPrice;
+
+                                                                                    if (discountType == "Final Price")
+                                                                                    {
+                                                                                        finalPrice = discountAmount;
+                                                                                    }
+                                                                                    else if (discountType == "Fixed Price")
+                                                                                    {
+                                                                                        finalPrice = originalPrice - discountAmount;
+
+                                                                                    }
+                                                                                    else if (discountType == "Percentage")
+                                                                                    {
+                                                                                        var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
+                                                                                        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+
+                                                                                    }
+
+
+                                                                                    <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
+
+                                                                                }
+                                                                            </div>
+
+                                                                            @foreach (var item in variations)
+                                                                            {
+                                                                                decimal variationOriginalPrice = item.Content.Value<decimal>("originalPrice");
+                                                                                string variationDiscountType = item.Content.Value<string>("discountType") ?? "";
+
+                                                                                @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
+                                                                                {
+                                                                                    decimal vDiscountAmount = item.Content.Value<decimal>("discountAmount");
+
+                                                                                    decimal vFinalPrice = variationOriginalPrice;
+
+                                                                                    if (discountType == "Final Price")
+                                                                                    {
+                                                                                        vFinalPrice = vDiscountAmount;
+                                                                                    }
+                                                                                    else if (discountType == "Fixed Price")
+                                                                                    {
+                                                                                        vFinalPrice = variationOriginalPrice - vDiscountAmount;
+
+                                                                                    }
+                                                                                    else if (discountType == "Percentage")
+                                                                                    {
+                                                                                        var discountPercentage = (vDiscountAmount / 100) * (originalPrice / 1);
+                                                                                        vFinalPrice = Math.Ceiling((vFinalPrice - discountPercentage) * 20) / 20;
+
+                                                                                    }
+
+                                                                                    <div class="swiper-slide">
+                                                                                        <p class="final-price has-discount">@vFinalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
+                                                                                    </div>
+
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <div class="swiper-slide">
+                                                                                        <p class="final-price">@variationOriginalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
+                                                                                    </div>
+                                                                                }
+
+
+                                                                            }
+
+                                                                        }
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            @if (productPhotos?.Any() ?? false)
+                                                            {
+                                                                var mainPhoto = productPhotos?.FirstOrDefault()?.MediaUrl() ?? "";
+
+                                                                <div class="product-photo-container">
+                                                                    <img src="@mainPhoto" class="product-photo">
+                                                                </div>
+                                                            }
 
                                                         </div>
-                                                    }
-                                                </div>
+
+                                                        @if (alias == "beerBeverage")
+                                                        {
+                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
+                                                            int? ml = product.Content.Value<int>("millilitre");
+
+                                                            <div class="tags-container" data-filters-type="beer">
+
+                                                                <span class="tag" data-abv="@alc">
+                                                                    @alc% ABV
+                                                                </span>
+                                                                <span class="tag" data-ibu="@ibu">
+                                                                    @ibu IBU
+                                                                </span>
+                                                                <span class="tag" data-serverd-in="@servedIn">
+                                                                    @if (servedIn == "Bottle")
+                                                                    {
+                                                                        <img src="/images/_3DTheme/Light/FoodTags/bottle-beer.png" style="height:20px;width:20px;" />
+                                                                    }
+                                                                    else if (servedIn == "Draft")
+                                                                    {
+                                                                        <img src="/images/_3DTheme/Light/FoodTags/draft-beer.png" style="height:16px; " />
+                                                                    }
+                                                                </span>
+
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                }
                                             }
 
                                         </div>
