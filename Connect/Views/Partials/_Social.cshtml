@@ -1,0 +1,59 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+
+@{
+    Layout = "";
+    var socialMedia = Model?.Value<IEnumerable<SocialLink>>("socialNetworks");
+    var brandName = Model?.Value<string>("brandName") ?? "";
+    var promoText = Model?.Value<string>("promotionalText") ?? "";
+    var hideShareButton = Model?.Value<bool>("hideSocialShare") ?? false;
+}
+
+<div class="brand-info-container">
+    <div class="social-container">
+        @if (socialMedia?.Any() ?? false)
+        {
+            foreach (var social in socialMedia)
+            {
+                var name = social?.Name?.ToLower() ?? "";
+                var socialLink = social?.Url ?? "#";
+
+                if (socialLink != null)
+                {
+                    var imageSrc = "";
+
+                    if (name == "facebook")
+                    {
+                        imageSrc = "/images/_3dtheme/light/social/facebook_social.png";
+                    }
+                    else if (name == "instagram")
+                    {
+                        imageSrc = "/images/_3dtheme/light/social/instagram_social.png";
+
+                    }
+                    else if (name == "tiktok")
+                    {
+                        imageSrc = "/images/_3dtheme/light/social/tiktok_social.png";
+                    }
+
+                    <a href="@socialLink" target="_blank"><img class="social-icon" src="@imageSrc"></a>
+
+                }
+
+            }
+        }
+        @if (!hideShareButton)
+        {
+            <a href="#"><img class="social-icon" src="/images/_3dtheme/light/social/share_social.png" /></a>
+        }
+    </div>
+
+    <!-- BRAND NAME AND PROMO TEXT -->
+
+    <span class="brand-name">
+        @brandName
+    </span>
+    <span class="promo-text">
+        @promoText
+    </span>
+</div>
+

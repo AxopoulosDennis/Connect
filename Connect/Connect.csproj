@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Views\Partials\grid\_coverSection.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

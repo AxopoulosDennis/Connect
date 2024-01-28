@@ -1,0 +1,26 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@{
+    Layout = "";
+    var coverPhotoUrl = Model?.Value<IPublishedContent>("coverPhoto")?.MediaUrl() ?? "";
+    var profilePhotoUrl = Model?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
+
+}
+
+<section class="top-cover">
+    <div class="cover-container">
+        <div class="cover-image-container">
+            @if (!string.IsNullOrEmpty(coverPhotoUrl))
+            {
+                <img class="cover-image" src="@coverPhotoUrl">
+            }
+
+        </div>
+
+        @if (!string.IsNullOrEmpty(profilePhotoUrl))
+        {
+            <div class="brand-image-container">
+                <img class="brand-image" src="@profilePhotoUrl">
+            </div>
+        }
+    </div>
+</section>
