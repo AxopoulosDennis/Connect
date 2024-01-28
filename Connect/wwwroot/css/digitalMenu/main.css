@@ -204,7 +204,7 @@
   background-color: white;
   margin: 0 -0.8em;
   margin-bottom: 0;
-  padding: 0.4em 0.8em;
+  padding: 0.3em 0.7em;
   -webkit-box-shadow: 0 1px 2px #ccc;
 }
 .content-container .menu-navigation-bg .menu-navigation-container {
@@ -217,6 +217,7 @@
 .content-container .menu-navigation-bg .menu-navigation-container .navigation-list {
   margin: 0;
   padding: 0 10px;
+  margin-left: -8px;
 }
 .content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item {
   display: flex;
@@ -232,6 +233,7 @@
   color: black;
   opacity: 60%;
   font-weight: 500;
+  font-size: 0.9rem;
   border-radius: 20px;
 }
 .content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item .nav-link.active {
@@ -284,7 +286,7 @@
   padding-top: 0;
 }
 .content-container .menu-container .sub-cat-name-container .border-container h2 {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   opacity: 80%;
   margin: 0;
   padding: 0;
@@ -404,7 +406,7 @@
   margin: 0 0;
   padding: 0.4em 0.4em;
   padding-top: 0 0.4em;
-  margin-bottom: -2px;
+  margin-bottom: -3px;
   display: flex;
   align-items: end;
   justify-content: end;
@@ -546,7 +548,7 @@
 .navigation-subcategories .nav-sub-content nav {
   border-radius: 20px;
 }
-.navigation-subcategories .nav-sub-content .slide-active {
+.navigation-subcategories .nav-sub-content .sub-slide {
   margin: 0 0.8em;
   padding: 0.3em 0.4em;
   background-color: white;
@@ -556,7 +558,7 @@
   display: flex;
   justify-content: center;
 }
-.navigation-subcategories .nav-sub-content .slide-active ul {
+.navigation-subcategories .nav-sub-content .sub-slide ul {
   position: relative;
   width: 100%;
   height: 100%;
@@ -564,9 +566,9 @@
   display: flex;
   transition-property: transform;
   margin: 0;
-  padding: 0;
+  padding: 0.075em 0.6em;
 }
-.navigation-subcategories .nav-sub-content .slide-active ul li {
+.navigation-subcategories .nav-sub-content .sub-slide ul li {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -574,16 +576,16 @@
   padding: 2px 12px;
   z-index: 1;
 }
-.navigation-subcategories .nav-sub-content .slide-active .sub-nav-link {
+.navigation-subcategories .nav-sub-content .sub-slide .sub-nav-link {
   padding: 0.1em 1em;
   text-decoration: none;
   color: black;
   opacity: 70%;
   font-size: 0.835rem;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 20px;
 }
-.navigation-subcategories .nav-sub-content .slide-active .sub-nav-link.active {
+.navigation-subcategories .nav-sub-content .sub-slide .sub-nav-link.active {
   color: white;
   background-color: #708090;
 }

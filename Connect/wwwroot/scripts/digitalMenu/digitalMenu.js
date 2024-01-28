@@ -101,8 +101,8 @@ $(document).ready(() => {
             group_id = group_id.substring(1)
             var group = document.getElementById(group_id);
 
-            $('.nav-link').removeClass("active");
-            $(navLinkEl).addClass("active");
+            //$('.nav-link').removeClass("active");
+            //$(navLinkEl).addClass("active");
 
             let subGroup = findByData(subGroups, group_id);
             //$(subGroups).removeClass("slide-active");
@@ -231,9 +231,11 @@ $(document).ready(() => {
                         subNavLinkEl.classList.add('active');
 
                         var swipe = $(subNavLinkEl).attr("data-swiper");
+                        if (swipe != undefined) {
+                            subSwipers[swipe].slideTo(subCounter);
 
+                        }
 
-                        subSwipers[swipe].slideTo(subCounter);
 
 
                     }
@@ -251,15 +253,14 @@ $(document).ready(() => {
                     bottomContainer.classList.add("display");
                     previousScrollY = window.scrollY;
                 }
-                //else if (window.scrollY < previousScrollY) {
+                else if (window.scrollY < previousScrollY) {
 
-                //    if (isElementInViewport(whiteSpaceLove) == false) {
-                //        bottomContainer.classList.remove("display");
-                //    }
+                    bottomContainer.classList.remove("display");
 
 
-                //    previousScrollY = window.scrollY;
-                //}
+
+                    previousScrollY = window.scrollY;
+                }
 
                 //#endregion
             }

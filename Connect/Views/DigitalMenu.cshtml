@@ -410,7 +410,7 @@
             <!-- SEARCH TRIGGER -->
             <div class="navigation-subcategories">
    
-                @if(menuSections?.Any() ?? false)
+                @if (menuSections?.Any() ?? false)
                 {
                     var counter = 0;
                     foreach (var section in menuSections)
@@ -419,9 +419,8 @@
                         var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
 
                         <div class="nav-sub-content">
-
-                                @if ((subSections?.Any() ?? false) && subSections.Count() > 1)
-                                {
+                            @if ((subSections?.Any() ?? false) )
+                                                {
                                     var subCategory = 0;
 
                                     if (section == menuSections.First())
@@ -440,13 +439,13 @@
                                                         if (subSection == subSections.First())
                                                         {
                                                             <li class="sub-nav-item swiper-slide">
-                                                            <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link active">@subSectionName</a>
+                                                                <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link active">@subSectionName</a>
                                                             </li>
                                                         }
                                                         else
                                                         {
                                                             <li class="sub-nav-item swiper-slide">
-                                                            <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link">@subSectionName</a>
+                                                                <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link">@subSectionName</a>
                                                             </li>
                                                         }
                                                     }
@@ -485,11 +484,12 @@
 
                                                 </ul>
                                             </nav>
-                                        </div>
-                                    }
-
+                                    </div>
                                 }
-                            </div>
+
+                            }
+
+                        </div>
                     }
                 }
 

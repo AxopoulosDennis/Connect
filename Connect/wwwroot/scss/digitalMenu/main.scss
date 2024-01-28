@@ -242,7 +242,7 @@
             background-color: white;
             margin: 0 -.8em;
             margin-bottom: 0;
-            padding: 0.4em 0.8em;
+            padding: 0.3em 0.7em;
             -webkit-box-shadow: 0 1px 2px #ccc;
         }
 
@@ -256,6 +256,7 @@
             .navigation-list {
                 margin: 0;
                 padding: 0 10px;
+                margin-left:-8px;
 
                 .nav-item {
                     display: flex;
@@ -271,6 +272,7 @@
                         color: black;
                         opacity: 60%;
                         font-weight: 500;
+                        font-size: .9rem;
                         border-radius: 20px;
 
 
@@ -333,7 +335,7 @@
                 padding-top: 0;
 
                 h2 {
-                    font-size: 0.875rem;
+                    font-size: 0.85rem;
                     opacity: 80%;
                     margin: 0;
                     padding: 0;
@@ -482,7 +484,7 @@
         margin: 0 0;
         padding: .4em .4em;
         padding-top: 0 0.4em;
-        margin-bottom: -2px;
+        margin-bottom: -3px;
         display: flex;
         align-items: end;
         justify-content: end;
@@ -663,11 +665,12 @@
 
     .nav-sub-content {
 
-        nav{
-            border-radius:20px;
+
+        nav {
+            border-radius: 20px;
         }
 
-        .slide-active {
+        .sub-slide {
             margin: 0 .8em;
             padding: .3em .4em;
             background-color: white;
@@ -685,7 +688,7 @@
                 display: flex;
                 transition-property: transform;
                 margin: 0;
-                padding: 0;
+                padding: 0.075em .6em;
 
 
                 li {
@@ -704,7 +707,7 @@
                 color: black;
                 opacity: 70%;
                 font-size: 0.835rem;
-                font-weight: 600;
+                font-weight: 500;
                 border-radius: 20px;
 
                 &.active {
@@ -714,13 +717,20 @@
             }
         }
 
+
+
         .sub-slide {
 
-            &:not(.slide-active) {
 
+            &:not(.slide-active) {
                 display: none;
             }
         }
+
+   
     }
+
+ 
 }
+
 
