@@ -267,7 +267,7 @@
   width: 100%;
   justify-content: end;
   align-items: center;
-  padding: 8px;
+  padding: 12px 8px;
   padding-bottom: 0;
   background: rgb(240, 248, 255);
   background: -moz-linear-gradient(298deg, rgb(240, 248, 255) 0%, rgb(255, 255, 255) 89%);
@@ -394,22 +394,17 @@
   display: none;
   bottom: 0;
   margin-bottom: -40px;
+  max-width: 100vw;
 }
 .bottom-container.display {
-  display: block;
-}
-.bottom-container .navigation-subcategories {
-  margin: 0 0.8em;
-  padding: 0.5em 0.8em;
-  background-color: white;
-  -webkit-box-shadow: 0 0 2px #ccc;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .bottom-container .bottom-search-bg {
   margin: 0 0;
-  padding: 0.2em 0.4em;
-  padding-top: 0.4em;
+  padding: 0.4em 0.4em;
+  padding-top: 0 0.4em;
+  margin-bottom: -2px;
   display: flex;
   align-items: end;
   justify-content: end;
@@ -423,7 +418,6 @@
 }
 .bottom-container .bottom-search-bg .bottom-search-container .search-icon {
   width: 46px;
-  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,6 +540,53 @@
   padding-bottom: 0.4rem;
 }
 
+.navigation-subcategories {
+  position: relative;
+}
+.navigation-subcategories .nav-sub-content nav {
+  border-radius: 20px;
+}
+.navigation-subcategories .nav-sub-content .slide-active {
+  margin: 0 0.8em;
+  padding: 0.3em 0.4em;
+  background-color: white;
+  -webkit-box-shadow: 0 0 2px #ccc;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: center;
+}
+.navigation-subcategories .nav-sub-content .slide-active ul {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  transition-property: transform;
+  margin: 0;
+  padding: 0;
+}
+.navigation-subcategories .nav-sub-content .slide-active ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  padding: 2px 12px;
+  z-index: 1;
+}
+.navigation-subcategories .nav-sub-content .slide-active .sub-nav-link {
+  padding: 0.1em 1em;
+  text-decoration: none;
+  color: black;
+  opacity: 70%;
+  font-size: 0.835rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+.navigation-subcategories .nav-sub-content .slide-active .sub-nav-link.active {
+  color: white;
+  background-color: #708090;
+}
 .navigation-subcategories .nav-sub-content .sub-slide:not(.slide-active) {
   display: none;
 }

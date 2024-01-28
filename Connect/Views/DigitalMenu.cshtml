@@ -91,6 +91,7 @@
 
                         if (subSections?.Any() ?? false)
                         {
+                            var subCount = 0;
                             var firstItemCounter = 0;
 
                             <div class="category" id="category_@counter">
@@ -102,10 +103,13 @@
                                     <h2 class="heading">@catName</h2>
                                 </div>
 
+
                                 @foreach (var subSection in subSections.Where(x=> x.Content.Value<bool>("hide") == false))
                                 {
                                     firstItemCounter++;
+                                    subCount++;
                                     var sectionItems = subSection.Content.Value<IEnumerable<BlockListItem>>("sectionItems");
+                                    var link = "cat_" + counter + "_sub_" + subCount;
 
                                     if (sectionItems?.Any() ?? false)
                                     {
@@ -121,7 +125,7 @@
                                                 borderClass = "no-top-border";
                                             }
 
-                                            <div class="sub-cat-name-container @borderClass">
+                                            <div class="sub-cat-name-container @borderClass" id="@link">
                                                 <div class="border-container">
                                                     <h2 class="heading">@subSectionName</h2>
 
@@ -401,6 +405,7 @@
 
         </section>
 
+
         <section class="bottom-container" id="bottomContainer">
             <!-- SEARCH TRIGGER -->
             <div class="navigation-subcategories">
@@ -414,34 +419,77 @@
                         var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
 
                         <div class="nav-sub-content">
-                            <div class="wrapper">
 
-                                @if (subSections?.Any() ?? false)
+                                @if ((subSections?.Any() ?? false) && subSections.Count() > 1)
                                 {
+                                    var subCategory = 0;
+
                                     if (section == menuSections.First())
                                     {
                                         <div class="sub-slide slide-active" data-sub-slide="category_@counter">
-                                            @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
-                                            {
-                                                var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
-                                                <span class="sub-nav-item">@subSectionName</span>
-                                            }
+
+                                            <nav class="nav swiper sub-cat-links">
+                                                <ul class="navigation-list swiper-wrapper">
+
+                                                    @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
+                                                    {
+                                                        subCategory++;
+                                                        var link = "#cat_" + counter + "_sub_" + subCategory;
+                                                        var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
+
+                                                        if (subSection == subSections.First())
+                                                        {
+                                                            <li class="sub-nav-item swiper-slide">
+                                                            <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link active">@subSectionName</a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="sub-nav-item swiper-slide">
+                                                            <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link">@subSectionName</a>
+                                                            </li>
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </nav>
+
+
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="sub-slide" data-sub-slide="category_@counter">
-                                            @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
-                                            {
-                                                var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
-                                                <span class="sub-nav-item">@subSectionName</span>
-                                            }
+                                            <nav class="nav swiper sub-cat-links">
+                                                <ul class="navigation-list swiper-wrapper">
+
+                                                    @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
+                                                    {
+                                                        subCategory++;
+                                                        var link = "#cat_" + counter + "_sub_" + subCategory;
+                                                        var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
+
+                                                        if (subSection == subSections.First())
+                                                        {
+                                                            <li class="sub-nav-item swiper-slide">
+                                                            <a href="#" data-link="@link" class="sub-nav-link active">@subSectionName</a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="sub-nav-item swiper-slide">
+                                                            <a href="#" data-link="@link" class="sub-nav-link">@subSectionName</a>
+                                                            </li>
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </nav>
                                         </div>
                                     }
 
                                 }
                             </div>
-                        </div>
                     }
                 }
 

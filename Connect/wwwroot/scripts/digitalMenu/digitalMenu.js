@@ -1,8 +1,5 @@
 
-const navLinkEls = document.querySelectorAll('.nav-link');
-const groupEls = document.querySelectorAll('.category');
 const navigation = document.getElementById('menuNav');
-let currentGroup = "home";
 const navInitPosition = navigation.offsetTop;
 const bottomContainer = document.getElementById('bottomContainer');
 var whiteSpaceLove = document.getElementById('whiteSpaceLove');
@@ -83,72 +80,195 @@ $(document).ready(() => {
         }
 
     }
-
+    let currentGroup = "home";
+    let currentSubGroup = "home";
+    const groupEls = document.querySelectorAll('.category');
     var subGroups = $(".sub-slide");
+    const navLinkEls = document.querySelectorAll('.nav-link');
+    const subNavLinkEls = document.querySelectorAll('.sub-nav-link');
+    const subGroupEls = document.querySelectorAll('.sub-cat-name-container');
+
+    let preventOnce = false;
     //MENU ITEM CLICK SCROLL TO MENU GROUP
     navLinkEls.forEach(navLinkEl => {
 
         $(navLinkEl).on("click", (event) => {
             event.preventDefault();
+            preventOnce = true;
+
 
             let group_id = navLinkEl.dataset.link
             group_id = group_id.substring(1)
             var group = document.getElementById(group_id);
 
+            $('.nav-link').removeClass("active");
+            $(navLinkEl).addClass("active");
+
             let subGroup = findByData(subGroups, group_id);
-            $(subGroups).removeClass("slide-active");
-            $(subGroup).addClass("slide-active");
+            //$(subGroups).removeClass("slide-active");
+            //$(subGroup).addClass("slide-active");
+
 
             $([document.documentElement, document.body]).animate({
                 scrollTop: (group.offsetTop - 80)
             }, 120);
+
+            bottomContainer.classList.add("display");
+
         });
     });
 
+    subNavLinkEls.forEach(navLinkEl => {
+
+        $(navLinkEl).on("click", (event) => {
+            event.preventDefault();
+            preventOnce = true;
+
+
+            let group_id = navLinkEl.dataset.link
+            group_id = group_id.substring(1)
+            var group = document.getElementById(group_id);
+
+            //$('.sub-nav-link').removeClass("active");
+            //$(navLinkEl).addClass("active");
+
+            let subGroup = findByData(subGroups, group_id);
+            //$(subNavLinkEls).removeClass("active");
+            //$(navLinkEl).addClass("active");
+
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: (group.offsetTop - 51 )
+            }, 120);
+
+
+
+        });
+    });
+
+    var subSwipers = new Array();
+    function buildSubCatSwiper(ele, index) {
+
+        return new Swiper('.sub-cat-swiper-' + index, {
+            slidesPerView: "auto",
+            spaceBetween: 2,
+            freeMode: false,
+            grabCursor: true,
+        });
+    }
+    var subCats = $(".sub-cat-links");
+
+    if (subCats.length) {
+        $(subCats).each(function (index) {
+            $(this).addClass('sub-cat-swiper-' + index);
+
+            var anotherOne = buildSubCatSwiper($(this), index);
+            subSwipers.push(anotherOne);
+        });
+
+    }
+
+
     window.addEventListener('scroll', () => {
 
-        //#region NAVIGATION FUNCTIONS
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function () {
 
-        //ON SCROLL CHANGE SELECTED NAVIGATION ITEM BASED ON CURRENT POSITION
-        groupEls.forEach(groupEl => {
-            if (window.scrollY >= (groupEl.offsetTop - 150)) {
-                currentGroup = groupEl.id;
+            if (preventOnce == true) {
+                    preventOnce = false;
+                    previousScrollY = window.scrollY;
+
             }
-        });
+            else {
 
-        var counter = 0;
-        navLinkEls.forEach(navLinkEl => {
-            var dataLink = navLinkEl.dataset.link;
-            if (dataLink.includes(currentGroup)) {
-                $('.nav-link').removeClass('active');
-                navLinkEl.classList.add('active');
-                swiper.slideTo(counter);
+                //#region NAVIGATION FUNCTIONS
 
-                let subGroup = findByData(subGroups, currentGroup);
-                $(subGroups).removeClass("slide-active");
-                $(subGroup).addClass("slide-active");
+                //ON SCROLL CHANGE SELECTED NAVIGATION ITEM BASED ON CURRENT POSITION
+
+                if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    currentGroup = $(groupEls).last().attr("id");
+                } else {
+                    groupEls.forEach(groupEl => {
+
+                        if (window.scrollY >= (groupEl.offsetTop - 150)) {
+                            currentGroup = groupEl.id;
+                        }
+
+                    });
+
+
+                    subGroupEls.forEach(subGroupEl => {
+
+                        if (window.scrollY >= (subGroupEl.offsetTop - 150)) {
+                            currentSubGroup = subGroupEl.id;
+                        }
+
+                    });
+
+                }
+
+
+                var counter = 0;
+                navLinkEls.forEach(navLinkEl => {
+                    var dataLink = navLinkEl.dataset.link;
+                    if (dataLink.includes(currentGroup)) {
+                        $('.nav-link').removeClass('active');
+                        navLinkEl.classList.add('active');
+                        swiper.slideTo(counter);
+
+                        let subGroup = findByData(subGroups, currentGroup);
+                        $(subGroups).removeClass("slide-active");
+                        $(subGroup).addClass("slide-active");
+                    }
+                    counter++;
+                });
+
+                var subCounter = 0;
+                subNavLinkEls.forEach(subNavLinkEl => {
+                    var dataLink = subNavLinkEl.dataset.link;
+                    if (dataLink.includes(currentSubGroup)) {
+                        $('.sub-nav-link').removeClass('active');
+                        subNavLinkEl.classList.add('active');
+
+                        var swipe = $(subNavLinkEl).attr("data-swiper");
+
+
+                        subSwipers[swipe].slideTo(subCounter);
+
+
+                    }
+                    subCounter++;
+                });
+
+
+                //#endregion
+
+
+
+                //#region SEARCH FUNCTIONS
+                if (window.scrollY > previousScrollY) {
+
+                    bottomContainer.classList.add("display");
+                    previousScrollY = window.scrollY;
+                }
+                //else if (window.scrollY < previousScrollY) {
+
+                //    if (isElementInViewport(whiteSpaceLove) == false) {
+                //        bottomContainer.classList.remove("display");
+                //    }
+
+
+                //    previousScrollY = window.scrollY;
+                //}
+
+                //#endregion
             }
-            counter++;
-        });
+     
 
-        //#endregion
 
-        //#region SEARCH FUNCTIONS
-        if (window.scrollY > previousScrollY) {
 
-            bottomContainer.classList.add("display");
-            previousScrollY = window.scrollY;
-        }
-        else if (window.scrollY < previousScrollY) {
+        }, 10));
 
-            if (isElementInViewport(whiteSpaceLove) == false) {
-                bottomContainer.classList.remove("display");
-            }
-
-            previousScrollY = window.scrollY;
-        }
-
-        //#endregion
 
     });
 
@@ -233,6 +353,7 @@ $(document).ready(() => {
     }
 
     //#endregion
+
 
 
 });
