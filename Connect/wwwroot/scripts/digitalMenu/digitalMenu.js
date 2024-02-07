@@ -357,9 +357,61 @@ $(document).ready(() => {
 
 
 
+
+
+    //#region Single Product Info
+
+    var products = $(".product");
+    var close = $("#close-item");
+    var lastPosBeforeItemOpen = window.scrollY;
+
+    $(products).on("click", function (event) {
+
+        lastPosBeforeItemOpen = window.scrollY;
+
+
+        var eleClass = $(event.target).attr('class');
+
+
+        if (eleClass != undefined) {
+            if (eleClass.indexOf("swiper-slide") != -1) {
+                e.cancelBubble = true;
+            }
+        }
+
+
+
+        var name = $(this).attr("data-name");
+        var desc = $(this).attr("data-desc");
+        var originalPrice = $(this).attr("data-original-price");
+        var finalPrice = $(this).attr("data-final-price");
+
+
+        $(".main-content-page").addClass("hide");
+        $(".item-info").addClass("display");
+
+
+    });
+
+    var close = $("#close-item");
+    $(close).on("click", function () {
+
+
+        $(".main-content-page").removeClass("hide");
+        $(".item-info").removeClass("display");
+
+        window.scrollTo({
+            top: lastPosBeforeItemOpen,
+            left: 0,
+            behavior: 'instant',
+        });
+
+    });
+
+    //#endregion
+
+
 });
-
-
 
 
 

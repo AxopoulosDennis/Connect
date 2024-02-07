@@ -28,7 +28,7 @@
 }
 
 
-<div class="page-content">
+<div class="main-content-page">
 
     <div class="inner-content">
         
@@ -146,6 +146,28 @@
                                                 decimal originalPrice = product.Content.Value<decimal>("originalPrice");
                                                 string discountType = product.Content.Value<string> ("discountType") ?? "";
                                                 bool hasVariations = false;
+
+                                                decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+                                                decimal finalPrice = originalPrice;
+
+                                                if (discountType == "Final Price")
+                                                {
+                                                    finalPrice = discountAmount;
+                                                }
+                                                else if (discountType == "Fixed Price")
+                                                {
+                                                    finalPrice = originalPrice - discountAmount;
+
+                                                }
+                                                else if (discountType == "Percentage")
+                                                {
+                                                    var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
+                                                    finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+
+                                                }
+
+
+
                                                 @if (alias == "beerBeverage")
                                                 {
                                                    if(product?.Content?.Value<IEnumerable<BlockListItem>>("beerVariations")?.Any() ?? false)
@@ -153,13 +175,20 @@
                                                         hasVariations = true;
                                                    }
 
+
+
                                                 }
 
                                                 var variationsCounter = 0;
 
                                                 if(hasVariations == false)
                                                 {
-                                                    <div class="product">
+                                                    <div class="product" 
+                                                        data-name="@productName" 
+                                                        data-desc="@productDesc"
+                                                        data-original-price="@originalPrice"
+                                                        data-final-price="@finalPrice">
+
                                                         <div class="text-photo-container">
                                                             <div class="product-text">
                                                                 <h3>@productName</h3>
@@ -170,25 +199,7 @@
 
                                                                 @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
                                                                 {
-                                                                    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
-
-                                                                    decimal finalPrice = originalPrice;
-
-                                                                    if (discountType == "Final Price")
-                                                                    {
-                                                                        finalPrice = discountAmount;
-                                                                    }
-                                                                    else if (discountType == "Fixed Price")
-                                                                    {
-                                                                        finalPrice = originalPrice - discountAmount;
-
-                                                                    }
-                                                                    else if (discountType == "Percentage")
-                                                                    {
-                                                                        var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
-                                                                        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
-
-                                                                    }
+                                                                   
 
                                                                     <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
 
@@ -277,25 +288,6 @@
                                                                             <div class="swiper-slide swiper-slide-active">
                                                                                 @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
                                                                                 {
-                                                                                    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
-                                                                                    decimal finalPrice = originalPrice;
-
-                                                                                    if (discountType == "Final Price")
-                                                                                    {
-                                                                                        finalPrice = discountAmount;
-                                                                                    }
-                                                                                    else if (discountType == "Fixed Price")
-                                                                                    {
-                                                                                        finalPrice = originalPrice - discountAmount;
-
-                                                                                    }
-                                                                                    else if (discountType == "Percentage")
-                                                                                    {
-                                                                                        var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
-                                                                                        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
-
-                                                                                    }
-
 
                                                                                     <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
 
@@ -407,94 +399,10 @@
 
 
         <section class="bottom-container" id="bottomContainer">
+@*             <partial name="Partials/_BottomNavigation" />
+ *@
+
             <!-- SEARCH TRIGGER -->
-            <div class="navigation-subcategories">
-   
-                @if (menuSections?.Any() ?? false)
-                {
-                    var counter = 0;
-                    foreach (var section in menuSections)
-                    {
-                        counter++;
-                        var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
-
-                        <div class="nav-sub-content">
-                            @if ((subSections?.Any() ?? false) )
-                                                {
-                                    var subCategory = 0;
-
-                                    if (section == menuSections.First())
-                                    {
-                                        <div class="sub-slide slide-active" data-sub-slide="category_@counter">
-
-                                            <nav class="nav swiper sub-cat-links">
-                                                <ul class="navigation-list swiper-wrapper">
-
-                                                    @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
-                                                    {
-                                                        subCategory++;
-                                                        var link = "#cat_" + counter + "_sub_" + subCategory;
-                                                        var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
-
-                                                        if (subSection == subSections.First())
-                                                        {
-                                                            <li class="sub-nav-item swiper-slide">
-                                                                <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link active">@subSectionName</a>
-                                                            </li>
-                                                        }
-                                                        else
-                                                        {
-                                                            <li class="sub-nav-item swiper-slide">
-                                                                <a href="#" data-link="@link" data-swiper="@(counter-1)" class="sub-nav-link">@subSectionName</a>
-                                                            </li>
-                                                        }
-                                                    }
-
-                                                </ul>
-                                            </nav>
-
-
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="sub-slide" data-sub-slide="category_@counter">
-                                            <nav class="nav swiper sub-cat-links">
-                                                <ul class="navigation-list swiper-wrapper">
-
-                                                    @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
-                                                    {
-                                                        subCategory++;
-                                                        var link = "#cat_" + counter + "_sub_" + subCategory;
-                                                        var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
-
-                                                        if (subSection == subSections.First())
-                                                        {
-                                                            <li class="sub-nav-item swiper-slide">
-                                                            <a href="#" data-link="@link" class="sub-nav-link active">@subSectionName</a>
-                                                            </li>
-                                                        }
-                                                        else
-                                                        {
-                                                            <li class="sub-nav-item swiper-slide">
-                                                            <a href="#" data-link="@link" class="sub-nav-link">@subSectionName</a>
-                                                            </li>
-                                                        }
-                                                    }
-
-                                                </ul>
-                                            </nav>
-                                    </div>
-                                }
-
-                            }
-
-                        </div>
-                    }
-                }
-
-            </div>
-
             <div class="bottom-search-bg" id="bottomSearch">
                 <div class="bottom-search-container">
                     <div class="search-row">
@@ -524,3 +432,44 @@
     </div>
  
 </div>
+
+<div class="item-info">
+
+
+
+    <div class="top-cover">
+        <span class="close-container" id="close-item">
+            <i class="fa fa-close fa-lg"></i>
+        </span>
+        <div class="cover-container">
+            <div class="cover-image-container">
+
+                <img class="cover-image" src="~/images/cocktail-4.jpg" />
+            </div>
+        </div>
+    </div>
+
+    <div class="product-text-container">
+        <div class="product-text">
+            <div class="desctiption-container">
+                <h3>MOJITO</h3>
+                <p>
+                    A fine Beer Excellent Quality
+                    For Heavy Drinkers, Drink with Caution
+                </p>
+            </div>
+
+
+            <div class="ingridients-container">
+                <h3 class="caption">INGRIDIENTS</h3>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+

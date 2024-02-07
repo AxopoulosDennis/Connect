@@ -1,0 +1,105 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@{
+    Layout = "";
+    var menuSections = Model?.Value<IEnumerable<BlockListItem>>("menuSection");
+    if (menuSections?.Any() ?? false)
+    {
+        menuSections = menuSections.Where(x => !x.Content.Value<bool>("hide"));
+    }
+}
+
+<div class="navigation-subcategories">
+
+    @if (menuSections?.Any() ?? false)
+    {
+        var counter = 0;
+        foreach (var section in menuSections)
+        {
+            counter++;
+            var subSections = section.Content.Value<IEnumerable<BlockListItem>>("subSections");
+
+            if (subSections?.Any() ?? false)
+            {
+                subSections = subSections.Where(x => x.Content.Value<bool>("hideName") == false);
+                subSections = subSections.Where(x => x.Content.Value<bool>("hideFromBottomNavigation") == false);
+
+                <div class="nav-sub-content">
+                    @if ((subSections?.Any() ?? false))
+                    {
+                        var subCategory = 0;
+
+                        if (section == menuSections.First())
+                        {
+                            <div class="sub-slide slide-active" data-sub-slide="category_@counter">
+
+                                <nav class="nav swiper sub-cat-links">
+                                    <ul class="navigation-list swiper-wrapper">
+
+                                        @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
+                                        {
+                                            subCategory++;
+                                            var link = "#cat_" + counter + "_sub_" + subCategory;
+                                            var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
+
+                                            if (subSection == subSections.First())
+                                            {
+                                                <li class="sub-nav-item swiper-slide">
+                                                    <a href="#" data-link="@link" data-swiper="@(counter - 1)" class="sub-nav-link active">@subSectionName</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="sub-nav-item swiper-slide">
+                                                    <a href="#" data-link="@link" data-swiper="@(counter - 1)" class="sub-nav-link">@subSectionName</a>
+                                                </li>
+                                            }
+                                        }
+
+                                    </ul>
+                                </nav>
+
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="sub-slide" data-sub-slide="category_@counter">
+                                <nav class="nav swiper sub-cat-links">
+                                    <ul class="navigation-list swiper-wrapper">
+
+                                        @foreach (var subSection in subSections.Where(x => x.Content.Value<bool>("hide") == false))
+                                        {
+                                            subCategory++;
+                                            var link = "#cat_" + counter + "_sub_" + subCategory;
+                                            var subSectionName = subSection.Content.Value<string>("subSectionName") ?? "";
+
+                                            if (subSection == subSections.First())
+                                            {
+                                                <li class="sub-nav-item swiper-slide">
+                                                    <a href="#" data-link="@link" class="sub-nav-link active">@subSectionName</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="sub-nav-item swiper-slide">
+                                                    <a href="#" data-link="@link" class="sub-nav-link">@subSectionName</a>
+                                                </li>
+                                            }
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        }
+
+                    }
+
+                </div>
+
+            }
+
+        }
+    }
+
+</div>
