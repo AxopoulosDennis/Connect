@@ -185,9 +185,9 @@ $(document).ready(() => {
 
                 //ON SCROLL CHANGE SELECTED NAVIGATION ITEM BASED ON CURRENT POSITION
 
-                if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                    currentGroup = $(groupEls).last().attr("id");
-                } else {
+                //if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                //    currentGroup = $(groupEls).last().attr("id");
+                //} else {
                     groupEls.forEach(groupEl => {
 
                         if (window.scrollY >= (groupEl.offsetTop - 150)) {
@@ -205,7 +205,7 @@ $(document).ready(() => {
 
                     });
 
-                }
+                //}
 
 
                 var counter = 0;
@@ -292,6 +292,8 @@ $(document).ready(() => {
             grabCursor: true,
         });
     }
+
+    
 
     var tabs = $('.tabs-buttons .swiper-wrapper');
     if (tabs.length) {
@@ -410,6 +412,60 @@ $(document).ready(() => {
 
     //#endregion
 
+    //#region Out Of Stock
+    //function buildSwiperOutOfStock(ele, index) {
+
+    //    return new Swiper("#out-of-stock"+index, {
+    //        slidesPerView: "auto",
+    //        spaceBetween: 10,
+    //        freeMode: false,
+    //        grabCursor: true,
+    //        pagination: {
+    //            el: ".swiper-pagination",
+    //        },
+    //        dynamicBullets: true,
+
+    //    });
+    //}
+
+    //var outOfStock = $(".out-of-stock");
+    //if (outOfStock.length) {
+    //    $(outOfStock).each(function (index) {
+    //        var anotherOne = buildSwiperOutOfStock($(this), index);
+    //    });
+    //}
+
+    var outOfStock = $(".out-of-stock");
+    function buildSwiperOutOfStock(ele, index) {
+
+        return new Swiper(".out-swiper-" + index, {
+            scrollbar: {
+                el: ".out-swiper-scrollbar-" + index,
+                hide: true,
+            },
+
+
+        });
+    }
+
+    $(outOfStock).each(function (index) {
+        $(this).addClass('out-swiper-' + index);
+        var scrollbar = $(this).find(".swiper-scrollbar");
+        $(scrollbar).addClass("out-swiper-scrollbar-" + index)
+
+        var anotherOne = buildSwiperOutOfStock($(this), index);
+    });
+
+
+
+    //var outOfStock = new Swiper(".out-of-stock", {
+    //    scrollbar: {
+    //        el: ".swiper-scrollbar",
+    //        hide: true,
+    //    },
+    //});
+
+    //#endregion
 
 });
 

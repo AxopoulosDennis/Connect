@@ -34,6 +34,13 @@
                     {
                         imageSrc = "/images/_3dtheme/light/social/tiktok_social.png";
                     }
+                    else if (name == "tripadvisor")
+                    {
+                        imageSrc = "/images/_3dtheme/light/social/trip_social.png";
+
+                    }
+
+
 
                     <a href="@socialLink" target="_blank"><img class="social-icon" src="@imageSrc"></a>
 
@@ -43,8 +50,19 @@
         }
         @if (!hideShareButton)
         {
-            <a href="#"><img class="social-icon" src="/images/_3dtheme/light/social/share_social.png" /></a>
+            <!-- AddToAny BEGIN -->
+            <a class="a2a_dd" href="https://www.addtoany.com/share">
+                <img class="social-icon" src="/images/_3dtheme/light/social/share_social.png" />
+            </a>
+            <script>
+                var a2a_config = a2a_config || {};
+                a2a_config.onclick = 1;
+            </script>
+            <script async src="https://static.addtoany.com/menu/page.js"></script>
+            <!-- AddToAny END -->
+
         }
+
     </div>
 
     <!-- BRAND NAME AND PROMO TEXT -->
@@ -53,7 +71,7 @@
         @brandName
     </span>
     <span class="promo-text">
-        @promoText
+        @Html.Raw(promoText)
     </span>
 </div>
 
