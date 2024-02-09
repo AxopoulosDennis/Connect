@@ -434,8 +434,8 @@ $(document).ready(() => {
     //        var anotherOne = buildSwiperOutOfStock($(this), index);
     //    });
     //}
-
-    var outOfStock = $(".out-of-stock");
+    var outOfStockSwipers = new Array();
+    var outOfStock = $(".out-of-stock-swiper");
     function buildSwiperOutOfStock(ele, index) {
 
         return new Swiper(".out-swiper-" + index, {
@@ -454,8 +454,47 @@ $(document).ready(() => {
         $(scrollbar).addClass("out-swiper-scrollbar-" + index)
 
         var anotherOne = buildSwiperOutOfStock($(this), index);
+        outOfStockSwipers.push(anotherOne);
+
     });
 
+
+    $('.collapse').on('show.bs.collapse', function (e) {
+        // Get clicked element that initiated the collapse...
+        var clicked = $(document).find("[href='#" + $(e.target).attr('id') + "']")
+        var arrow = $(clicked).find(".fa-chevron-down")
+        $(arrow).removeClass("fa-chevron-down");
+        $(arrow).addClass("fa-chevron-up");
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+        // Get clicked element that initiated the collapse...
+        var clicked = $(document).find("[href='#" + $(e.target).attr('id') + "']")
+        var arrow = $(clicked).find(".fa-chevron-up")
+        $(arrow).removeClass("fa-chevron-up");
+        $(arrow).addClass("fa-chevron-down");
+
+        var dataIndex = clicked.attr("data-index");
+        outOfStockSwipers[dataIndex].slideTo(0);
+
+    });
+
+    //$("out-of-stock-items").on("click", function (event) {
+    //    var eleClass = $(event.target).attr('class');
+
+    //    //if has class collapsed
+    //    if ($(this).eleClass.indexOf("collapsed") != -1) {
+
+    //        var arrow = $(this).find("fa-chevron-down")
+    //        if (arrow.length) {
+    //            $(arrow).removeClass("fa-chevron-down");
+    //            $(arrow).addClass("fa-chevron-up");
+
+    //        }
+
+    //    }
+
+    //});
 
 
     //var outOfStock = new Swiper(".out-of-stock", {

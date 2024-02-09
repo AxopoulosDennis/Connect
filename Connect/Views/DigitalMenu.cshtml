@@ -87,7 +87,7 @@
                 @if (menuSections?.Any() ?? false)
                 {
                     var counter = 0;
-                    
+                    var outOfStockCounter = 0;
 
                     @foreach (var section in menuSections.Where(x=> x.Content.Value<bool>("hide") == false))
                     {
@@ -380,7 +380,8 @@
 
                                     @if(outOfStockItems?.Any() ?? false)
                                     {
-                                        <div class="out-of-stock-items" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+
+                                            <div class="out-of-stock-items collapsed" data-index="@outOfStockCounter" data-bs-toggle="collapse" href="#out-of-stock-section-@counter" role="button" aria-expanded="false" aria-controls="out-of-stock-section-@counter">
                                             <span class="num-not-available">@outOfStockItems.Count()</span>
                                             <span class="not-available-text">μη διαθέσιμα προϊόντα</span>
                                             <span class="dropdown-icon" >
@@ -389,11 +390,14 @@
              
                                         </div>
 
+                                           
+                                                outOfStockCounter++;
+                                            
 
 
-                                            <div class="collapse" id="collapseExample">
+                                            <div class="collapse" id="out-of-stock-section-@counter">
                                                 <div class="out-of-stock-container">
-                                                    <div class="out-of-stock">
+                                                    <div class="out-of-stock-swiper">
                                                         <div class="swiper-wrapper">
                                                             @foreach (var item in outOfStockItems)
                                                             {
@@ -782,6 +786,10 @@
                 }
             </div>
 
+        </section>
+
+        <section class="tonny">
+            <a href="/" target="_blank" class="tony-homepage"><h1>tonny.gr - Digital Menu Solutions</h1></a>
         </section>
 
 
