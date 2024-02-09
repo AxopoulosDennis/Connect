@@ -506,6 +506,55 @@ $(document).ready(() => {
 
     //#endregion
 
+    var eventsSwiper;
+    $("#brand-info-trigger").on("click", function (event) {
+
+        $(".main-content-page").addClass("hide");
+        $("#brand-info-content").addClass("display");
+
+             eventsSwiper = new Swiper(".events-swiper", {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                coverflowEffect: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+                autoplay: {
+                    delay: 3000,
+                 },
+                 autoplayDisableOnInteraction: true,
+                 pauseOnMouseEnter: true,
+
+
+             });
+
+
+
+    });
+
+    $("#close-info").on("click", function (event) {
+
+        $(".main-content-page").removeClass("hide");
+        $("#brand-info-content").removeClass("display");
+
+        eventsSwiper.destroy(true, true);
+    });
+
+
+
+
+
+    //#region events
+
+    //#endregion
 });
 
 

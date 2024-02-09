@@ -147,6 +147,7 @@ p, h3 {
             position: relative;
 
             .cover-image-container {
+                position:relative;
 
                 .cover-image {
                     border: 1px solid whitesmoke;
@@ -157,6 +158,19 @@ p, h3 {
                     object-fit: cover;
                     -webkit-box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
                     box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
+                }
+
+                .info-container{
+                    position:absolute;
+                    right:.8em;
+                    top:.2em;
+                    color: lightgray;
+                    font-size: 1.4em;
+                    padding:.2em;
+
+                    &:hover{
+                        cursor:pointer;
+                    }
                 }
             }
 
@@ -1109,3 +1123,147 @@ p, h3 {
         }
     }
 }
+
+#brand-info-content {
+    min-height: 100vh;
+    min-width: 100%;
+    display: none;
+    background-color: aliceblue;
+    padding: 0em 1em;
+
+
+    &.display {
+        display: block;
+    }
+
+
+    .events-swiper {
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid rgba(169, 184, 201, 0.4);
+        border-radius: 20px;
+        margin-top: .2em;
+        -webkit-box-shadow: 0px 5px 8px -4px rgba(0,0,0,0.76);
+        box-shadow: 0px 5px 8px -4px rgba(0,0,0,0.76);
+    }
+
+    .close-container {
+        padding: 1.2em;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        position: sticky;
+        z-index: 10;
+        background-color: aliceblue;
+        margin-left: -.4em;
+    }
+
+    .swiper-slide {
+        background-position: center;
+        background-size: cover;
+        padding: 1em;
+        padding-bottom: 2em;
+
+        &.cancelled {
+
+            &:after {
+                content: "Cancelled";
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                left: 30px;
+                top: 0;
+                width: 100%;
+                height: .9em;
+                background-color: indianred;
+                transform: rotate(45deg);
+                opacity: 70%;
+                margin: 50px;
+                color: white;
+                font-size: 1.3rem;
+            }
+        }
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: black !important;
+        opacity: 60%;
+    }
+
+    .swiper-slide img {
+        border-radius: 20px;
+        display: block;
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .info-item-container {
+        padding: .6em;
+        padding-bottom: 3em;
+
+        .event-name {
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+
+        .event-desc {
+            font-weight: 500;
+            font-size: 0.875rem;
+            opacity: 70%;
+        }
+
+        .event-time {
+            font-weight: 500;
+            font-size: 0.825rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: .4em 0;
+            border-bottom: 1px solid lightgray;
+            color: seagreen;
+            opacity: 780%;
+            margin-top: .8em;
+        }
+
+        .event-about {
+            padding: .4em 0;
+        }
+    }
+
+    .upcoming-title {
+        padding: .2em;
+        display: flex;
+        justify-content: end;
+        margin-bottom: 1em;
+        font-weight: 500;
+        font-size: .935rem;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .opening-hours-title {
+        padding: .2em;
+        display: flex;
+        justify-content: end;
+        margin-right: 2.4em;
+        font-weight: 500;
+        font-size: .975rem;
+    }
+
+    .opening-hours {
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid rgba(169, 184, 201, 0.4);
+        border-radius: 20px;
+        -webkit-box-shadow: 0px 5px 8px -4px rgba(0,0,0,0.76);
+        box-shadow: 0px 5px 8px -4px rgba(0,0,0,0.76);
+        font-weight: 500;
+        font-size: .935rem;
+
+        td, th {
+            padding: .6em .8em;
+        }
+    }
+}
+

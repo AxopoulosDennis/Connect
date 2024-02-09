@@ -124,6 +124,9 @@ p, h3 {
   flex-grow: 1;
   position: relative;
 }
+.top-cover .cover-container .cover-image-container {
+  position: relative;
+}
 .top-cover .cover-container .cover-image-container .cover-image {
   border: 1px solid whitesmoke;
   border-radius: 20px 20px;
@@ -133,6 +136,17 @@ p, h3 {
   object-fit: cover;
   -webkit-box-shadow: 0px 8px 10px -7px rgba(0, 0, 0, 0.76);
   box-shadow: 0px 8px 10px -7px rgba(0, 0, 0, 0.76);
+}
+.top-cover .cover-container .cover-image-container .info-container {
+  position: absolute;
+  right: 0.8em;
+  top: 0.2em;
+  color: lightgray;
+  font-size: 1.4em;
+  padding: 0.2em;
+}
+.top-cover .cover-container .cover-image-container .info-container:hover {
+  cursor: pointer;
 }
 .top-cover .cover-container .brand-image-container {
   position: absolute;
@@ -892,4 +906,126 @@ p, h3 {
 }
 .tonny a:hover {
   cursor: pointer;
+}
+
+#brand-info-content {
+  min-height: 100vh;
+  min-width: 100%;
+  display: none;
+  background-color: aliceblue;
+  padding: 0em 1em;
+}
+#brand-info-content.display {
+  display: block;
+}
+#brand-info-content .events-swiper {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(169, 184, 201, 0.4);
+  border-radius: 20px;
+  margin-top: 0.2em;
+  -webkit-box-shadow: 0px 5px 8px -4px rgba(0, 0, 0, 0.76);
+  box-shadow: 0px 5px 8px -4px rgba(0, 0, 0, 0.76);
+}
+#brand-info-content .close-container {
+  padding: 1.2em;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  position: sticky;
+  z-index: 10;
+  background-color: aliceblue;
+  margin-left: -0.4em;
+}
+#brand-info-content .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  padding: 1em;
+  padding-bottom: 2em;
+}
+#brand-info-content .swiper-slide.cancelled:after {
+  content: "Cancelled";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 30px;
+  top: 0;
+  width: 100%;
+  height: 0.9em;
+  background-color: indianred;
+  transform: rotate(45deg);
+  opacity: 70%;
+  margin: 50px;
+  color: white;
+  font-size: 1.3rem;
+}
+#brand-info-content .swiper-pagination-bullet-active {
+  background-color: black !important;
+  opacity: 60%;
+}
+#brand-info-content .swiper-slide img {
+  border-radius: 20px;
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+#brand-info-content .info-item-container {
+  padding: 0.6em;
+  padding-bottom: 3em;
+}
+#brand-info-content .info-item-container .event-name {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+#brand-info-content .info-item-container .event-desc {
+  font-weight: 500;
+  font-size: 0.875rem;
+  opacity: 70%;
+}
+#brand-info-content .info-item-container .event-time {
+  font-weight: 500;
+  font-size: 0.825rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0.4em 0;
+  border-bottom: 1px solid lightgray;
+  color: seagreen;
+  opacity: 780%;
+  margin-top: 0.8em;
+}
+#brand-info-content .info-item-container .event-about {
+  padding: 0.4em 0;
+}
+#brand-info-content .upcoming-title {
+  padding: 0.2em;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 1em;
+  font-weight: 500;
+  font-size: 0.935rem;
+  border-bottom: 1px solid lightgray;
+}
+#brand-info-content .opening-hours-title {
+  padding: 0.2em;
+  display: flex;
+  justify-content: end;
+  margin-right: 2.4em;
+  font-weight: 500;
+  font-size: 0.975rem;
+}
+#brand-info-content .opening-hours {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(169, 184, 201, 0.4);
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 5px 8px -4px rgba(0, 0, 0, 0.76);
+  box-shadow: 0px 5px 8px -4px rgba(0, 0, 0, 0.76);
+  font-weight: 500;
+  font-size: 0.935rem;
+}
+#brand-info-content .opening-hours td, #brand-info-content .opening-hours th {
+  padding: 0.6em 0.8em;
 }
