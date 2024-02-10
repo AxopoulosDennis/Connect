@@ -360,6 +360,8 @@ $(document).ready(() => {
 
 
 
+    let main;
+    let thumbs;
 
     //#region Single Product Info
 
@@ -367,73 +369,139 @@ $(document).ready(() => {
     var close = $("#close-item");
     var lastPosBeforeItemOpen = window.scrollY;
 
-    $(products).on("click", function (event) {
+    //$(products).on("click", function (event) {
 
-        lastPosBeforeItemOpen = window.scrollY;
+    //    lastPosBeforeItemOpen = window.scrollY;
+
+    
+
+    //            var categoryIndex = $(this).attr("data-category");
+    //            var category = $("#" + categoryIndex);
+    //            var catName = $(category).attr("data-section-name");
+    //            var categoryItems = $(category).find(".product");
+
+    //            $("#sectionTitle").text(catName);
+
+    //            mainSplide = $("#main-splide-list");
+    //            thumbsSplide = $("#thumbs-splide-list")
+                
+    //            var mainSplideCode = "";
+    //            var thumbsCode = "";
+
+    //            centerClass = "centered";
+    //            if (categoryItems.length <= 2) {
+
+    //                $("#thumbs-splide-list").addClass(centerClass);
+    //            }
+    //            else {
+    //                $("#thumbs-splide-list").removeClass(centerClass);
+
+    //            }
+
+    //            var brandImageUrl = $("#brand-image-url").val();
+
+    //            $(categoryItems).each(function (index) {
+    //                var name = $(categoryItems[index]).attr("data-name");
+    //                var desc = $(categoryItems[index]).attr("data-desc");
+    //                var originalPrice = $(categoryItems[index]).attr("data-original-price");
+    //                var finalPrice = $(categoryItems[index]).attr("data-final-price");
+    //                var image = $(categoryItems[index]).attr("data-photo");
 
 
-        var eleClass = $(event.target).attr('class');
+    //                var notAvailableClass = "";
+    //                if (image == "" || image == undefined) {
+    //                    image = brandImageUrl;
+    //                    notAvailableClass = "not-available";
+    //                }
+
+ 
 
 
-        if (eleClass != undefined) {
-            if (eleClass.indexOf("swiper-slide") != -1) {
-                e.cancelBubble = true;
-            }
-        }
+    //                mainSplideCode +=
+    //                '                        <li class="splide__slide">' +
+    //                '                            <div class="splide__slide__container">' +
+    //                '                                <img class="' + notAvailableClass +'" src="'+image+'" />' +
+    //                '                            </div>' +
+    //                '                        </li>';
+
+    //                thumbsCode +=
+    //                '                        <li class="splide__slide">' +
+    //                '                            <div class="splide__slide__container">' +
+    //                '                                <img class="' + notAvailableClass + '" src="' + image + '" />' +
+    //                '<div class="name-container"><div class="product-name">' + name + '</div></div>' +
+
+    //                '                            </div>' +
+    //                '                        </li>';
+
+    //            });
+
+    //            var currentIndex = $(this).attr("data-product-index");
+
+    //            $(mainSplide).append(mainSplideCode);
+    //            $(thumbsSplide).append(thumbsCode);
+
+    //            main = new Splide('#main-carousel', {
+    //                type: 'fade',
+    //                pagination: false,
+    //                arrows: true,
+    //                rewind: false,
+    //                start: currentIndex
+
+    //            });
+
+    //            thumbs = new Splide('#thumbnail-carousel', {
+    //                perPage: 2.5,
+
+    //                rewind: false,
+    //                pagination: false,
+    //                isNavigation: true,
+    //                arrows: false,
+    //                rewind: true,
+    //                gap: 4,
+    //                start: currentIndex
+
+
+    //            });
+
+    //            main.sync(thumbs);
+    //            main.mount();
+    //            thumbs.mount();
 
 
 
-        var name = $(this).attr("data-name");
-        var desc = $(this).attr("data-desc");
-        var originalPrice = $(this).attr("data-original-price");
-        var finalPrice = $(this).attr("data-final-price");
+    //            $(".main-content-page").addClass("hide");
+    //            $(".item-info").addClass("display");
+    //       /* }*/
+    //   /* }*/
 
 
-        $(".main-content-page").addClass("hide");
-        $(".item-info").addClass("display");
 
 
-    });
 
-    var close = $("#close-item");
-    $(close).on("click", function () {
+    //});
+
+    //var close = $("#close-item");
+    //$(close).on("click", function () {
 
 
-        $(".main-content-page").removeClass("hide");
-        $(".item-info").removeClass("display");
+    //    $(".main-content-page").removeClass("hide");
+    //    $(".item-info").removeClass("display");
 
-        window.scrollTo({
-            top: lastPosBeforeItemOpen,
-            left: 0,
-            behavior: 'instant',
-        });
+    //    window.scrollTo({
+    //        top: lastPosBeforeItemOpen,
+    //        left: 0,
+    //        behavior: 'instant',
+    //    });
 
-    });
+    //    main.destroy(true);
+    //    thumbs.destroy(true);
+
+    //    $(mainSplide).empty();
+    //    $(thumbsSplide).empty();
+    //});
 
     //#endregion
 
-    //#region Out Of Stock
-    //function buildSwiperOutOfStock(ele, index) {
-
-    //    return new Swiper("#out-of-stock"+index, {
-    //        slidesPerView: "auto",
-    //        spaceBetween: 10,
-    //        freeMode: false,
-    //        grabCursor: true,
-    //        pagination: {
-    //            el: ".swiper-pagination",
-    //        },
-    //        dynamicBullets: true,
-
-    //    });
-    //}
-
-    //var outOfStock = $(".out-of-stock");
-    //if (outOfStock.length) {
-    //    $(outOfStock).each(function (index) {
-    //        var anotherOne = buildSwiperOutOfStock($(this), index);
-    //    });
-    //}
     var outOfStockSwipers = new Array();
     var outOfStock = $(".out-of-stock-swiper");
     function buildSwiperOutOfStock(ele, index) {
@@ -479,30 +547,6 @@ $(document).ready(() => {
 
     });
 
-    //$("out-of-stock-items").on("click", function (event) {
-    //    var eleClass = $(event.target).attr('class');
-
-    //    //if has class collapsed
-    //    if ($(this).eleClass.indexOf("collapsed") != -1) {
-
-    //        var arrow = $(this).find("fa-chevron-down")
-    //        if (arrow.length) {
-    //            $(arrow).removeClass("fa-chevron-down");
-    //            $(arrow).addClass("fa-chevron-up");
-
-    //        }
-
-    //    }
-
-    //});
-
-
-    //var outOfStock = new Swiper(".out-of-stock", {
-    //    scrollbar: {
-    //        el: ".swiper-scrollbar",
-    //        hide: true,
-    //    },
-    //});
 
     //#endregion
 
@@ -558,14 +602,45 @@ $(document).ready(() => {
 });
 
 
+//document.addEventListener('DOMContentLoaded', function () {
+
+//    var splideCheck = document.getElementsByClassName("splide");
+//    if (splideCheck.length) {
+//        console.log('Splide is present');
 
 
+//        var main = new Splide('#main-carousel', {
+//            type: 'fade',
+//            pagination: false,
+//            arrows: false,
+//            rewind:true,
+//        });
+   
 
 
+//        var thumbnails = new Splide('#thumbnail-carousel', {
+//            perPage: 2.5,
+ 
+//            rewind: false,
+//            pagination: false,
+//            isNavigation: true,
+//            arrows: false,
+//            fixedHeight: 60,
+//            rewind: true,
+
+//        });
+
+//        main.sync(thumbnails);
+//        main.mount();
+//        thumbnails.mount();
 
 
+//    } else {
+//        console.log('Splide is NOT present');
+//    }
 
 
+//});
 
 
 
