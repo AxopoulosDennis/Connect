@@ -234,6 +234,7 @@ p, h3 {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
+  height: 3.5em;
 }
 .content-container .menu-navigation-bg.sticky {
   background-color: white;
@@ -272,7 +273,7 @@ p, h3 {
 }
 .content-container .menu-navigation-bg .search-placeholder.expand input {
   background-color: #e3edf7;
-  padding: 6.9px 28px;
+  padding: 6.8px 28px;
   padding-right: 38px;
   border-radius: 20px;
   border-color: transparent;
