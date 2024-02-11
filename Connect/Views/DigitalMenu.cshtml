@@ -47,7 +47,20 @@
 
             <!-- MENU NAVIGATION -->
             <div class="menu-navigation-bg sticky" id="menuNav">
+                    <div class="search-container" id="search-trigger">
+                        <div class="search-icon" id="open-search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#657789" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                        </div>
+                        <div class="close-icon" id="close-search-icon">
+                            <i class="fa fa-close"></i>
+                        </div>
+                    </div>
 
+                    <div class="search-placeholder">
+                        <div class="input-container">
+                            <input id="searchInput" placeholder="Αναζήτηση..." />
+                        </div>
+                    </div>
 
                     <div class="menu-navigation-container">
 
@@ -79,7 +92,7 @@
                     </div>
 
 
-
+         
             </div>
 
             }
@@ -808,9 +821,8 @@
         </section>
 
 
-        <section class="bottom-container" id="bottomContainer">
-@*             <partial name="Partials/_BottomNavigation" />
- *@
+ @*        <section class="bottom-container" id="bottomContainer">
+
 
             <!-- SEARCH TRIGGER -->
             <div class="bottom-search-bg" id="bottomSearch">
@@ -839,21 +851,27 @@
                     <div id="whiteSpaceLove" style="height:1px;"></div>
                 </div>
             </div>
-        </section>
+        </section> *@
 
     </div>
  
 </div>
 
-@* <div class="item-info">
+<div class="item-info">
 
-   <div class="top-cover">
+    <div class="top-bar">
         <span class="close-container" id="close-item">
             <i class="fa fa-close fa-lg"></i>
         </span>
+        <div class="section-title" id="sectionTitle"></div>
+
+    </div>
+
+
+   <div class="top-cover">
+
 
         <div class="cover-container">
-            <div class="section-title" id="sectionTitle"></div>
 
             <section id="main-carousel" class="splide cover-image-container" aria-label="Beautiful Images">
                 <div class="splide__track">
@@ -861,8 +879,8 @@
  
                        <li class="splide__slide">
                             <div class="splide__slide__container">
-                                <img src="" />
-                                <div class="product-info">
+@*                                 <img src="" />
+ *@                                <div class="product-info">
                                     <span class="product-name"></span>
                                     <span class="product-desc"></span>
                                     <p class="final-price has-discount"><span class="original-price"></span></p>
@@ -875,7 +893,6 @@
         </div>
 </div>
 
- *@
 
 
     <section id="thumbnail-carousel"
@@ -889,6 +906,7 @@
     </section>
 
 </div>
+
 
 @{
     var events = Model?.Value<IEnumerable<BlockListItem>>("events");
@@ -1180,8 +1198,7 @@
             </h3>
 
             <div class="border-container">
-                <h5 class="about">@about</h5>
-                
+                <h5 class="about">@about</h5>                
             </div>
         </div>
 

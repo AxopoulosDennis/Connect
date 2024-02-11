@@ -369,136 +369,134 @@ $(document).ready(() => {
     var close = $("#close-item");
     var lastPosBeforeItemOpen = window.scrollY;
 
-    //$(products).on("click", function (event) {
+    $(products).on("click", function (event) {
 
-    //    lastPosBeforeItemOpen = window.scrollY;
+        lastPosBeforeItemOpen = window.scrollY;
 
     
 
-    //            var categoryIndex = $(this).attr("data-category");
-    //            var category = $("#" + categoryIndex);
-    //            var catName = $(category).attr("data-section-name");
-    //            var categoryItems = $(category).find(".product");
+                var categoryIndex = $(this).attr("data-category");
+                var category = $("#" + categoryIndex);
+                var catName = $(category).attr("data-section-name");
+                var categoryItems = $(category).find(".product");
 
-    //            $("#sectionTitle").text(catName);
+                $("#sectionTitle").text(catName);
 
-    //            mainSplide = $("#main-splide-list");
-    //            thumbsSplide = $("#thumbs-splide-list")
+                mainSplide = $("#main-splide-list");
+                thumbsSplide = $("#thumbs-splide-list")
                 
-    //            var mainSplideCode = "";
-    //            var thumbsCode = "";
+                var mainSplideCode = "";
+                var thumbsCode = "";
 
-    //            centerClass = "centered";
-    //            if (categoryItems.length <= 2) {
+                centerClass = "centered";
+                if (categoryItems.length <= 2) {
 
-    //                $("#thumbs-splide-list").addClass(centerClass);
-    //            }
-    //            else {
-    //                $("#thumbs-splide-list").removeClass(centerClass);
+                    $("#thumbs-splide-list").addClass(centerClass);
+                }
+                else {
+                    $("#thumbs-splide-list").removeClass(centerClass);
 
-    //            }
+                }
 
-    //            var brandImageUrl = $("#brand-image-url").val();
+                var brandImageUrl = $("#brand-image-url").val();
 
-    //            $(categoryItems).each(function (index) {
-    //                var name = $(categoryItems[index]).attr("data-name");
-    //                var desc = $(categoryItems[index]).attr("data-desc");
-    //                var originalPrice = $(categoryItems[index]).attr("data-original-price");
-    //                var finalPrice = $(categoryItems[index]).attr("data-final-price");
-    //                var image = $(categoryItems[index]).attr("data-photo");
+                $(categoryItems).each(function (index) {
+                    var name = $(categoryItems[index]).attr("data-name");
+                    var desc = $(categoryItems[index]).attr("data-desc");
+                    var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                    var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                    var image = $(categoryItems[index]).attr("data-photo");
 
 
-    //                var notAvailableClass = "";
-    //                if (image == "" || image == undefined) {
-    //                    image = brandImageUrl;
-    //                    notAvailableClass = "not-available";
-    //                }
+                    var notAvailableClass = "";
+                    if (image == "" || image == undefined) {
+                        image = brandImageUrl;
+                        notAvailableClass = "not-available";
+                    }
 
  
 
 
-    //                mainSplideCode +=
-    //                '                        <li class="splide__slide">' +
-    //                '                            <div class="splide__slide__container">' +
-    //                '                                <img class="' + notAvailableClass +'" src="'+image+'" />' +
-    //                '                            </div>' +
-    //                '                        </li>';
+                    mainSplideCode +=
+                    '                        <li class="splide__slide">' +
+                    '                            <div class="splide__slide__container">' +
+                    '                            </div>' +
+                    '                        </li>';
 
-    //                thumbsCode +=
-    //                '                        <li class="splide__slide">' +
-    //                '                            <div class="splide__slide__container">' +
-    //                '                                <img class="' + notAvailableClass + '" src="' + image + '" />' +
-    //                '<div class="name-container"><div class="product-name">' + name + '</div></div>' +
+                    thumbsCode +=
+                    '                        <li class="splide__slide">' +
+                    '                            <div class="splide__slide__container">' +
+                    '<div class="name-container"><div class="product-name">' + name + '</div></div>' +
 
-    //                '                            </div>' +
-    //                '                        </li>';
+                    '                            </div>' +
+                    '                        </li>';
 
-    //            });
+                });
 
-    //            var currentIndex = $(this).attr("data-product-index");
+                var currentIndex = $(this).attr("data-product-index");
 
-    //            $(mainSplide).append(mainSplideCode);
-    //            $(thumbsSplide).append(thumbsCode);
+                $(mainSplide).append(mainSplideCode);
+                $(thumbsSplide).append(thumbsCode);
 
-    //            main = new Splide('#main-carousel', {
-    //                type: 'fade',
-    //                pagination: false,
-    //                arrows: true,
-    //                rewind: false,
-    //                start: currentIndex
+                main = new Splide('#main-carousel', {
+                    type: 'fade',
+                    pagination: false,
+                    arrows: true,
+                    rewind: false,
+                    start: currentIndex
 
-    //            });
+                });
 
-    //            thumbs = new Splide('#thumbnail-carousel', {
-    //                perPage: 2.5,
+                thumbs = new Splide('#thumbnail-carousel', {
+                    perPage: 2.5,
 
-    //                rewind: false,
-    //                pagination: false,
-    //                isNavigation: true,
-    //                arrows: false,
-    //                rewind: true,
-    //                gap: 4,
-    //                start: currentIndex
+                    rewind: false,
+                    pagination: false,
+                    isNavigation: true,
+                    arrows: false,
+                    rewind: true,
+                    gap: 4,
+                    start: currentIndex
 
 
-    //            });
+                });
 
-    //            main.sync(thumbs);
-    //            main.mount();
-    //            thumbs.mount();
+                main.sync(thumbs);
+                main.mount();
+                thumbs.mount();
 
 
 
-    //            $(".main-content-page").addClass("hide");
-    //            $(".item-info").addClass("display");
-    //       /* }*/
-    //   /* }*/
+                $(".main-content-page").addClass("hide");
+                $(".item-info").addClass("display");
+           /* }*/
+       /* }*/
 
 
 
 
 
-    //});
+    });
 
-    //var close = $("#close-item");
-    //$(close).on("click", function () {
+    var close = $("#close-item");
+    $(close).on("click", function () {
 
 
-    //    $(".main-content-page").removeClass("hide");
-    //    $(".item-info").removeClass("display");
+        $(".main-content-page").removeClass("hide");
+        $(".item-info").removeClass("display");
 
-    //    window.scrollTo({
-    //        top: lastPosBeforeItemOpen,
-    //        left: 0,
-    //        behavior: 'instant',
-    //    });
+        window.scrollTo({
+            top: lastPosBeforeItemOpen,
+            left: 0,
+            behavior: 'instant',
+        });
 
-    //    main.destroy(true);
-    //    thumbs.destroy(true);
+        main.destroy(true);
+        thumbs.destroy(true);
 
-    //    $(mainSplide).empty();
-    //    $(thumbsSplide).empty();
-    //});
+        $(mainSplide).empty();
+        $(thumbsSplide).empty();
+    });
 
     //#endregion
 
@@ -597,6 +595,34 @@ $(document).ready(() => {
 
 
     //#region events
+
+    //#endregion
+
+    //#region Search
+
+    $("#search-trigger").on("click", function () {
+
+        if ($(this).hasClass("expanded")) {
+            $(".search-placeholder").removeClass("expand");
+            $(".menu-navigation-container").removeClass("hide");
+            $(this).removeClass("expanded");
+
+            $("#close-search-icon").removeClass("show");
+            $("#open-search-icon").removeClass("hide");
+        }
+        else {
+            $(".menu-navigation-container").addClass("hide");
+            $(".search-placeholder").addClass("expand");
+            $(this).addClass("expanded")
+
+
+            $("#open-search-icon").addClass("hide");
+            $("#close-search-icon").addClass("show");
+        }
+
+
+
+    });
 
     //#endregion
 });
