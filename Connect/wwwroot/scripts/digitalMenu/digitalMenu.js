@@ -4,7 +4,6 @@ const navInitPosition = navigation.offsetTop;
 const bottomContainer = document.getElementById('bottomContainer');
 var whiteSpaceLove = document.getElementById('whiteSpaceLove');
 
-const searchInput = document.getElementById('searchInput');
 
 let previousScrollY = 0;
 let lastPosBeforeSearch = 0;
@@ -113,7 +112,7 @@ $(document).ready(() => {
                 scrollTop: (group.offsetTop - 80)
             }, 120);
 
-            bottomContainer.classList.add("display");
+            //bottomContainer.classList.add("display");
 
         });
     });
@@ -248,19 +247,19 @@ $(document).ready(() => {
 
 
                 //#region SEARCH FUNCTIONS
-                if (window.scrollY > previousScrollY) {
+                //if (window.scrollY > previousScrollY) {
 
-                    bottomContainer.classList.add("display");
-                    previousScrollY = window.scrollY;
-                }
-                else if (window.scrollY < previousScrollY) {
+                //    bottomContainer.classList.add("display");
+                //    previousScrollY = window.scrollY;
+                //}
+                //else if (window.scrollY < previousScrollY) {
 
-                    bottomContainer.classList.remove("display");
+                //    bottomContainer.classList.remove("display");
 
 
 
-                    previousScrollY = window.scrollY;
-                }
+                //    previousScrollY = window.scrollY;
+                //}
 
                 //#endregion
             }
@@ -609,8 +608,11 @@ $(document).ready(() => {
 
             $("#close-search-icon").removeClass("show");
             $("#open-search-icon").removeClass("hide");
+            $(".search-results").addClass("show");
         }
         else {
+            $(".search-results").removeClass("show");
+
             $(".menu-navigation-container").addClass("hide");
             $(".search-placeholder").addClass("expand");
             $(this).addClass("expanded")
@@ -618,6 +620,7 @@ $(document).ready(() => {
 
             $("#open-search-icon").addClass("hide");
             $("#close-search-icon").addClass("show");
+
         }
 
 
@@ -641,12 +644,12 @@ $(document).ready(() => {
 //            arrows: false,
 //            rewind:true,
 //        });
-   
+
 
 
 //        var thumbnails = new Splide('#thumbnail-carousel', {
 //            perPage: 2.5,
- 
+
 //            rewind: false,
 //            pagination: false,
 //            isNavigation: true,
@@ -703,7 +706,7 @@ $(document).ready(() => {
     //    closeSearch();
     //});
 
-    //$('.nav-filter').on('click', function (event) { 
+    //$('.nav-filter').on('click', function (event) {
 
     //    if ($(this).find(".nav-item").hasClass('selected')) {
 
@@ -723,7 +726,7 @@ $(document).ready(() => {
     //    }
     //});
 
-    //$('.select-cat').on('click', function (event) { 
+    //$('.select-cat').on('click', function (event) {
 
     //    if ($(this).find(".cat-item").hasClass('selected')) {
 
@@ -745,7 +748,7 @@ $(document).ready(() => {
     //                        allFoodFiltersArray.Add(ele);
     //                    }
 
-    //                }) 
+    //                })
 
     //            }
 
@@ -753,7 +756,7 @@ $(document).ready(() => {
 
 
 
-    //        alert(foodFiltersArray);     
+    //        alert(foodFiltersArray);
 
     //    }
 
@@ -766,7 +769,7 @@ $(document).ready(() => {
     //    }
     //});
 
-    //$(".clear-filters-container").on('click', function (event) { 
+    //$(".clear-filters-container").on('click', function (event) {
 
     //    $(".cat-item.selected").removeClass("selected");
     //    $(".nav-item.selected").removeClass("selected");
@@ -774,12 +777,12 @@ $(document).ready(() => {
 
     //});
 
-    //$(".show-results-container").on('click', function (event) { 
+    //$(".show-results-container").on('click', function (event) {
     //    $(".search-results-inner-container").addClass("display");
 
     //});
 
-    //$(".sort-icon").on('click', function (event) { 
+    //$(".sort-icon").on('click', function (event) {
     //    if ($(this).hasClass('inverse')) {
 
     //        $(this).removeClass('inverse');
@@ -791,7 +794,7 @@ $(document).ready(() => {
 
     //});
 
-    //$("#selectAll").on('click', function (event) { 
+    //$("#selectAll").on('click', function (event) {
 
     //    if ($(this).attr("data-selected") == "false") {
     //        $("#selectAll").attr("data-selected", "true");
@@ -807,7 +810,52 @@ $(document).ready(() => {
 
     //});
 
-    //#endregion
+//#endregion
+
+
+const searchInput = document.getElementById('search-trigger');
+var lastPosBeforeSearchPage = window.scrollY;
+
+$(searchInput).on("click", () => {
+
+    if ($(".brand-container").hasClass("hide")) {
+
+        $(".menu-container").removeClass("hide");
+        $(".brand-container").removeClass("hide");
+
+        window.scrollTo({
+            top: lastPosBeforeSearchPage,
+            left: 0,
+            behavior: 'instant',
+        });
+    }
+    else {
+        lastPosBeforeSearchPage = window.scrollY;
+
+        $(".brand-container").addClass("hide");
+        $(".menu-container").addClass("hide");
+        $(".content-container").addClass("min95vh");
+        
+
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#menuNav").offset().top
+        }, 100);
+
+
+        //var delayInMilliseconds = 800; //1 second
+
+        //setTimeout(function () {
+
+
+        //}, delayInMilliseconds);
+    }
+
+
+
+
+    //openSearch();
+
+});
 
 function openSearch() {
 

@@ -34,13 +34,17 @@
 
     <div class="inner-content">
         
-        <!-- COVER IMAGE AND BRAND IMAGE -->
-        <partial name="Partials/_Cover" />
-
-        <section class="content-container">
-
+        <div class="brand-container">
+            <!-- COVER IMAGE AND BRAND IMAGE -->
+            <partial name="Partials/_Cover" />
             <!-- SOCIAL MEDIA & PROMO TEXT -->
             <partial name="Partials/_Social" />
+        </div>
+
+
+        <div class="content-container">
+
+
             @if (menuSections?.Any() ?? false)
             {
                 var counter = 0;
@@ -195,6 +199,7 @@
                                             <div class="product"
                                                  data-category="category_@counter"
                                                  data-product-index="@productIndex"
+                                                 data-category-name="@catName"
                                                  data-name="@productName"
                                                  data-desc="@productDesc"
                                                  data-original-price="@originalPrice"
@@ -814,7 +819,42 @@
                 }
             </div>
 
-        </section>
+            @{
+
+                var trendingProducts = Model?.Value<IEnumerable<BlockListItem>>("trendingProducts")?.Where(x => x.Content.Value<bool>("hide") == false && x.Content.Value<bool>("outOfStock") == false);
+            }
+            <div class="search-results">
+                @if(trendingProducts?.Any()?? false)
+                {
+                   <div class="trending-products-container">
+
+                       <h3 class="trending-products-title">
+                           Δημοφιλέστερα
+                       </h3>
+
+                       <div class="products">
+                            @foreach (var item in trendingProducts)
+                            {
+                                var productName = item.Content.Value<string>("itemName") ?? "";
+                                var productDesc = item.Content.Value<string>("itemDescription") ?? "";
+                                var productPhotos = item.Content.Value<IEnumerable<IPublishedContent>>("itemPhotos");
+
+                                if(!string.IsNullOrEmpty(productName))
+                                {
+                                    <h4 class="trending-product-name">
+                                        @productName
+                                    </h4>
+                                }
+                            }
+                       </div>
+
+                   </div>
+                    
+                }
+  
+            </div>
+
+        </div>
 
         <section class="tonny">
             <a href="/" target="_blank" class="tony-homepage"><h1>tonny.gr - Digital Menu Solutions</h1></a>
@@ -1206,3 +1246,5 @@
 
 
 </div>
+
+<div class="search-page-container"></div>
