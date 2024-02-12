@@ -616,6 +616,7 @@ $(document).ready(() => {
     }
 
 
+    let lastPosBeforeSearch = window.scrollY;
     $("#search-trigger").on("click", function () {
 
         if ($(this).hasClass("expanded")) {
@@ -624,6 +625,7 @@ $(document).ready(() => {
             $(".brand-container").show();
 
             $(".out-of-stock-items").show();
+            $(".category").show();
             $(".product").show();
 
             $(".search-placeholder").removeClass("expand");
@@ -633,10 +635,18 @@ $(document).ready(() => {
             $("#close-search-icon").removeClass("show");
             $("#open-search-icon").removeClass("hide");
 
+            $("#searchInput").val("");
+
+            window.scrollTo({
+                top: lastPosBeforeSearch,
+                left: 0,
+                behavior: 'instant',
+            });
+
 
         }//if going to expand
         else {
-
+            lastPosBeforeSearch = window.scrollY;
 
             $(".brand-container").hide();
 
@@ -649,14 +659,20 @@ $(document).ready(() => {
             $("#close-search-icon").addClass("show");
             //$(".search-results").addClass("show");
 
-            $("").trigger("focus");
+            $("#searchInput").trigger("focus");
 
             $(".out-of-stock-items").hide();
 
 
-            $([document.documentElement, document.body]).animate({
-                scrollTop: 0
-            }, 100);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant',
+            });
+
+            //$([document.documentElement, document.body]).animate({
+            //    scrollTop: 0
+            //}, 100);
 
         }
 
@@ -669,96 +685,115 @@ $(document).ready(() => {
 
     $("#searchInput").on("keyup", delay(function (e) {
 
+        $(".category").show();
+
         var searchTerm = this.value;
 
         if (searchTerm.trim() != "" && searchTerm != undefined)
 
         //uppercase gia tonous
-            searchTerm = searchTerm.toUpperCase();
+        searchTerm = searchTerm.toUpperCase();
 
-            var singleTerm = searchTerm.trim();
-            $(allCategories).each(function (index) {
+        var singleTerm = searchTerm.trim();
+        $(allCategories).each(function (index) {
 
-                var categoriesProducts = $(this).find(".product");
+            var categoriesProducts = $(this).find(".product");
 
-                $(categoriesProducts).each(function (index) {
+            $(categoriesProducts).each(function (index) {
 
-                    var dataName = $(this).attr("data-name");
-                    var dataCat = $(this).attr("data-category-name");
-                    var dataDesc = $(this).attr("data-desc");
+                var dataName = $(this).attr("data-name");
+                var dataCat = $(this).attr("data-category-name");
+                var dataDesc = $(this).attr("data-desc");
 
-                    if (
-                        (dataCat.toUpperCase().indexOf(singleTerm) > -1)
-                        ||
-                        (dataCat.toUpperCase().indexOf(singleTerm + "s") > -1)
-                        ||
-                        (dataCat.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
-                        ||
-                        (dataName.toUpperCase().indexOf(singleTerm) > -1)
-                        ||
-                        (dataName.toUpperCase().indexOf(singleTerm + "s") > -1)
-                        ||
-                        (dataName.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
-                        ||
-                        (dataDesc.toUpperCase().indexOf(singleTerm) > -1)
+                if (
+                    (dataCat.toUpperCase().indexOf(singleTerm) > -1)
+                    ||
+                    (dataCat.toUpperCase().indexOf(singleTerm + "s") > -1)
+                    ||
+                    (dataCat.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                    ||
+                    (dataName.toUpperCase().indexOf(singleTerm) > -1)
+                    ||
+                    (dataName.toUpperCase().indexOf(singleTerm + "s") > -1)
+                    ||
+                    (dataName.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                    ||
+                    (dataDesc.toUpperCase().indexOf(singleTerm) > -1)
 
 
-                    ) {
+                ) {
 
-                        $(categoriesProducts[index]).show();
+                    $(categoriesProducts[index]).show();
+
+                }
+                else {
+
+                    let searchTermSplit = searchTerm.split(' ');
+                    //filter input space
+                    searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                    if (searchTermSplit.length > 1) {
+
+                        $(searchTermSplit).each(function (index) {
+
+
+                            if (
+                                (dataCat.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                ||
+                                (dataCat.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                ||
+                                (dataCat.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                ||
+                                (dataName.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                ||
+                                (dataName.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                ||
+                                (dataName.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                ||
+                                (dataDesc.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                 
+
+                            ) {
+                                $(categoriesProducts[index]).show();
+
+                            }
+                            else {
+                                $(categoriesProducts[index]).hide();
+
+                            }
+                        })
 
                     }
                     else {
 
-                        let searchTermSplit = searchTerm.split(' ');
-                        //filter input space
-                        searchTermSplit = searchTermSplit.filter((item) => item != '');
-
-                        if (searchTermSplit.length > 1) {
-
-                            $(searchTermSplit).each(function (index) {
-
-
-                                if (
-                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataName.toUpperCase().indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataName.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataName.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataDesc.toUpperCase().indexOf(searchTermSplit[index]) > -1)
-                                 
-
-                                ) {
-                                    $(categoriesProducts[index]).show();
-
-                                }
-                                else {
-                                    $(categoriesProducts[index]).hide();
-
-                                }
-                            })
-
-                        }
-                        else {
-
-                            $(categoriesProducts[index]).hide();
-
-                        }
+                        $(categoriesProducts[index]).hide();
 
                     }
 
-
-                });
+                }
 
 
             });
+
+            if ($(this).find(".product:visible").length == 0) {
+
+                $(this).hide();
+            }
+            else {
+                $(this).show();
+            }
+            
+
+        });
+
+        if ($(".category:visible").length == 0) {
+            $("#no-results").show();
+        }
+        else {
+            $("#no-results").hide();
+
+        }
+
 
 
     }, 500));
@@ -949,34 +984,34 @@ $(document).ready(() => {
 //#endregion
 
 
-var lastPosBeforeSearchPage = window.scrollY;
+//var lastPosBeforeSearchPage = window.scrollY;
 
 
-function openSearch() {
+//function openSearch() {
 
-    lastPosBeforeSearch = window.scrollY;
+//    lastPosBeforeSearch = window.scrollY;
 
-    $(".search-page-container ").addClass("display");
-    $(".page-content").addClass("stop-scroll");
-    $("#closeFullScreen").addClass("display");
-    $(".menu-navigation-bg-abs").addClass("display");
+//    $(".search-page-container ").addClass("display");
+//    $(".page-content").addClass("stop-scroll");
+//    $("#closeFullScreen").addClass("display");
+//    $(".menu-navigation-bg-abs").addClass("display");
 
-}
+//}
 
-function closeSearch() {
+//function closeSearch() {
 
-    $(".page-content").removeClass("stop-scroll");
+//    $(".page-content").removeClass("stop-scroll");
 
-    window.scrollTo({
-        top: lastPosBeforeSearch,
-        left: 0,
-        behavior: 'instant',
-    });
+//    window.scrollTo({
+//        top: lastPosBeforeSearch,
+//        left: 0,
+//        behavior: 'instant',
+//    });
 
-    $(".search-page-container ").removeClass("display");
-    $("#closeFullScreen").removeClass("display");
-    $(".menu-navigation-bg-abs").removeClass("display");
+//    $(".search-page-container ").removeClass("display");
+//    $("#closeFullScreen").removeClass("display");
+//    $(".menu-navigation-bg-abs").removeClass("display");
 
-}
+//}
 
 

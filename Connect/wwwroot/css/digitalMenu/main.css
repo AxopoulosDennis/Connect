@@ -375,9 +375,16 @@ p, h3 {
 }
 .content-container .menu-container {
   padding: 1.4em 0.2em;
+  min-height: 80vh;
 }
 .content-container .menu-container.hide {
   display: none;
+}
+.content-container .menu-container #no-results {
+  padding: 1em;
+  font-weight: 500;
+  font-size: 0.975rem;
+  opacity: 70%;
 }
 .content-container .menu-container .heading-icon-container {
   display: flex;
