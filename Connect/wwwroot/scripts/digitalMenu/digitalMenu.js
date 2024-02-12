@@ -22,6 +22,11 @@ function isElementInViewport(el) {
 
 $(document).ready(() => {
 
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == false) {
+
+        alert("desktop");
+    }
+
     //#region SWIPER INIT
 
     //MENU NAVIGATION SWIPER
@@ -441,6 +446,7 @@ $(document).ready(() => {
 
         $("#main-gallery-swiper").prepend(mainProducts);
         $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+        var currentIndex = $(this).attr("data-product-index");
 
         slider = new Swiper('.gallery-slider', {
             slidesPerView: 1,
@@ -451,6 +457,7 @@ $(document).ready(() => {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+
         });
 
         thumbs = new Swiper('.gallery-thumbs', {
@@ -459,20 +466,23 @@ $(document).ready(() => {
             centeredSlides: true,
             loop: false,
             slideToClickedSlide: true,
+
         });
 
-        //slider.params.control = thumbs;
-        //thumbs.params.control = slider;
 
-        slider.controller.control = thumbs;
-        thumbs.controller.control = slider;
+  
 
-        //#endregion
-                //var currentIndex = $(this).attr("data-product-index");
+        //slider.controller.control = thumbs;
+        //thumbs.controller.control = slider;
 
 
+        slider.slideTo(currentIndex);
+        thumbs.slideTo(currentIndex);
 
-                $(".item-info").addClass("display");
+        slider.params.control = thumbs;
+        thumbs.params.control = slider;
+
+        $(".item-info").addClass("display");
 
     });
 
