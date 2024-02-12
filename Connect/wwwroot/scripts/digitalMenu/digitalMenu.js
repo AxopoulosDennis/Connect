@@ -22,10 +22,10 @@ function isElementInViewport(el) {
 
 $(document).ready(() => {
 
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == false) {
+    //if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == false) {
 
-        alert("desktop");
-    }
+    //    alert("desktop");
+    //}
 
     //#region SWIPER INIT
 
@@ -409,6 +409,8 @@ $(document).ready(() => {
                     var originalPrice = $(categoryItems[index]).attr("data-original-price");
                     var finalPrice = $(categoryItems[index]).attr("data-final-price");
                     var image = $(categoryItems[index]).attr("data-photo");
+                    var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+
 
 
                     mainProducts +=
@@ -416,20 +418,48 @@ $(document).ready(() => {
                         '                    <div class="text-photo-container">' +
                         '                        <div class="product-info">' +
                         '                            <div class="product-text">' +
-                        '                                <h3 class="product-name">'+name+'</h3>' +
-                        '                                <p class="product-desc">'+desc+'</p>' +
+                        '                                <h3 class="product-name">' + name + '</h3>' +
+                        '                                <p class="product-desc">' + desc + '</p>' +
                         '                            </div>' +
-                        '                            <div class="product-price">' +
-                        '                                <p class="final-price has-discount">' +
-                        '                                    <span class="original-price"></span>' +
-                        '                                </p>' +
-                        '                            </div>' +
-                        '                        </div>' +
-                        '                        <div class="product-photo-container">' +
-                        //'                           <img src="'+image+'" class="product-photo>'  +
-                        '                        </div>' +
-                        '                    </div>' +
-                        '                </div>';
+                        '                            <div class="product-price">'; 
+
+                    if (hasDiscount === "True") {
+                        mainProducts +=
+                            '                                <p class="final-price has-discount">' + finalPrice +
+                            '                                    <span class="original-price">' + originalPrice + '</span>' +
+                            '                                </p>';
+                    }
+                    else {
+                        mainProducts +=
+                            '                                <p class="final-price">' +
+                        '                                       <span class="original-price">' + originalPrice  +'</span>' +
+                            '                                </p>';
+                    }
+
+                    if (image != "" && image != undefined)
+                    {
+                        mainProducts +=
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                        <div class="product-photo-container">' +
+                            '                           <img src="' + image + '" class="product-photo">' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                </div>';
+                    }
+                    else
+                    {
+                        mainProducts +=
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                        <div class="product-photo-container">' +
+                            '                           <div src="" class="product-photo"></div>' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                </div>';
+                    }
+                    
+
 
                     thumbsProducts +=
                         '                <div class="swiper-slide">' +
@@ -450,30 +480,31 @@ $(document).ready(() => {
 
         slider = new Swiper('.gallery-slider', {
             slidesPerView: 1,
-            centeredSlides: true,
+            centeredSlides: false,
             loop: false,
-            //loopedSlides: 6, 
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
+            //loopedSlides: 6,
+            //navigation: {
+            //    nextEl: '.swiper-button-next',
+            //    prevEl: '.swiper-button-prev',
+            //},
+            //pagination: {
+            //    el: ".item-swiper-pagination",
+            //    dynamicBullets: true,
 
+            //}
         });
 
         thumbs = new Swiper('.gallery-thumbs', {
             slidesPerView: 'auto',
-            spaceBetween: 10,
+            spaceBetween: 20,
             centeredSlides: true,
-            loop: false,
             slideToClickedSlide: true,
 
         });
 
 
         slider.on('slideChange', function () {
-
             thumbs.slideTo(slider.activeIndex)
-
         });
   
         thumbs.on('slideChange', function () {
