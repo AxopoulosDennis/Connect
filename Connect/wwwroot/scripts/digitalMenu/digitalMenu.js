@@ -470,17 +470,28 @@ $(document).ready(() => {
         });
 
 
+        slider.on('slideChange', function () {
+
+            thumbs.slideTo(slider.activeIndex)
+
+        });
   
+        thumbs.on('slideChange', function () {
+            slider.slideTo(thumbs.activeIndex)
+        });
+
+
 
         //slider.controller.control = thumbs;
         //thumbs.controller.control = slider;
+        //slider.params.control = thumbs;
+        //thumbs.params.control = slider;
 
 
         slider.slideTo(currentIndex);
         thumbs.slideTo(currentIndex);
 
-        slider.params.control = thumbs;
-        thumbs.params.control = slider;
+
 
         $(".item-info").addClass("display");
 
