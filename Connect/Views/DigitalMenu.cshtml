@@ -479,11 +479,18 @@
 
                                                                     </div>
                                                                 </div>
+
+
                                                             }
 
 
                                                         </div>
-                                                        <div class="swiper-scrollbar"></div>
+@*                                                         <div class="swiper-scrollbar"></div>
+                                                        <div class="swiper-button-prev"></div>
+                                                        <div class="swiper-button-next"></div> *@
+
+@*                                                         <div class="swiper-pagination"></div>
+ *@
                                                     </div>
                                                 </div>
 
@@ -819,13 +826,15 @@
                 }
             </div>
 
-            @{
+@*             @{
 
                 var trendingProducts = Model?.Value<IEnumerable<BlockListItem>>("trendingProducts")?.Where(x => x.Content.Value<bool>("hide") == false && x.Content.Value<bool>("outOfStock") == false);
             }
             <div class="search-results">
                 @if(trendingProducts?.Any()?? false)
                 {
+                    var parentCat = trendingProducts.FirstOrDefault().
+
                    <div class="trending-products-container">
 
                        <h3 class="trending-products-title">
@@ -838,6 +847,7 @@
                                 var productName = item.Content.Value<string>("itemName") ?? "";
                                 var productDesc = item.Content.Value<string>("itemDescription") ?? "";
                                 var productPhotos = item.Content.Value<IEnumerable<IPublishedContent>>("itemPhotos");
+
 
                                 if(!string.IsNullOrEmpty(productName))
                                 {
@@ -853,7 +863,7 @@
                 }
   
             </div>
-
+ *@
         </div>
 
         <section class="tonny">
@@ -901,7 +911,9 @@
 
     <div class="top-bar">
         <span class="close-container" id="close-item">
-            <i class="fa fa-close fa-lg"></i>
+
+            <svg class="svg-inline--fa fa-chevron-left close-icon" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path></svg><!-- <i class="fa fa-chevron-left close-icon"></i> Font Awesome fontawesome.com -->
+
         </span>
         <div class="section-title" id="sectionTitle"></div>
 
@@ -1230,7 +1242,7 @@
         </div>
     }
 
-    @if(!string.IsNullOrEmpty(about))
+@*     @if(!string.IsNullOrEmpty(about))
     {
         <div class="info-item-container">
             <h3 class="s-title">
@@ -1242,7 +1254,7 @@
             </div>
         </div>
 
-    }
+    } *@
 
 
 </div>

@@ -504,19 +504,27 @@ $(document).ready(() => {
     function buildSwiperOutOfStock(ele, index) {
 
         return new Swiper(".out-swiper-" + index, {
-            scrollbar: {
-                el: ".out-swiper-scrollbar-" + index,
-                hide: true,
-            },
-
+            //scrollbar: {
+            //    el: ".out-swiper-scrollbar-" + index,
+            //    hide: true,
+            //},
+            //navigation: {
+            //    nextEl: ".swiper-button-next",
+            //    prevEl: ".swiper-button-prev",
+            //},
+            //pagination: {
+            //    el: "swiper-pagination-" + index,
+            //    dynamicBullets: true,
+            //},
 
         });
     }
 
     $(outOfStock).each(function (index) {
         $(this).addClass('out-swiper-' + index);
-        var scrollbar = $(this).find(".swiper-scrollbar");
-        $(scrollbar).addClass("out-swiper-scrollbar-" + index)
+
+        //var pagination = $(this).find(".swiper-pagination");
+        //$(pagination).addClass("swiper-pagination-" + index)
 
         var anotherOne = buildSwiperOutOfStock($(this), index);
         outOfStockSwipers.push(anotherOne);
@@ -599,19 +607,38 @@ $(document).ready(() => {
 
     //#region Search
 
+    function delay(fn, ms) {
+        let timer = 0
+        return function (...args) {
+            clearTimeout(timer)
+            timer = setTimeout(fn.bind(this, ...args), ms || 0)
+        }
+    }
+
+
     $("#search-trigger").on("click", function () {
 
         if ($(this).hasClass("expanded")) {
+
+            //$(".search-results").removeClass("show");
+            $(".brand-container").show();
+
+            $(".out-of-stock-items").show();
+            $(".product").show();
+
             $(".search-placeholder").removeClass("expand");
             $(".menu-navigation-container").removeClass("hide");
             $(this).removeClass("expanded");
 
             $("#close-search-icon").removeClass("show");
             $("#open-search-icon").removeClass("hide");
-            $(".search-results").addClass("show");
-        }
+
+
+        }//if going to expand
         else {
-            $(".search-results").removeClass("show");
+
+
+            $(".brand-container").hide();
 
             $(".menu-navigation-container").addClass("hide");
             $(".search-placeholder").addClass("expand");
@@ -620,12 +647,121 @@ $(document).ready(() => {
 
             $("#open-search-icon").addClass("hide");
             $("#close-search-icon").addClass("show");
+            //$(".search-results").addClass("show");
+
+            $("").trigger("focus");
+
+            $(".out-of-stock-items").hide();
+
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: 0
+            }, 100);
 
         }
 
-
-
+ 
     });
+
+
+    var allCategories = $(".category");
+
+
+    $("#searchInput").on("keyup", delay(function (e) {
+
+        var searchTerm = this.value;
+
+        if (searchTerm.trim() != "" && searchTerm != undefined)
+
+        //uppercase gia tonous
+            searchTerm = searchTerm.toUpperCase();
+
+            var singleTerm = searchTerm.trim();
+            $(allCategories).each(function (index) {
+
+                var categoriesProducts = $(this).find(".product");
+
+                $(categoriesProducts).each(function (index) {
+
+                    var dataName = $(this).attr("data-name");
+                    var dataCat = $(this).attr("data-category-name");
+                    var dataDesc = $(this).attr("data-desc");
+
+                    if (
+                        (dataCat.toUpperCase().indexOf(singleTerm) > -1)
+                        ||
+                        (dataCat.toUpperCase().indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataCat.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataName.toUpperCase().indexOf(singleTerm) > -1)
+                        ||
+                        (dataName.toUpperCase().indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataName.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataDesc.toUpperCase().indexOf(singleTerm) > -1)
+
+
+                    ) {
+
+                        $(categoriesProducts[index]).show();
+
+                    }
+                    else {
+
+                        let searchTermSplit = searchTerm.split(' ');
+                        //filter input space
+                        searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        if (searchTermSplit.length > 1) {
+
+                            $(searchTermSplit).each(function (index) {
+
+
+                                if (
+                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataCat.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataName.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataName.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataName.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataDesc.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                 
+
+                                ) {
+                                    $(categoriesProducts[index]).show();
+
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+                                }
+                            })
+
+                        }
+                        else {
+
+                            $(categoriesProducts[index]).hide();
+
+                        }
+
+                    }
+
+
+                });
+
+
+            });
+
+
+    }, 500));
 
     //#endregion
 });
@@ -813,49 +949,8 @@ $(document).ready(() => {
 //#endregion
 
 
-const searchInput = document.getElementById('search-trigger');
 var lastPosBeforeSearchPage = window.scrollY;
 
-$(searchInput).on("click", () => {
-
-    if ($(".brand-container").hasClass("hide")) {
-
-        $(".menu-container").removeClass("hide");
-        $(".brand-container").removeClass("hide");
-
-        window.scrollTo({
-            top: lastPosBeforeSearchPage,
-            left: 0,
-            behavior: 'instant',
-        });
-    }
-    else {
-        lastPosBeforeSearchPage = window.scrollY;
-
-        $(".brand-container").addClass("hide");
-        $(".menu-container").addClass("hide");
-        $(".content-container").addClass("min95vh");
-        
-
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $("#menuNav").offset().top
-        }, 100);
-
-
-        //var delayInMilliseconds = 800; //1 second
-
-        //setTimeout(function () {
-
-
-        //}, delayInMilliseconds);
-    }
-
-
-
-
-    //openSearch();
-
-});
 
 function openSearch() {
 
