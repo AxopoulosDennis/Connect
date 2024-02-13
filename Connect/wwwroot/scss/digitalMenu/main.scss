@@ -177,7 +177,7 @@ body {
                     border: 1px solid whitesmoke;
                     border-radius: 20px 20px;
                     width: 100%;
-                    min-height: 35vh;
+                    min-height: 32vh;
                     max-height: 35vh;
                     object-fit: cover;
                     -webkit-box-shadow: 0px 8px 10px -7px rgba(0,0,0,0.76);
@@ -597,7 +597,7 @@ body {
                             grid-row: 2;
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 3;
+                            -webkit-line-clamp: 2;
                             overflow: hidden;
                         }
                     }
@@ -1053,7 +1053,10 @@ body {
         width: 100%;
         margin: 10px auto;
         margin-bottom: 0;
-        
+        min-height: 51vh !important;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
 
         &-slider {
             width: 100%;
@@ -1461,7 +1464,6 @@ body {
     .events-swiper {
         width: 100%;
         overflow: hidden;
-        border-radius: 20px;
         margin-top: .2em;
         position: relative;
     }
@@ -1680,3 +1682,10 @@ body {
         height: 100%;
         z-index: 20;
     }
+
+
+
+.swiper-pagination-progressbar-fill {
+    background-color: seagreen !important;
+    opacity: 70%;
+}

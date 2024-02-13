@@ -411,17 +411,24 @@ $(document).ready(() => {
                     var image = $(categoryItems[index]).attr("data-photo");
                     var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
 
+                    var className = "";
+                    if (desc == undefined || desc == "") {
+                        className = "no-desc";
+                    }
 
 
                     mainProducts +=
                         '                <div class="swiper-slide">' +
                         '                    <div class="text-photo-container">' +
-                        '                        <div class="product-info">' +
+                    '                        <div class="product-info ' + className +'">' +
                         '                            <div class="product-text">' +
                         '                                <h3 class="product-name">' + name + '</h3>' +
                         '                                <p class="product-desc">' + desc + '</p>' +
                         '                            </div>' +
                         '                            <div class="product-price">'; 
+
+
+
 
                     if (hasDiscount === "True") {
                         mainProducts +=
@@ -625,9 +632,10 @@ $(document).ready(() => {
                     modifier: 1,
                     slideShadows: true,
                 },
-                pagination: {
-                    el: ".swiper-pagination",
-                },
+            pagination: {
+                el: ".swiper-pagination",
+                type: "progressbar",
+            },
                 autoplay: {
                     delay: 3000,
                  },
