@@ -364,7 +364,6 @@ $(document).ready(() => {
 
 
 
-
     //#region Single Product Info
 
     var products = $(".product");
@@ -393,8 +392,186 @@ $(document).ready(() => {
 
         lastPosBeforeItemOpen = window.scrollY;
 
-                var categoryIndex = $(this).attr("data-category");
-                var category = $("#" + categoryIndex);
+            var categoryIndex = parseInt($(this).attr("data-real-cat-index"));
+            var category = $("#category_" + categoryIndex);
+            var catName = $(category).attr("data-section-name");
+            var categoryItems = $(category).find(".product");
+
+            $("#sectionTitle").text(catName);
+
+            let mainProducts = "";
+            let thumbsProducts = "";
+
+            $(categoryItems).each(function (index) {
+                var name = $(categoryItems[index]).attr("data-name");
+                var desc = $(categoryItems[index]).attr("data-desc");
+                var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                var image = $(categoryItems[index]).attr("data-photo");
+                var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+
+                var className = "";
+                if (desc == undefined || desc == "") {
+                    className = "no-desc";
+                }
+
+
+                mainProducts +=
+                    '                <div class="swiper-slide">' +
+                    '                    <div class="text-photo-container">' +
+                '                        <div class="product-info ' + className +'">' +
+                    '                            <div class="product-text">' +
+                    '                                <h3 class="product-name">' + name + '</h3>' +
+                    '                                <p class="product-desc">' + desc + '</p>' +
+                    '                            </div>' +
+                    '                            <div class="product-price">'; 
+
+
+
+
+                if (hasDiscount === "True") {
+                    mainProducts +=
+                        '                                <p class="final-price has-discount">' + finalPrice +
+                        '                                    <span class="original-price">' + originalPrice + '</span>' +
+                        '                                </p>';
+                }
+                else {
+                    mainProducts +=
+                        '                                <p class="final-price">' +
+                    '                                       <span class="original-price">' + originalPrice  +'</span>' +
+                        '                                </p>';
+                }
+
+                if (image != "" && image != undefined)
+                {
+                    mainProducts +=
+                        '                            </div>' +
+                        '                        </div>' +
+                        '                        <div class="product-photo-container">' +
+                        '                           <img src="' + image + '" class="product-photo">' +
+                        '                        </div>' +
+                        '                    </div>' +
+                        '                </div>';
+                }
+                else
+                {
+                    mainProducts +=
+                        '                            </div>' +
+                        '                        </div>' +
+                        '                        <div class="product-photo-container">' +
+                        '                           <div src="" class="product-photo"></div>' +
+                        '                        </div>' +
+                        '                    </div>' +
+                        '                </div>';
+                }
+                    
+
+
+                thumbsProducts +=
+                    '                <div class="swiper-slide">' +
+                    '                    <div class="text-photo-container">' +
+                    '                        <div class="product-info">' +
+                    '                            <div class="product-text">' +
+                    '                                <h3 class="product-name">' + name + '</h3>' +
+                    '                            </div>' +
+                    '                        </div>' +
+                    '                    </div>' +
+                    '                </div>';
+
+            });
+
+        $("#main-gallery-swiper").prepend(mainProducts);
+        $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+        var currentIndex = $(this).attr("data-product-index");
+
+        slider = new Swiper('.gallery-slider', {
+            slidesPerView: 1,
+            centeredSlides: false,
+
+        });
+
+        thumbs = new Swiper('.gallery-thumbs', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            centeredSlides: true,
+            slideToClickedSlide: true,
+
+        });
+
+
+        slider.on('slideChange', function () {
+            thumbs.slideTo(slider.activeIndex)
+        });
+  
+        thumbs.on('slideChange', function () {
+            slider.slideTo(thumbs.activeIndex)
+        });
+        slider.on('sliderFirstMove', function (s,e) {
+
+            if (slider.isEnd) {
+                var swiped = e.movementX;
+                if (swiped < 0) {
+                    nextCatSwiper(categoryIndex, true);
+                }
+            }
+            else if (slider.activeIndex == 0) {
+                var swiped = e.movementX;
+                if (swiped > 0) {
+                    nextCatSwiper(categoryIndex, false);
+                }
+            }
+        });
+
+
+        //slider.controller.control = thumbs;
+        //thumbs.controller.control = slider;
+        //slider.params.control = thumbs;
+        //thumbs.params.control = slider;
+
+
+        slider.slideTo(currentIndex);
+        thumbs.slideTo(currentIndex);
+
+
+
+        $(".item-info").addClass("display");
+
+    });
+
+    function nextCatSwiper(lastCategoryIndex, next) {
+
+        var categoryIndex = lastCategoryIndex;
+
+
+        if (next == true) {
+
+            categoryIndex = categoryIndex + 1;
+        }
+        else {
+            categoryIndex = categoryIndex -1;
+
+        }
+
+        var category = $("#category_" + categoryIndex);
+        var catExists = document.getElementById("category_" + categoryIndex);
+
+        if (catExists != null && catExists != undefined) {
+            if (category != undefined) {
+
+                $("#main-gallery-swiper").empty();
+                $("#thumbs-gallery-swiper").empty();
+
+                if (slider != undefined) {
+                    slider.destroy(true);
+
+                }
+                if (thumbs != undefined) {
+                    thumbs.destroy(true);
+
+                }
+
+
+
                 var catName = $(category).attr("data-section-name");
                 var categoryItems = $(category).find(".product");
 
@@ -420,12 +597,12 @@ $(document).ready(() => {
                     mainProducts +=
                         '                <div class="swiper-slide">' +
                         '                    <div class="text-photo-container">' +
-                    '                        <div class="product-info ' + className +'">' +
+                        '                        <div class="product-info ' + className + '">' +
                         '                            <div class="product-text">' +
                         '                                <h3 class="product-name">' + name + '</h3>' +
                         '                                <p class="product-desc">' + desc + '</p>' +
                         '                            </div>' +
-                        '                            <div class="product-price">'; 
+                        '                            <div class="product-price">';
 
 
 
@@ -439,12 +616,11 @@ $(document).ready(() => {
                     else {
                         mainProducts +=
                             '                                <p class="final-price">' +
-                        '                                       <span class="original-price">' + originalPrice  +'</span>' +
+                            '                                       <span class="original-price">' + originalPrice + '</span>' +
                             '                                </p>';
                     }
 
-                    if (image != "" && image != undefined)
-                    {
+                    if (image != "" && image != undefined) {
                         mainProducts +=
                             '                            </div>' +
                             '                        </div>' +
@@ -454,8 +630,7 @@ $(document).ready(() => {
                             '                    </div>' +
                             '                </div>';
                     }
-                    else
-                    {
+                    else {
                         mainProducts +=
                             '                            </div>' +
                             '                        </div>' +
@@ -465,7 +640,7 @@ $(document).ready(() => {
                             '                    </div>' +
                             '                </div>';
                     }
-                    
+
 
 
                     thumbsProducts +=
@@ -481,59 +656,66 @@ $(document).ready(() => {
 
                 });
 
-        $("#main-gallery-swiper").prepend(mainProducts);
-        $("#thumbs-gallery-swiper").prepend(thumbsProducts);
-        var currentIndex = $(this).attr("data-product-index");
+                $("#main-gallery-swiper").prepend(mainProducts);
+                $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+                var currentIndex = $(this).attr("data-product-index");
 
-        slider = new Swiper('.gallery-slider', {
-            slidesPerView: 1,
-            centeredSlides: false,
-            loop: false,
-            //loopedSlides: 6,
-            //navigation: {
-            //    nextEl: '.swiper-button-next',
-            //    prevEl: '.swiper-button-prev',
-            //},
-            //pagination: {
-            //    el: ".item-swiper-pagination",
-            //    dynamicBullets: true,
+                slider = new Swiper('.gallery-slider', {
+                    slidesPerView: 1,
+                    centeredSlides: false,
 
-            //}
-        });
+                });
 
-        thumbs = new Swiper('.gallery-thumbs', {
-            slidesPerView: 'auto',
-            spaceBetween: 20,
-            centeredSlides: true,
-            slideToClickedSlide: true,
+                thumbs = new Swiper('.gallery-thumbs', {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20,
+                    centeredSlides: true,
+                    slideToClickedSlide: true,
 
-        });
+                });
 
 
-        slider.on('slideChange', function () {
-            thumbs.slideTo(slider.activeIndex)
-        });
-  
-        thumbs.on('slideChange', function () {
-            slider.slideTo(thumbs.activeIndex)
-        });
+                slider.on('slideChange', function () {
+                    thumbs.slideTo(slider.activeIndex)
+                });
+
+                thumbs.on('slideChange', function () {
+                    slider.slideTo(thumbs.activeIndex)
+                });
+                slider.on('sliderFirstMove', function (s, e) {
+
+                    if (slider.isEnd) {
+                        var swiped = e.movementX;
+                        if (swiped < 0) {
+                            nextCatSwiper(categoryIndex, true);
+                        }
+                    }
+                    else if (slider.activeIndex == 0) {
+                        var swiped = e.movementX;
+                        if (swiped > 0) {
+                            nextCatSwiper(categoryIndex, false);
+                        }
+                    }
+
+                });
+
+
+                //slider.controller.control = thumbs;
+                //thumbs.controller.control = slider;
+                //slider.params.control = thumbs;
+                //thumbs.params.control = slider;
+
+
+                slider.slideTo(currentIndex);
+                thumbs.slideTo(currentIndex);
 
 
 
-        //slider.controller.control = thumbs;
-        //thumbs.controller.control = slider;
-        //slider.params.control = thumbs;
-        //thumbs.params.control = slider;
+                $(".item-info").addClass("display");
+            }
+        }
+    }
 
-
-        slider.slideTo(currentIndex);
-        thumbs.slideTo(currentIndex);
-
-
-
-        $(".item-info").addClass("display");
-
-    });
 
     var close = $("#close-item");
     $(close).on("click", function () {
@@ -551,7 +733,6 @@ $(document).ready(() => {
         $("body").removeClass("no-scroll");
         $(".main-content-page").removeClass("blur");
     });
-
 
 
     var outOfStockSwipers = new Array();

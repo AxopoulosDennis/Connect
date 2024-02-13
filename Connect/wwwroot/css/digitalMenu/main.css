@@ -859,6 +859,7 @@ body.no-scroll {
 .item-info .gallery-slider .swiper-slide {
   width: auto;
   height: auto;
+  touch-action: pan-y;
 }
 .item-info .gallery-slider .swiper-slide img {
   display: block;
@@ -896,8 +897,9 @@ body.no-scroll {
   opacity: 85%;
   padding: 1em;
   max-height: 72vh;
-  overflow-y: scroll;
   overflow-x: hidden;
+  overflow-y: scroll;
+  touch-action: pan-y;
 }
 .item-info .gallery-slider .text-photo-container .product-info {
   max-width: 550px;
