@@ -507,19 +507,45 @@ $(document).ready(() => {
             slider.slideTo(thumbs.activeIndex)
         });
         slider.on('sliderFirstMove', function (s,e) {
+            var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+            var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
-            if (slider.isEnd) {
-                var swiped = e.movementX;
-                if (swiped < 0) {
-                    nextCatSwiper(categoryIndex, true);
+            //if is last swiper
+            if (nextCat != null) {
+                if (slider.isEnd) {
+                    var swiped = e.movementX;
+                    if (swiped < 0) {
+
+
+                        //$(".gallery").addClass("hide");
+                        //$(".loader-container").removeClass("hide");
+
+
+                        //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                        nextCatSwiper(categoryIndex, true);
+                    }
+                }
+                else if (slider.activeIndex == 0) {
+                    if (prevCat != null) {
+                        var swiped = e.movementX;
+                        if (swiped > 0) {
+                            nextCatSwiper(categoryIndex, false);
+
+                        }
+                    }
+
                 }
             }
-            else if (slider.activeIndex == 0) {
+            else {
                 var swiped = e.movementX;
                 if (swiped > 0) {
+
                     nextCatSwiper(categoryIndex, false);
                 }
             }
+
+
         });
 
 
@@ -537,11 +563,19 @@ $(document).ready(() => {
         $(".item-info").addClass("display");
 
     });
-
+    function delay(fn, ms) {
+        let timer = 0
+        return function (...args) {
+            clearTimeout(timer)
+            timer = setTimeout(fn.bind(this, ...args), ms || 0)
+        }
+    }
     function nextCatSwiper(lastCategoryIndex, next) {
 
-        var categoryIndex = lastCategoryIndex;
+        $(".gallery").removeClass("hide");
+        $(".loader-container").addClass("hide");
 
+        var categoryIndex = lastCategoryIndex;
 
         if (next == true) {
 
@@ -557,6 +591,10 @@ $(document).ready(() => {
 
         if (catExists != null && catExists != undefined) {
             if (category != undefined) {
+
+
+
+
 
                 $("#main-gallery-swiper").empty();
                 $("#thumbs-gallery-swiper").empty();
@@ -660,19 +698,51 @@ $(document).ready(() => {
                 $("#thumbs-gallery-swiper").prepend(thumbsProducts);
                 var currentIndex = $(this).attr("data-product-index");
 
-                slider = new Swiper('.gallery-slider', {
-                    slidesPerView: 1,
-                    centeredSlides: false,
+                //Swiper to initial View Or Last Based On Swipe Direction
 
-                });
 
-                thumbs = new Swiper('.gallery-thumbs', {
-                    slidesPerView: 'auto',
-                    spaceBetween: 20,
-                    centeredSlides: true,
-                    slideToClickedSlide: true,
+                var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
 
-                });
+                if (next == false) {
+                    slider = new Swiper('.gallery-slider', {
+                        slidesPerView: 1,
+                        centeredSlides: false,
+                        cssMode: false,
+                        initialSlide: countSwipers
+                    });
+
+                    thumbs = new Swiper('.gallery-thumbs', {
+                        slidesPerView: 'auto',
+                        spaceBetween: 20,
+                        centeredSlides: true,
+                        slideToClickedSlide: true,
+                        cssMode: false,
+                        initialSlide: countSwipers
+
+                    });
+
+                }
+                else {
+                    slider = new Swiper('.gallery-slider', {
+                        slidesPerView: 1,
+                        centeredSlides: false,
+                        cssMode: false,
+                        initialSlide: 0
+                    });
+
+                    thumbs = new Swiper('.gallery-thumbs', {
+                        slidesPerView: 'auto',
+                        spaceBetween: 20,
+                        centeredSlides: true,
+                        slideToClickedSlide: true,
+                        cssMode: false,
+                        initialSlide: 0
+
+                    });
+
+
+                }
+
 
 
                 slider.on('slideChange', function () {
@@ -684,15 +754,40 @@ $(document).ready(() => {
                 });
                 slider.on('sliderFirstMove', function (s, e) {
 
-                    if (slider.isEnd) {
-                        var swiped = e.movementX;
-                        if (swiped < 0) {
-                            nextCatSwiper(categoryIndex, true);
+                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                    //if is last swiper
+                    if (nextCat != null) {
+                        if (slider.isEnd) {
+                            var swiped = e.movementX;
+                            if (swiped < 0) {
+
+
+                                //$(".gallery").addClass("hide");
+                                //$(".loader-container").removeClass("hide");
+
+
+                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                nextCatSwiper(categoryIndex, true);
+                            }
+                        }
+                        else if (slider.activeIndex == 0) {
+                            if (prevCat != null) {
+                                var swiped = e.movementX;
+                                if (swiped > 0) {
+                                    nextCatSwiper(categoryIndex, false);
+
+                                }
+                            }
+
                         }
                     }
-                    else if (slider.activeIndex == 0) {
+                    else {
                         var swiped = e.movementX;
                         if (swiped > 0) {
+
                             nextCatSwiper(categoryIndex, false);
                         }
                     }
@@ -706,14 +801,14 @@ $(document).ready(() => {
                 //thumbs.params.control = slider;
 
 
-                slider.slideTo(currentIndex);
-                thumbs.slideTo(currentIndex);
 
 
 
-                $(".item-info").addClass("display");
             }
         }
+
+
+
     }
 
 
@@ -840,13 +935,7 @@ $(document).ready(() => {
 
     //#region Search
 
-    function delay(fn, ms) {
-        let timer = 0
-        return function (...args) {
-            clearTimeout(timer)
-            timer = setTimeout(fn.bind(this, ...args), ms || 0)
-        }
-    }
+
 
 
     let lastPosBeforeSearch = window.scrollY;
@@ -933,9 +1022,9 @@ $(document).ready(() => {
 
             $(categoriesProducts).each(function (index) {
 
-                var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
-                var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
-                var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+                var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
                 if (
                     (dataCat.indexOf(singleTerm) > -1)
