@@ -743,8 +743,7 @@ $(document).ready(() => {
 
         if (searchTerm.trim() != "" && searchTerm != undefined)
 
-        //uppercase gia tonous
-        searchTerm = searchTerm.toUpperCase();
+        searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
 
         var singleTerm = searchTerm.trim();
         $(allCategories).each(function (index) {
@@ -753,24 +752,24 @@ $(document).ready(() => {
 
             $(categoriesProducts).each(function (index) {
 
-                var dataName = $(this).attr("data-name");
-                var dataCat = $(this).attr("data-category-name");
-                var dataDesc = $(this).attr("data-desc");
+                var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+                var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+                var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '');
 
                 if (
-                    (dataCat.toUpperCase().indexOf(singleTerm) > -1)
+                    (dataCat.indexOf(singleTerm) > -1)
                     ||
-                    (dataCat.toUpperCase().indexOf(singleTerm + "s") > -1)
+                    (dataCat.indexOf(singleTerm + "s") > -1)
                     ||
-                    (dataCat.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                    (dataCat.indexOf(singleTerm.slice(0, -1)) > -1)
                     ||
-                    (dataName.toUpperCase().indexOf(singleTerm) > -1)
+                    (dataName.indexOf(singleTerm) > -1)
                     ||
-                    (dataName.toUpperCase().indexOf(singleTerm + "s") > -1)
+                    (dataName.indexOf(singleTerm + "s") > -1)
                     ||
-                    (dataName.toUpperCase().indexOf(singleTerm.slice(0, -1)) > -1)
+                    (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
                     ||
-                    (dataDesc.toUpperCase().indexOf(singleTerm) > -1)
+                    (dataDesc.indexOf(singleTerm) > -1)
 
 
                 ) {
@@ -790,19 +789,19 @@ $(document).ready(() => {
 
 
                             if (
-                                (dataCat.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                (dataCat.indexOf(searchTermSplit[index]) > -1)
                                 ||
-                                (dataCat.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
                                 ||
-                                (dataCat.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
                                 ||
-                                (dataName.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                (dataName.indexOf(searchTermSplit[index]) > -1)
                                 ||
-                                (dataName.toUpperCase().indexOf(searchTermSplit[index] + "s") > -1)
+                                (dataName.indexOf(searchTermSplit[index] + "s") > -1)
                                 ||
-                                (dataName.toUpperCase().indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
                                 ||
-                                (dataDesc.toUpperCase().indexOf(searchTermSplit[index]) > -1)
+                                (dataDesc.indexOf(searchTermSplit[index]) > -1)
                                  
 
                             ) {

@@ -266,9 +266,43 @@
                                                         </span>
 
 
-                                                    </div>
+                                                        </div>
                                                 }
-                                            </div>
+                                                else if(alias == "generalAlcoholicBeverage")
+                                                {
+                                                        decimal? alc = product.Content.Value<decimal>("alcohol");
+
+                                                        <div class="tags-container" data-filters-type="beer">
+
+                                                            <span class="tag" data-abv="@alc">
+                                                                @alc% ABV
+                                                            </span>
+       @*                                                      <span class="tag" data-ibu="@ibu">
+                                                                @ibu IBU
+                                                            </span> *@
+
+
+                                                        </div>
+                                                    }
+                                                else if (alias == "wineBeverage")
+                                                {
+                                                    decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                    int? ml = product.Content.Value<int>("millilitre");
+
+                                                    <div class="tags-container" data-filters-type="beer">
+
+                                                        <span class="tag" data-abv="@alc">
+                                                            @alc% ABV
+                                                        </span>
+                                                        @*                                                      <span class="tag" data-ibu="@ibu">
+                            @ibu IBU
+                            </span> *@
+
+
+                                                    </div>
+                                                        
+                                                }
+                                                </div>
 
                                         }
                                         else
