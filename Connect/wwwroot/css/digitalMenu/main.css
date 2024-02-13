@@ -776,11 +776,13 @@ body.no-scroll {
 }
 
 .item-info {
+  height: max-content;
   display: none;
   position: sticky;
   bottom: 0;
   width: 100vw;
   min-height: 60vh;
+  max-height: 100vh;
   z-index: 30;
   background-color: white;
   overflow: hidden;
@@ -856,7 +858,7 @@ body.no-scroll {
 }
 .item-info .gallery-slider .swiper-slide {
   width: auto;
-  height: 300px;
+  height: auto;
 }
 .item-info .gallery-slider .swiper-slide img {
   display: block;
@@ -893,6 +895,9 @@ body.no-scroll {
   text-align: left;
   opacity: 85%;
   padding: 1em;
+  max-height: 72vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .item-info .gallery-slider .text-photo-container .product-info {
   max-width: 550px;

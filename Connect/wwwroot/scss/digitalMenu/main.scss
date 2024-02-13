@@ -977,11 +977,13 @@ body {
 //#region item info
 
 .item-info {
+    height: max-content;
     display: none;
     position: sticky;
     bottom: 0;
     width: 100vw;
     min-height: 60vh;
+    max-height: 100vh;
     z-index: 30;
     background-color: white;
     overflow: hidden;
@@ -1065,7 +1067,7 @@ body {
 
             .swiper-slide {
                 width: auto;
-                height: 300px;
+                height: auto;
 
                 img {
                     display: block;
@@ -1111,6 +1113,10 @@ body {
             text-align: left;
             opacity: 85%;
             padding: 1em;
+            max-height: 72vh;
+            overflow-y:scroll;
+            overflow-x:hidden;
+
 
             .product-info {
                 max-width: 550px;
@@ -1203,7 +1209,6 @@ body {
 
     #thumbs-gallery-swiper {
         position: relative;
-
 
         &:before {
             content: "";
