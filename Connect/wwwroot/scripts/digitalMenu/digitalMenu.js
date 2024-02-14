@@ -22,10 +22,40 @@ function isElementInViewport(el) {
 
 $(document).ready(() => {
 
-    //if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == false) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == false) {
 
-    //    alert("desktop");
-    //}
+        var url = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+
+        jQuery.ajax({
+            url: "/umbraco/surface/QRCodeGenerator/GetQRCode",
+            method: "GET",
+
+            data: {
+                url: url
+            },
+
+            success: function (data) {
+
+                var svg = data.result;
+                if (svg != "" && svg != undefined) {
+
+                    $(".qr-container").append(svg);
+                    $(".qr-code").addClass("show");
+                }
+
+            },
+            error: function () {
+
+
+            }
+        });
+
+
+    }
+    else {
+
+        $(".inner-body").show();
+    }
 
     //#region SWIPER INIT
 
@@ -63,6 +93,22 @@ $(document).ready(() => {
     //    },
 
     //});
+
+    var swiper_special = new Swiper(".swiperSpecials", {
+        slidesPerView: "auto",
+        spaceBetween: 2,
+        freeMode: false,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        //scrollbar: {
+        //    el: ".swiper-scrollbar",
+        //},
+
+    });
+
 
     //#endregion
 
@@ -409,16 +455,20 @@ $(document).ready(() => {
                 var finalPrice = $(categoryItems[index]).attr("data-final-price");
                 var image = $(categoryItems[index]).attr("data-photo");
                 var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
-
                 var className = "";
                 if (desc == undefined || desc == "") {
                     className = "no-desc";
                 }
 
+                var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                var dealsClass = "";
+                if (isDeals != undefined && isDeals == "True") {
+                    dealsClass = "deals";
+                }
 
                 mainProducts +=
                     '                <div class="swiper-slide">' +
-                    '                    <div class="text-photo-container">' +
+                '                    <div class="text-photo-container ' + dealsClass +'">' +
                 '                        <div class="product-info ' + className +'">' +
                     '                            <div class="product-text">' +
                     '                                <h3 class="product-name">' + name + '</h3>' +
@@ -631,10 +681,16 @@ $(document).ready(() => {
                         className = "no-desc";
                     }
 
+                    var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                    var dealsClass = "";
+                    if (isDeals != undefined && isDeals == "True") {
+                        dealsClass = "deals";
+                    }
+
 
                     mainProducts +=
                         '                <div class="swiper-slide">' +
-                        '                    <div class="text-photo-container">' +
+                        '                    <div class="text-photo-container ' + dealsClass + '">' +
                         '                        <div class="product-info ' + className + '">' +
                         '                            <div class="product-text">' +
                         '                                <h3 class="product-name">' + name + '</h3>' +
@@ -908,10 +964,10 @@ $(document).ready(() => {
                     modifier: 1,
                     slideShadows: true,
                 },
-            pagination: {
-                el: ".swiper-pagination",
-                type: "progressbar",
-            },
+            //pagination: {
+            //    el: ".swiper-pagination",
+            //    type: "progressbar",
+            //},
                 autoplay: {
                     delay: 3000,
                  },

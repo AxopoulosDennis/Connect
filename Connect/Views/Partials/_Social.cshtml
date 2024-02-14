@@ -8,6 +8,7 @@
     var hideShareButton = Model?.Value<bool>("hideSocialShare") ?? false;
 }
 
+
 <div class="brand-info-container">
     <div class="social-container">
         @if (socialMedia?.Any() ?? false)
@@ -48,7 +49,7 @@
 
             }
         }
-        @if (!hideShareButton)
+@*         @if (!hideShareButton)
         {
             <!-- AddToAny BEGIN -->
             <a class="a2a_dd" href="https://www.addtoany.com/share">
@@ -60,7 +61,7 @@
             </script>
             <script async src="https://static.addtoany.com/menu/page.js"></script>
             <!-- AddToAny END -->
-        }
+        } *@
 
     </div>
     <span class="brand-name">
