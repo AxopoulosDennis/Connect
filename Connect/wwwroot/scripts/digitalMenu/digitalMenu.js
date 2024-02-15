@@ -460,11 +460,11 @@ $(document).ready(() => {
                     className = "no-desc";
                 }
 
-                var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                //var isDeals = $(categoryItems[index]).attr("data-is-deals");
                 var dealsClass = "";
-                if (isDeals != undefined && isDeals == "True") {
-                    dealsClass = "deals";
-                }
+                //if (isDeals != undefined && isDeals == "True") {
+                //    dealsClass = "deals";
+                //}
 
                 mainProducts +=
                     '                <div class="swiper-slide">' +
@@ -681,11 +681,11 @@ $(document).ready(() => {
                         className = "no-desc";
                     }
 
-                    var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                    //var isDeals = $(categoryItems[index]).attr("data-is-deals");
                     var dealsClass = "";
-                    if (isDeals != undefined && isDeals == "True") {
-                        dealsClass = "deals";
-                    }
+                    //if (isDeals != undefined && isDeals == "True") {
+                    //    dealsClass = "deals";
+                    //}
 
 
                     mainProducts +=
@@ -1024,7 +1024,10 @@ $(document).ready(() => {
 
         }//if going to expand
         else {
+
             lastPosBeforeSearch = window.scrollY;
+
+            $(".category.deals").hide();
 
             $(".brand-container").hide();
 
@@ -1058,12 +1061,12 @@ $(document).ready(() => {
     });
 
 
-    var allCategories = $(".category");
+    var allCategories = $(".category:not(.deals)");
 
 
     $("#searchInput").on("keyup", delay(function (e) {
 
-        $(".category").show();
+        $(".category:not(.deals)").show();
 
         var searchTerm = this.value;
 

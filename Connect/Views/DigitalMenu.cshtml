@@ -161,7 +161,7 @@
                         {
                             counter++;
 
-                            <div class="category extra-space" id="category_@counter" data-section-name="@groupName">
+                            <div class="category extra-space deals" id="category_@counter" data-section-name="@groupName">
 
                                 <div class="heading-icon-container">
                                     @if (!string.IsNullOrEmpty(groupIcon))
@@ -175,6 +175,7 @@
                                     <div class="swiper-wrapper">
                                         @foreach (var product in dealItems)
                                         {
+
                                             var dealName = product?.Content?.Value<string>("dealName") ?? "";
                                             var dealPhoto = product?.Content?.Value<IPublishedContent>("dealPhoto")?.MediaUrl() ?? "";
                                             var dealDescription = product?.Content?.Value<string>("dealDescription") ?? "";
@@ -190,6 +191,8 @@
                                                  data-original-price=""
                                                  data-is-deals="True">
                                                 
+                                                 @{productIndex++;}
+
                                                 <div class="photo__caption">
                                                     <div class="badge__container">
                                                         @if(!string.IsNullOrEmpty(dealPhoto))
@@ -383,7 +386,7 @@
                                                             <div class="tags-container" data-filters-type="beer">
 
                                                                 <span class="tag" data-abv="@alc">
-                                                                    @alc% ABV
+                                                                    @alc% ALC
                                                                 </span>
                                                                 <span class="tag" data-ibu="@ibu">
                                                                     @ibu IBU
@@ -399,7 +402,7 @@
                                                             <div class="tags-container" data-filters-type="beer">
 
                                                                 <span class="tag" data-abv="@alc">
-                                                                    @alc% ABV
+                                                                    @alc% ALC
                                                                 </span>
                                                                 @*                                                      <span class="tag" data-ibu="@ibu">
                                     @ibu IBU
@@ -416,7 +419,7 @@
                                                             <div class="tags-container" data-filters-type="beer">
 
                                                                 <span class="tag" data-abv="@alc">
-                                                                    @alc% ABV
+                                                                    @alc% ALC
                                                                 </span>
                                                                 @*                                                      <span class="tag" data-ibu="@ibu">
                                     @ibu IBU
@@ -426,9 +429,37 @@
                                                             </div>
 
                                                         }
-                                                        else if(alias == "cocktail")
+                                                        else if (alias == "cocktailBeverage")
                                                         {
-                                                            
+                                                            var spiciness = product?.Content?.Value("spiciness")?.ToString() ?? "";
+
+                                                            if(spiciness != null && spiciness != "0" && spiciness !="")
+                                                            {
+                                                                <div class="tags-container" data-filters-type="beer">
+
+                                                                    <span class="tag" data-abv="@spiciness">
+                                                                        @if(spiciness == "1")
+                                                                        {
+                                                                            <i class="fa fa-pepper-hot"></i>
+                                                                        }
+                                                                        else if(spiciness == "2")
+                                                                        {
+                                                                            <i class="fa fa-pepper-hot"></i>
+                                                                            <i class="fa fa-pepper-hot"></i>
+
+                                                                        }
+                                                                        else if(spiciness == "3")
+                                                                        {
+                                                                            <i class="fa fa-pepper-hot"></i>
+                                                                            <i class="fa fa-pepper-hot"></i>
+                                                                            <i class="fa fa-pepper-hot"></i>
+
+                                                                        }
+                                                                    </span>
+
+                                                                </div>
+                                                            }
+
                                                         }
                                                     </div>
 
