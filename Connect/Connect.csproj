@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Views\Partials\DigitalMenu\" />
     <Folder Include="wwwroot\css\digitalMenu\" />
-    <Folder Include="wwwroot\scripts\digitalMenu\" />
     <Folder Include="wwwroot\scss\digitalMenu\" />
   </ItemGroup>
 

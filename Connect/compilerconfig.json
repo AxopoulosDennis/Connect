@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/css/digitalMenu/main.css",
     "inputFile": "wwwroot/scss/digitalMenu/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/tonny/main.css",
+    "inputFile": "wwwroot/scss/tonny/main.scss"
   }
 ]

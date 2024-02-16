@@ -1,0 +1,29 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <partial name="Includes/_tonny" />
+
+</head>
+<body>
+
+    @RenderBody()
+
+    <footer>
+
+    </footer>
+
+    <partial name="Scripts/_tonny" />
+    @await RenderSectionAsync("BeforeBodyClose", required: false)
+</body>
+</html>
+

@@ -7,17 +7,7 @@
 @using Umbraco.Cms.Core.Models.Blocks;
 
 @{
-    var type = Model.ContentType.Alias ?? "";
-    switch (type)
-    {
-        case "digitalMenu":
-            Layout = "Layouts/DigitalMenu";
-            break;
-        default:
-            Layout = "";
-            break;
-    }
-
+    Layout = "Layouts/DigitalMenu";
     
 
     var triggerColor = Model?.Value("aboutTriggerColor") ?? "ffffff";
