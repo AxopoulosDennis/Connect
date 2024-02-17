@@ -1,12 +1,17 @@
-@font-face {
+﻿@font-face {
     font-family: 'ocraextended';
     src: url('../../fonts/ocraextended.ttf') format('truetype');
 }
 
 * {
-    font-family: "Inter", sans-serif;
+    font-family: "Carlito", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
+    font-size: 20px;
+    letter-spacing: .8px;
+
 }
 
 body {
@@ -14,12 +19,20 @@ body {
     place-content: center;
     min-height: 100vh;
     background: #111;
+
+    &.block {
+        display: block;
+        background: #E3EDF7;
+    }
 }
 
 .main__page__content {
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+
 
     .intro {
         text-align: center;
@@ -32,6 +45,29 @@ body {
         }
     }
 
+    .partners {
+        margin-top: 2em;
+    }
+
+    @media screen and (max-width: 900px) {
+
+        .partners {
+            margin-top: 5em;
+        }
+
+        .intro {
+            text-align: center;
+
+            h1 {
+                font-family: ocraextended;
+                font-size: 2.8rem;
+                opacity: 0.1;
+                color: #E3EDF7;
+            }
+        }
+    }
+
+
 
 
     div.small {
@@ -39,17 +75,17 @@ body {
         width: 20px;
         height: 20px;
         position: absolute;
-        transition: all .7s;
+        transition: all .5s;
         display: none;
         opacity: 0;
     }
 
     div.big {
+        min-height: 100vh;
         width: 100%;
         height: 100%;
         border-radius: 0;
         background: #E3EDF7;
-        display: flex;
     }
     //NAVIGATION
 
@@ -60,8 +96,11 @@ body {
         box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
         display: flex;
         position: sticky;
+        top: 0;
+        left: 0;
         justify-content: space-between;
         z-index: 10;
+        padding: 0 1em;
     }
 
     .logo-container {
@@ -77,6 +116,7 @@ body {
         font-family: ocraextended;
         font-size: 4rem;
         color: #E3EDF7;
+        opacity: 0;
     }
     /*Styling Links*/
     .nav-links {
@@ -132,6 +172,7 @@ body {
         cursor: pointer;
         min-width: 8em;
         transition: all ease-in-out 350ms;
+        text-align: center;
     }
 
 
@@ -152,8 +193,27 @@ body {
     .hamburger {
         display: none;
     }
+
+    .section__title {
+        font-weight: 600;
+        font-size: 2rem;
+        padding: .2em;
+        padding-top: 1em;
+        border-bottom: 1px solid rgba(19, 20, 24, 0.1);
+        margin-bottom: 1em;
+        width: 100%;
+        font-family: "Comfortaa", sans-serif;
+    }
     /*Stying for small screens*/
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 900px) {
+
+        .section__title {
+            font-weight: 600;
+            font-size: 1.4rem;
+            padding-top: 1em;
+            border-bottom: 1px solid rgba(19, 20, 24, 0.1);
+        }
+
         nav {
             position: fixed;
             z-index: 3;
@@ -180,6 +240,7 @@ body {
             -webkit-clip-path: circle(50px at 90% -10%);
             transition: all 1s ease-out;
             pointer-events: none;
+            justify-content: center;
         }
 
         .nav-links.open {
@@ -239,5 +300,523 @@ body {
     .toggle .line3 {
         transform: rotate(45deg) translate(-5px,-6px);
     }
-}
 
+    .main__content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 4em 2em;
+        opacity: 0;
+        gap: 7em;
+    }
+    //partners
+    .partners {
+        max-width: 900px;
+
+        .partner__address {
+            text-align: center;
+        }
+    }
+
+    .section-desc {
+        font-size: 1rem;
+        font-weight: 500;
+        padding: .6em;
+    }
+
+    .main {
+        display: grid;
+        padding: 2rem;
+        grid-template-columns: 300px 1fr;
+        gap: 1rem;
+        align-items: center;
+        max-width: 900px;
+        margin: 3% auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 2px 2px 4px 1px #ddd;
+        position: relative;
+
+
+
+        .partner__info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .brand__logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 2em;
+
+                img {
+                    border-radius: 20px;
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    h2 {
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #000000;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    img {
+        max-width: 100%;
+        height: 450px;
+        box-shadow: 2px 2px 4px 1px #ddd;
+    }
+
+    @media (max-width: 600px) {
+        .main {
+            display: block;
+        }
+
+        p {
+            position: relative;
+            background-color: #ffffff85
+        }
+
+        img {
+            max-width: 100%;
+            background-position: center;
+            object-fit: cover;
+        }
+
+        h2 {
+            font-size: 35px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    }
+
+    .about {
+        max-width: 900px;
+        width: 100%;
+
+        .about__content {
+            font-weight: 500;
+            padding: 0 .4em;
+        }
+
+        .about_photos {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1em;
+            margin-top: 2em;
+
+            .image-container {
+                width: 340px;
+                height: 460px;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top;
+                border-radius: 12px;
+                box-shadow: 2px 2px 4px 1px #ddd;
+            }
+        }
+        /*        @media(max-width:600px) {
+            .about_photos {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1em;
+                margin-top: 2em;
+            }
+        }*/
+    }
+
+
+
+    .services {
+        font-weight: 500;
+    }
+
+    .services {
+        max-width: 900px;
+
+        .services-container {
+        }
+
+        .button-container {
+            margin-top: 2em;
+            width: 100%;
+            display: flex;
+            justify-content: end;
+        }
+
+        .join-button {
+            color: #f2f5f7;
+            background-color: #f0f8ff;
+            border: 1.5px solid aliceblue;
+            padding: 0.6rem 0.8rem;
+            font-size: 1rem;
+            cursor: pointer;
+            min-width: 8em;
+            transition: all ease-in-out 350ms;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+
+
+        .join-button:hover {
+            color: black !important;
+            background-color: #E3EDF7;
+        }
+    }
+
+    .container {
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .services .header-section {
+        margin-bottom: 35px;
+    }
+
+    .services .single-service {
+        margin-top: 40px;
+        background-color: white;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
+        color: black;
+        border-radius: 12px;
+    }
+
+    .services .single-service .part-1 {
+        padding: 30px 40px;
+        border-bottom: 0;
+        background-color: aliceblue;
+        border-radius: 12px;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4em;
+
+        h3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            text-align: start;
+            line-height: 1.5em;
+        }
+    }
+
+    .services .single-service .part-1 i {
+        margin-bottom: 25px;
+        color: #f70037;
+    }
+
+    .services .single-service .part-1 .title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        font-family: "Comfortaa", sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .services .num {
+        font-family: "Comfortaa", sans-serif;
+        margin: 0;
+        padding: 0;
+        font-size: 1.2rem !important;
+    }
+
+    .services .single-service .part-2 {
+        padding: 30px 40px 40px;
+    }
+
+    .services .single-service .part-2 .description {
+        margin-bottom: 22px;
+        color: black;
+        opacity: 70%;
+        font-size: 1rem;
+        line-height: 1.8em;
+    }
+
+    .services .single-service .part-2 a {
+        color: black;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+
+    .services .single-service .part-2 a i {
+        margin-right: 10px;
+        color: #f70037;
+    }
+
+    .contact {
+        width: 100%;
+        max-width: 900px;
+
+
+        input,
+        select,
+        textarea,
+        button {
+            font-family: inherit;
+            font-size: 100%;
+        }
+
+        button,
+        label {
+            cursor: pointer;
+        }
+
+        select {
+            appearance: none;
+        }
+        /* Remove native arrow on IE */
+        select::-ms-expand {
+            display: none;
+        }
+        /*Remove dotted outline from selected option on Firefox*/
+        /*https://stackoverflow.com/questions/3773430/remove-outline-from-select-box-in-ff/18853002#18853002*/
+        /*We use !important to override the color set for the select on line 99*/
+        select:-moz-focusring {
+            color: transparent !important;
+            text-shadow: 0 0 0 var(--white);
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+
+        :root {
+            --white: #afafaf;
+            --red: #e31b23;
+            --bodyColor: #292a2b;
+            --borderFormEls: hsl(0, 0%, 10%);
+            --bgFormEls: hsl(0, 0%, 14%);
+            --bgFormElsFocus: hsl(0, 7%, 20%);
+        }
+        /* FORM ELEMENTS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+        .my-form {
+            background-color: white;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
+            color: black;
+            border-radius: 12px;
+            padding: 2em 0;
+            display: flex;
+            justify-content: center;
+
+            ul {
+                margin: 0;
+                padding: 0;
+                padding: 2em;
+            }
+        }
+
+        .my-form h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .my-form li,
+        .my-form .grid > *:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+
+        .my-form select,
+        .my-form input,
+        .my-form textarea,
+        .my-form button {
+            width: 100%;
+            line-height: 1.5;
+            padding: 15px 10px;
+            border: 1px solid lightgray;
+            border-radius: 12px;
+            color: var(--white);
+            background: var(--bgFormEls);
+            transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25), transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
+        }
+
+        .my-form textarea {
+            height: 170px;
+        }
+
+        .my-form ::placeholder {
+            color: inherit;
+            /*Fix opacity issue on Firefox*/
+            opacity: 1;
+        }
+
+        .my-form select:focus,
+        .my-form input:focus,
+        .my-form textarea:focus,
+        .my-form button:enabled:hover,
+        .my-form button:focus,
+        .my-form input[type="checkbox"]:focus + label {
+            background: var(--bgFormElsFocus);
+        }
+
+        .my-form select:focus,
+        .my-form input:focus,
+        .my-form textarea:focus {
+            transform: scale(1.02);
+        }
+
+        .my-form *:required,
+        .my-form select {
+            background-repeat: no-repeat;
+            background-position: center right 12px;
+            background-size: 15px 15px;
+        }
+
+
+
+        .my-form *:required {
+            background-image: url('../../images/asteriskblue.png');
+        }
+
+        .text__area:required {
+            background-position: top 20px right 12px !important;
+        }
+
+        .my-form *:disabled {
+            cursor: default;
+            filter: blur(2px);
+        }
+        /* FORM BTNS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+
+        .my-form .btn-grid {
+            position: relative;
+            overflow: hidden;
+            transition: filter 0.2s;
+        }
+
+        .my-form button {
+            font-weight: bold;
+        }
+
+        .my-form button > * {
+            display: inline-block;
+            width: 100%;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .my-form button .back {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-110%, -50%);
+        }
+
+        .my-form button:enabled:hover .back,
+        .my-form button:focus .back {
+            transform: translate(-50%, -50%);
+        }
+
+        .my-form button:enabled:hover .front,
+        .my-form button:focus .front {
+            transform: translateX(110%);
+        }
+        /* CUSTOM CHECKBOX
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+        .my-form input[type="checkbox"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .my-form input[type="checkbox"] + label {
+            position: relative;
+            display: inline-block;
+            padding-left: 2rem;
+            transition: background 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
+        }
+
+        .my-form input[type="checkbox"] + label::before,
+        .my-form input[type="checkbox"] + label::after {
+            content: '';
+            position: absolute;
+        }
+
+        .my-form input[type="checkbox"] + label::before {
+            left: 0;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid lightgray;
+        }
+
+ /*       .my-form input[type="checkbox"]:checked + label::before {
+            background: #E3EDF7;
+        }*/
+
+        .my-form input[type="checkbox"]:checked + label::after {
+            left: 7px;
+            top: 2px;
+            width: 9px;
+            height: 18px;
+            border-bottom: 2px solid black;
+            border-right: 2px solid black;
+            transform: rotate(45deg);
+        }
+        /* MQ
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+        @media screen and (min-width: 600px) {
+            .my-form .grid {
+                display: grid;
+                grid-gap: 1.5rem;
+            }
+
+            .my-form .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .my-form .grid-3 {
+                grid-template-columns: auto auto auto;
+                align-items: center;
+            }
+
+            .my-form .grid > *:not(:last-child) {
+                margin-bottom: 0;
+            }
+
+            .my-form .required-msg {
+                display: block;
+            }
+        }
+
+        @media screen and (min-width: 541px) {
+            .my-form input[type="checkbox"] + label::before {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .my-form input[type="checkbox"]:checked + label::after {
+                top: 3px;
+            }
+        }
+    }
+}

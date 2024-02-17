@@ -1530,7 +1530,7 @@ body .qr-code.show .container .qr-container {
   max-width: 160px;
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
+  gap: 1.2em;
 }
 .swiperSpecials .product {
   border-bottom: 0 !important;

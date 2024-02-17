@@ -1,8 +1,15 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Web.Common
+@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inject UmbracoHelper umbracoHelper
+
 @{
 	Layout = "Layouts/tonny";
+
+    var partners = Model?.Value<IEnumerable<BlockListItem>>("partners");
 }
 
 <div class="main__page__content">
@@ -23,17 +30,270 @@
             </div>
             <ul class="nav-links">
 
-                <li><a href="#">Συνεργάτες</a></li>
-                <li><a href="#">Σχετικά</a></li>
-                <li><a href="#">Υπηρεσίες</a></li>
-                <li><a class="join-button btn btn-4 hover-border-6" href="#">ΓΙΝΕ ΣΥΝΕΡΓΑΤΗΣ</a></li>
+                <li><a class="nav__link" href="#partners">Συνεργάτες</a></li>
+                <li><a class="nav__link"  href="#about">Σχετικά</a></li>
+                <li><a class="nav__link"  href="#services">Υπηρεσίες</a></li>
+                <li><a class="join-button btn btn-4 hover-border-6 nav__link" href="#contact">ΓΙΝΕ ΣΥΝΕΡΓΑΤΗΣ</a></li>
 
             </ul>
         </nav>		
         
-        <section class="parterns">
+        <div class="main__content">
+            @if (partners?.Any() ?? false)
+            {
+                <section class="partners" id="partners">
+                    <div class="section__title">Δείχνουμε περηφάνια για τους συνεργάτες μας</div>
+                 @foreach (var item in partners)
+                    {
+                        var name = item?.Content.Value<string>("brandName") ?? "";
+                        var address = item?.Content.Value<string>("address") ?? "";
+@*                      var desc = item?.Content.Value<string>("desc") ?? "";
+ *@                        
+                        var url = item?.Content?.Value<Link>("url")?.Url ?? "";
+                        var logo = item?.Content.Value<IPublishedContent>("logo")?.MediaUrl() ?? "";
 
-		</section>
+                        if(!string.IsNullOrEmpty(url))
+                        {
+
+                            <div class="main partner">
+                                <input type="hidden" class="partner__url" value="@url" />
+
+                                <div class="partner__info">
+                                    <div class="brand__logo">
+                                        <img src="@logo" />
+                                    </div>
+                                    <h2>The Cranky</h2>
+                                    <div class="partner__address">
+                                        Λόντου 4, Αθήνα, 10681, Ελλάδα
+                                    </div>
+   
+                                </div>
+                            </div>
+
+                        }
+
+                    }
+
+                    <div class="section-desc">
+                        Δίπλα σας σε κάθε ανάγκη με όραμα να χτίσουμε μια πλατφόρμα όπου οι αποφάσεις για την πρόοοδο της εφαρμογής θα λαμβάνονται συλλογικά.
+                    </div>
+
+                </section>
+            }
+
+                <section class="about" id="about">
+                    <div class="section__title">Σχετικά με το brand</div>
+                    <div class="about__content">
+                        <div class="about__text">
+                            Το tonny.gr είναι μια εγχώρια start up που αποσκοπεί
+                            στο να προσφέρει πρωτοπόρες ιδέες και λύσεις στην αγορά των ψηφιακών μενού,
+                            με συνεχής βελτιώση και άξονα τις ανάγκες των χρηστών και των συνεργατών της.
+                        </div>
+
+                        @{var aboutPhotos = Model?.Value<IEnumerable<IPublishedContent>>("brandPhotos");}
+
+                        @if(aboutPhotos?.Any() ?? false)
+                        {
+
+                            <div class="about_photos">
+                                @foreach (var item in aboutPhotos)
+                                {
+
+                                    var imgUrl = (item as IPublishedContent).MediaUrl();
+
+                                    <a href="@imgUrl" class="image-container" data-lightbox="examples">
+                                        <img src="@imgUrl" />
+                                    </a>
+                                }
+                            </div>
+                        }
+
+                    </div>
+
+                </section>
+
+
+                <section class="services" id="services">
+                    <div class="section__title">Υπηρεσίες</div>
+                    <div class="services__text">
+                        Νιώθεις τυχερός; Θα έπρεπε! Το Tonny.gr βρίσκεται στο πρώτο στάδιο της σταδιοδρομάς του.<br/>
+                        Αυτό σημαίνει πως σου προσφέρουμε τις υπηρεσίες μας 3 μήνες εντελώς δωρεάν. <br/> Θέλουμε να σιγουρευτούμε πως οι υπηρεσίες μας καλύπτουν
+                        τις ανάγκες σου.
+                        <br/>
+                        <br/>
+                        Δοκίμασέ το λοιπόν, δεν έχεις πάρα μόνο να κερδίσεις.
+                    </div>
+
+					<div class="container">
+
+						<div class="row">
+							<!-- Start Single Service -->
+							<div class="col-md-12 col-lg-12">
+								<div class="single-service">
+									<div class="part-1">
+                                        <h3 class="title">3 ΜΗΝΕΣ ΔΩΡΕΑΝ ΔΟΚΙΜΗ</h3>
+									</div>
+									<div class="part-2">
+										<p class="description">
+                                            Με όλες τις παροχές της βασικής συνδρομής.
+                                        </p>
+                                        <div class="button-container">
+                                            <a class="join-button" href="#">Κάνε αίτηση</a>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<!-- / End Single Service -->
+							<!-- Start Single Service -->
+                            <div class="col-md-12 col-lg-12">
+								<div class="single-service">
+									<div class="part-1">
+                                        <h3 class="title">Βασική Συνδρομή</h3> <h3 class="num">40&#x20AC; / Μήνα</h3>
+									</div>
+									<div class="part-2">
+										<ul class="description">
+                                            <li>Ιστοσελίδα καταλόγου</li>
+                                            <li>Εισαγωγή των προϊόντων από το κλασσικό μενού στο ηλεκτρονικό</li>
+                                            <li>Σελίδα διαχειριστή για να διαχειρίζεστε την ιστοσελίδα σας</li>
+                                            <li>Στέγαση της ιστοσελίδας στο δικό μας server και το δικό μας domain</li>
+                                            <li>Άμεση υποστήριξη</li>
+                                            <li>Καθημερινό backup της ιστοσελίδας</li>
+                                        </ul>
+                                        <div class="button-container">
+                                            <a class="join-button" href="#">Κάνε αίτηση</a>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+							<!-- / End Single Service -->
+		
+						</div>
+					</div>
+                </section>
+
+                <section class="contact" id="contact">
+                    <div class="section__title">Επικοινωνία</div>
+
+                <div id="NewsletterSuccessMessage" class="mbc-3 mt-4" style="display:none;">
+                    <p class="successMessage text-success text-center" >
+                        @umbracoHelper.GetDictionaryValue("Forms.Contact.ThankYou", "Ευχαριστούμε, λάβαμε το μηνυμά σας και θα σας απαντήσουμε σύντομα.")
+                    </p>
+                </div>
+
+                <form class="my-form">
+                    <div class="container">
+                        <ul>
+                            <li>
+                                    <input type="text" placeholder="Θέμα" required id="subject" name="subject">
+                            </li>
+                            <li>
+                                <div class="grid grid-2">
+                                    <input type="text" placeholder="Όνομα" required id="fname" name="fname">
+                                    <input type="text" placeholder="Επίθετο" required id="lname" name="lname">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="grid grid-2">
+                                    <input type="email" placeholder="Email" required id="email" name="email">
+                                    <input type="tel" placeholder="Τηλέφωνο" id="tel" name="tel">
+                                </div>
+                            </li>
+                            <li>
+                                <textarea placeholder="Μήνυμα" class="text__area" required id="message" name="message"></textarea>
+                            </li>
+                            <li class="recaptchaPolicy">
+                                @Html.Raw(@umbracoHelper.GetDictionaryValue("Recaptcha.Policy", ""))
+                            </li>
+                            <li>
+                                <input type="checkbox" id="termsAccepted" name="termsAccepted">
+                                <label for="termsAccepted">Έχω διαβάσει και συμφωνώ με <a href="">τους όρους χρήσης.</a></label>
+                            </li>
+                            <li>
+                                <div class="grid grid-3">
+                                    <button class="btn-grid" type="submit" value="SUBMIT" id="btnSumbit" disabled>
+                                        <span class="back">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </span>
+                                        <span class="front">Αποστολή</span>
+                                    </button>
+                                    <button class="btn-grid" type="reset" disabled>
+                                        <span class="back">
+                                            <i class="fa fa-eraser" aria-hidden="true"></i>
+
+                                        </span>
+                                        <span class="front">Επαναφορά</span>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+
+
+@*                 
+
+
+                <form action="#" class="contact-form">
+                    @Html.AntiForgeryToken()
+
+                    @{
+                        var fname = @umbracoHelper.GetDictionaryValue("Forms.Contact.FirstName", "Όνομα");
+                        var lname = @umbracoHelper.GetDictionaryValue("Forms.Contact.LastName", "Επίθετο");
+                        var email = @umbracoHelper.GetDictionaryValue("Forms.Contact.Email", "Email");
+                        var subject = @umbracoHelper.GetDictionaryValue("Forms.Contact.Subject", "Τίτλος / Θέμα");
+                        var message = @umbracoHelper.GetDictionaryValue("Forms.Contact.Message", "Μήνυμα");
+                    }
+
+                    <div class="form__container">
+                        <input id="fname" name="fname" class="inputc-1 w-100 mbc-5" placeholder="@fname" data-lg-reveal="fade-to-top" />
+                        <input id="lname" name="lname" class="inputc-1 w-100 mbc-5" placeholder="@lname" data-lg-reveal="fade-to-top" />
+                        <input id="email" name="email" class="inputc-1 w-100 mbc-5" placeholder="@email" data-lg-reveal="fade-to-top" />
+                        <input id="subject" name="subject" class="inputc-1 w-100 mbc-5" placeholder="@subject" data-lg-reveal="fade-to-top" />
+                        <textarea id="message" name="message" class="inputc-1 w-100 mbc-5" placeholder="@message" rows="5" data-lg-reveal="fade-to-top"></textarea>
+                    </div>
+                
+
+
+                    <div class="" data-lg-reveal="fade-to-top">
+
+                        <div>
+                            <div class="recaptchaPolicy">
+                                @Html.Raw(@umbracoHelper.GetDictionaryValue("Recaptcha.Policy", ""))
+                            </div>
+
+                            <div class="checkboxc-1">
+                                <input type="checkbox" id="termsAccepted" name="termsAccepted" />
+                                <label class="checkboxc-1-box" for="termsAccepted"></label>
+                                <label class="checkboxc-1-text" for="termsAccepted">
+                                    @umbracoHelper.GetDictionaryValue("Forms.Contact.AgreeTerms", "I agree with the Terms & Conditions")
+                                    <span id="agreeTerms-feedback" class="feedback-error" style="display:none">@umbracoHelper.GetDictionaryValue("Forms.RequiredField", "This field is required")</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" value="SUBMIT" id="btnSumbit" class="buttonc-1 plc-lg-7 prc-lg-7" style="
+                            --color: #fff;
+                            --color-hover: #fff;
+                            --bg-color: #1A1A1A;
+                            --bg-color-hover: #86BC25;">
+                                @umbracoHelper.GetDictionaryValue("Forms.Contact.Send", "ΑΠΟΣΤΟΛΗ")
+                            </button>
+                        </div>
+
+
+                    </div>
+
+
+                </form> *@
+
+                </section>
+
+
+
+
+        </div>
+
 	</div>
 </div>
 

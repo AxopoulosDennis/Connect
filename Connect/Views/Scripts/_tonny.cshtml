@@ -8,11 +8,13 @@
     Layout = null;
     var ReCaptchaSiteKey = Configuration.GetSection("ReCaptcha")["ReCaptchaSiteKey"];
 }
+<script src="https://www.google.com/recaptcha/api.js?render=@(ReCaptchaSiteKey)"></script>
+
 
 <script src="~/plugins/jquery/dist/jquery.min.js"></script>
 <script src="~/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/plugins/fontawesome-free-6.4.2-web/js/all.min.js"></script>
 <script src="~/plugins/swiper/swiper10.3.1.min.js"></script>
-
+<script src="~/plugins/lightbox2-2.11.4/dist/js/lightbox.min.js"></script>
 <script src="~/scripts/tonny/main.js"></script>
 
