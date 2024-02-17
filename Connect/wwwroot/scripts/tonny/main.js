@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     var partners = $(".partner");
     if (partners != undefined && partners.length > 0) {
@@ -111,6 +111,10 @@ $(document).ready(function () {
 
         var href = $(this).attr("href").slice(1);
         let link = document.getElementById(href);
+
+        if ($(this).hasClass("contact__trigger")) {
+            $("#subject").val("Θέλω να μάθω περισσότερα");
+        }
 
         $([document.documentElement, document.body]).animate({
             scrollTop: (link.offsetTop - 110)
