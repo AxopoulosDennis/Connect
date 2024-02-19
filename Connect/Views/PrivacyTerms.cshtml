@@ -1,0 +1,85 @@
+﻿@using Connect.Models;
+@using System.Globalization
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+	Layout = "Layouts/tonny";
+	
+	var terms = Model?.Value<IEnumerable<BlockListItem>>("terms");
+	var privacy = Model?.Value<IEnumerable<BlockListItem>>("privacy");
+	var home = Umbraco.ContentAtRoot().
+				Where(x => x.IsDocumentType("home")).FirstOrDefault();
+}
+
+<div class="page__container">
+	<div class="max-size">
+		<nav>
+			<div class="logo-container">
+				<a class="logo" href="@home.Url()" style="text-decoration:none;">TONNY</a>
+
+			</div>
+			<div class="hamburger">
+				<div class="line1"></div>
+				<div class="line2"></div>
+				<div class="line3"></div>
+			</div>
+			<ul class="nav-links">
+				@*
+				<li><a class="nav__link" href="#partners">Συνεργάτες</a></li>
+				<li><a class="nav__link" href="#about">Σχετικά</a></li>
+				<li><a class="nav__link" href="#services">Υπηρεσίες</a></li>
+				<li><a class="join-button btn btn-4 hover-border-6 nav__link contact__trigger" href="#contact">ΓΙΝΕ ΣΥΝΕΡΓΑΤΗΣ</a></li> *@
+
+			</ul>
+		</nav>
+
+		<div class="privacy__terms">
+
+			@if (terms?.Any() ?? false)
+			{
+				<div class="terms">
+					@foreach (var item in terms)
+					{
+						var title = item?.Content?.Value<string>("title") ?? "";
+						var text = item?.Content?.Value<string>("text") ?? "";
+						bool newSection = item?.Content?.Value<bool>("newSection") ?? false;
+
+						<div class="para">
+							<div class="para__title">@title</div>
+							<div class="para__text">@Html.Raw(text)</div>
+						</div>
+					}
+
+				</div>
+
+			}
+
+			@if (privacy?.Any() ?? false)
+			{
+				<div class="privacy">
+					@foreach (var item in privacy)
+					{
+						var title = item?.Content?.Value<string>("title") ?? "";
+						var text = item?.Content?.Value<string>("text") ?? "";
+
+						<div class="para">
+							<div class="para__title">@title</div>
+							<div class="para__text">@Html.Raw(text)</div>
+						</div>
+					}
+
+				</div>
+
+			}
+
+
+		</div>
+	</div>
+
+
+</div>
+

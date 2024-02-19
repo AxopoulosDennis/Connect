@@ -13,6 +13,10 @@
   letter-spacing: 0.8px;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 body {
   display: grid;
   place-content: center;
@@ -22,6 +26,9 @@ body {
 body.block {
   display: block;
   background: #E3EDF7;
+}
+body.loaded {
+  background-color: #E3EDF7;
 }
 
 .main__page__content {
@@ -185,6 +192,7 @@ body.block {
   .main__page__content nav {
     position: fixed;
     z-index: 3;
+    height: 5em;
   }
   .main__page__content .hamburger {
     display: block;
@@ -264,7 +272,8 @@ body.block {
   gap: 7em;
 }
 .main__page__content .partners {
-  max-width: 900px;
+  max-width: 1140px;
+  width: 100%;
 }
 .main__page__content .partners .partner__address {
   text-align: center;
@@ -273,6 +282,7 @@ body.block {
   font-size: 1rem;
   font-weight: 500;
   padding: 0.6em;
+  max-width: 960px;
 }
 .main__page__content .main {
   display: grid;
@@ -280,8 +290,8 @@ body.block {
   grid-template-columns: 300px 1fr;
   gap: 1rem;
   align-items: center;
-  max-width: 900px;
-  margin: 3% auto;
+  max-width: 960px;
+  margin: 2em 0;
   background: #fff;
   border-radius: 12px;
   box-shadow: 2px 2px 4px 1px #ddd;
@@ -339,7 +349,7 @@ body.block {
   }
 }
 .main__page__content .about {
-  max-width: 900px;
+  max-width: 1140px;
   width: 100%;
   /*        @media(max-width:600px) {
       .about_photos {
@@ -355,6 +365,9 @@ body.block {
 .main__page__content .about .about__content {
   font-weight: 500;
   padding: 0 0.4em;
+}
+.main__page__content .about .about__text {
+  max-width: 1000px;
 }
 .main__page__content .about .about_photos {
   display: flex;
@@ -380,7 +393,7 @@ body.block {
   font-weight: 500;
 }
 .main__page__content .services {
-  max-width: 900px;
+  max-width: 1140px;
 }
 .main__page__content .services .button-container {
   margin-top: 2em;
@@ -426,8 +439,10 @@ body.block {
   color: black;
   display: flex;
   justify-content: space-between;
+  /*        display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 4em;
+  gap: 4em;*/
 }
 .main__page__content .services .single-service .part-1 h3 {
   display: flex;
@@ -448,6 +463,12 @@ body.block {
   font-family: "Comfortaa", sans-serif;
   margin: 0;
   padding: 0;
+}
+.main__page__content .services .single-service .part-1 .title span {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .main__page__content .services .num {
   font-family: "Comfortaa", sans-serif;
@@ -476,7 +497,7 @@ body.block {
 }
 .main__page__content .contact {
   width: 100%;
-  max-width: 900px;
+  max-width: 1140px;
   /* Remove native arrow on IE */
   /*Remove dotted outline from selected option on Firefox*/
   /*https://stackoverflow.com/questions/3773430/remove-outline-from-select-box-in-ff/18853002#18853002*/
@@ -488,8 +509,8 @@ body.block {
   /* CUSTOM CHECKBOX
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   /*       .my-form input[type="checkbox"]:checked + label::before {
-             background: #E3EDF7;
-         }*/
+      background: #E3EDF7;
+  }*/
   /* MQ
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 }
@@ -643,7 +664,7 @@ body.block {
 }
 .main__page__content .contact .my-form input[type=checkbox] + label::before {
   left: 0;
-  top: 6px;
+  top: 7px;
   width: 18px;
   height: 18px;
   border: 2px solid lightgray;
@@ -684,4 +705,227 @@ body.block {
   .main__page__content .contact .my-form input[type=checkbox]:checked + label::after {
     top: 3px;
   }
+}
+@media screen and (max-width: 900px) {
+  .main__page__content .main__content {
+    padding: 1em 1em;
+  }
+  .main__page__content .intro {
+    text-align: center;
+  }
+  .main__page__content .intro h1 {
+    font-family: ocraextended;
+    font-size: 2.8rem;
+    opacity: 0.1;
+    color: #E3EDF7;
+  }
+  .main__page__content .my-form {
+    background-color: white;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    color: black;
+    border-radius: 12px;
+    padding: 2em 0;
+    display: flex;
+    justify-content: center;
+  }
+  .main__page__content .my-form ul {
+    margin: 0;
+    padding: 0;
+    padding: 1em !important;
+  }
+  .main__page__content .part-2 {
+    padding: 30px 20px !important;
+  }
+  .main__page__content .services .single-service .part-1 {
+    flex-wrap: wrap;
+  }
+  .main__page__content .part-1 {
+    padding: 30px 20px !important;
+  }
+}
+.main__page__content .recaptchaPolicy {
+  opacity: 70%;
+  padding: 1em 2em;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: start;
+}
+.main__page__content .recaptchaPolicy a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.main__page__content .terms {
+  opacity: 90%;
+}
+.main__page__content .terms a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.page__container {
+  background-color: #e3edf7;
+  width: 100vw;
+  display: grid;
+  justify-content: center;
+  /*Styling logo*/
+  /*Styling Links*/
+  /*Styling Buttons*/
+  /*Styling Hamburger Icon*/
+}
+.page__container .privacy__terms {
+  background-color: #e3edf7;
+  padding: 2em;
+  padding-top: 4em;
+  color: black;
+  width: 100%;
+  max-width: 1140px;
+}
+.page__container .privacy__terms a {
+  text-decoration: none;
+}
+.page__container .privacy__terms .para__title {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.page__container .privacy__terms .para__text {
+  opacity: 80%;
+  font-weight: 400;
+}
+.page__container .privacy__terms .privacy {
+  margin-top: 4em;
+}
+.page__container nav {
+  height: 6rem;
+  background-color: #131418;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 0 1em;
+}
+.page__container .logo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+}
+.page__container .logo {
+  padding: 0.2em;
+  text-align: center;
+  font-family: ocraextended;
+  font-size: 4rem;
+  color: #E3EDF7;
+  opacity: 1;
+}
+.page__container .nav-links {
+  height: 100%;
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3rem;
+  gap: 2.2rem;
+  padding: 0.1em;
+  margin-right: 2em;
+}
+.page__container .nav-links li a {
+  text-decoration: none;
+  color: #e3edf7;
+}
+.page__container .nav-links li a:hover {
+  color: #708090;
+}
+.page__container .nav-links li {
+  position: relative;
+}
+.page__container .nav-links li a:not(.join-button)::before {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 0%;
+  background-color: #E3EDF7;
+  position: absolute;
+  transition: all ease-in-out 250ms;
+  margin: 0 0 0 0%;
+}
+.page__container .nav-links li a:hover::before {
+  width: 100%;
+}
+.page__container .join-button {
+  color: #f2f5f7;
+  background-color: transparent;
+  border: 1.5px solid aliceblue;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  min-width: 8em;
+  transition: all ease-in-out 350ms;
+  text-align: center;
+}
+.page__container .join-button:hover {
+  color: black !important;
+  background-color: #E3EDF7;
+  border: 1.5px solid #f2f5f7;
+}
+.page__container .hamburger div {
+  width: 30px;
+  height: 3px;
+  background: #f2f5f7;
+  margin: 5px;
+}
+.page__container .hamburger {
+  display: none;
+}
+.page__container .max-size {
+  max-width: 1140px;
+}
+
+footer {
+  border-top: 1px solid lightgray;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  height: 4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2em;
+  text-align: center;
+  margin-top: 5em;
+}
+footer .footer-content {
+  max-width: 1140px;
+  width: 100%;
+  padding: 2em 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin: 0 2em;
+  color: #a9b8c9;
+  font-size: 0.835rem;
+  font-weight: 500;
+}
+footer .footer-content a {
+  text-decoration: none;
+  color: #a9b8c9;
+  font-size: 0.835rem;
+  font-weight: 500;
+}
+footer .footer-content a:hover {
+  color: rgb(13, 110, 253);
+}
+footer .footer-content .copyright {
+  color: #a9b8c9;
+  font-size: 0.835rem;
+  font-weight: 500;
+}
+footer .footer-content .terms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a9b8c9;
+  font-size: 0.835rem;
+  font-weight: 500;
 }

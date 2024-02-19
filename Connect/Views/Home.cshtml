@@ -10,6 +10,13 @@
 	Layout = "Layouts/tonny";
 
     var partners = Model?.Value<IEnumerable<BlockListItem>>("partners");
+
+    var privacyTerms = Umbraco.ContentAtRoot().
+           Where(x => x.IsDocumentType("privacyTerms")).FirstOrDefault();
+
+    var home = Umbraco.ContentAtRoot().
+     Where(x => x.IsDocumentType("home")).FirstOrDefault();
+    
 }
 
 <div class="main__page__content">
@@ -20,7 +27,7 @@
 	<div class="small">
         <nav>
             <div class="logo-container">
-                <span class="logo">TONNY</span>
+                <a class="logo" href="@home.Url()" style="text-decoration:none;">TONNY</a>
 
             </div>
             <div class="hamburger">
@@ -117,7 +124,7 @@
                     <div class="section__title">Υπηρεσίες</div>
                     <div class="services__text">
                         Νιώθεις τυχερός; Θα έπρεπε! Το Tonny.gr βρίσκεται στο πρώτο στάδιο της σταδιοδρομάς του.<br/>
-                        Αυτό σημαίνει πως σου προσφέρουμε τις υπηρεσίες μας 3 μήνες εντελώς δωρεάν. <br/> Θέλουμε να σιγουρευτούμε πως οι υπηρεσίες μας καλύπτουν
+                        Αυτό σημαίνει πως σου προσφέρουμε τις υπηρεσίες μας εώς 31/05/2024 εντελώς δωρεάν. <br/> Θέλουμε να σιγουρευτούμε πως οι υπηρεσίες μας καλύπτουν
                         τις ανάγκες σου.
                         <br/>
                         <br/>
@@ -131,15 +138,15 @@
 							<div class="col-md-12 col-lg-12">
 								<div class="single-service">
 									<div class="part-1">
-                                        <h3 class="title">3 ΜΗΝΕΣ ΔΩΡΕΑΝ ΔΟΚΙΜΗ</h3>
+                                        <h3 class="title"><span id="countdown"></span></h3>
 									</div>
 									<div class="part-2">
 										<p class="description">
                                             Με όλες τις παροχές της βασικής συνδρομής.
                                         </p>
                                         <div class="button-container">
-                                            <a class="join-button" href="#">Κάνε αίτηση</a>
-                                        </div>
+                                        <a class="join-button nav__link contact__trigger" href="#contact">Κάνε αίτηση</a>
+                                    </div>
 									</div>
 								</div>
 							</div>
@@ -160,7 +167,7 @@
                                             <li>Καθημερινό backup της ιστοσελίδας</li>
                                         </ul>
                                         <div class="button-container">
-                                            <a class="join-button" href="#">Κάνε αίτηση</a>
+                                        <a class="join-button nav__link contact__trigger" href="#contact">Κάνε αίτηση</a>
                                         </div>
                                     </div>
 								</div>
@@ -201,12 +208,10 @@
                             <li>
                                 <textarea placeholder="Μήνυμα" class="text__area" required id="message" name="message"></textarea>
                             </li>
-                            <li class="recaptchaPolicy">
-                                @Html.Raw(@umbracoHelper.GetDictionaryValue("Recaptcha.Policy", ""))
-                            </li>
-                            <li>
+
+                            <li class="terms">
                                 <input type="checkbox" id="termsAccepted" name="termsAccepted">
-                                <label for="termsAccepted">Έχω διαβάσει και συμφωνώ με <a href="">τους όρους χρήσης.</a></label>
+                                <label for="termsAccepted">Έχω διαβάσει και συμφωνώ με <a href="@privacyTerms.Url()" target="_blank">τους όρους χρήσης.</a></label>
                             </li>
                             <li>
                                 <div class="grid grid-3">
@@ -225,7 +230,17 @@
                                     </button>
                                 </div>
                             </li>
+
+
                         </ul>
+
+                        <span class="recaptchaPolicy">
+                            <small>
+                                This site is protected by reCAPTCHA and the Google
+                                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                            </small>
+                        </span>
                     </div>
                 </form>
 

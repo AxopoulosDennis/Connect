@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
 
+
     var partners = $(".partner");
     if (partners != undefined && partners.length > 0) {
 
@@ -64,6 +65,37 @@
 
                             $(".main__content").fadeTo(100, 1, function () {
 
+                                $("#footer").show();
+                                //    $(".grecaptcha-badge").fadeTo(100, 1);
+
+                                var countDownDate = new Date("May 31, 2024 00:00").getTime();
+
+                                // Get today's date and time
+                                var now = new Date().getTime();
+
+                                // Find the distance between now and the count down date
+                                var distance = countDownDate - now;
+
+                                // Time calculations for days, hours, minutes and seconds
+                                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                // Display the result in the element with id="demo"
+                                document.getElementById("countdown").innerHTML = days + " ΜΕΡΕΣ ΔΩΡΕΑΝ ΔΟΚΙΜΗ";
+
+                                // If the count down is finished, write some text
+                                if (distance < 0) {
+                                    clearInterval(x);
+                                    document.getElementById("countdown").innerHTML = "-";
+                                }
+
+                                // Update the count down every 1 second
+                                //var x = setInterval(function () {
+
+
+                                //}, 1000);
                             });
 
                         }, 700);
@@ -76,6 +108,16 @@
             });
         });
     });
+
+    var privacyTerms = $(".privacy__terms");
+
+    if (privacyTerms.length) {
+        $("body").addClass("loaded");
+
+        $("#footer").show();
+
+    }
+   
 
 
     const hamburger = document.querySelector(".hamburger");
@@ -116,10 +158,22 @@
             $("#subject").val("Θέλω να μάθω περισσότερα");
         }
 
+        if ($(".nav-links").hasClass("open")) {
+            navLinks.classList.toggle("open");
+            links.forEach(link => {
+                link.classList.toggle("fade");
+            });
+
+            //Hamburger Animation
+            hamburger.classList.toggle("toggle");
+        }
+
         $([document.documentElement, document.body]).animate({
             scrollTop: (link.offsetTop - 110)
         }, 120);
     });
+
+    
 });
 
 

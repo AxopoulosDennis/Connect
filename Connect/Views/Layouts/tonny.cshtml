@@ -4,6 +4,8 @@
 
 @{
     Layout = null;
+    var privacyTerms = Umbraco.ContentAtRoot().
+       Where(x => x.IsDocumentType("privacyTerms")).FirstOrDefault();
 }
 
 <!DOCTYPE html>
@@ -16,10 +18,23 @@
 </head>
 <body>
 
+    
     @RenderBody()
 
-    <footer>
+    <footer id="footer" style="display:none">
+        <div class="footer-content">
 
+            <span class="copyright">
+                © Tonny 2024. All rights reserved.
+            </span>
+
+            <div class="links__container">
+                <span class="terms">
+                    <a href="@privacyTerms.Url()" target="_blank">Όροι χρήσης & Πολιτική απορρήτου</a>
+                </span>
+            </div>
+
+        </div>
     </footer>
 
     <partial name="Scripts/_tonny" />

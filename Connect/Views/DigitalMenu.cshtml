@@ -19,7 +19,8 @@
     var bName = Model?.Value<string>("brandName") ?? "";
     bool hideDealsGroup = Model?.Value<bool>("hideDealsGroup") ?? true;
     var dealItems = Model?.Value<IEnumerable<BlockListItem>>("dealItem")?.Where(x => x.Content.Value<bool>("hide") == false);
-
+    var home = Umbraco.ContentAtRoot().
+         Where(x => x.IsDocumentType("home")).FirstOrDefault();
 }
 <div class="qr-code">
     @Html.AntiForgeryToken()
@@ -292,7 +293,7 @@
 
 
 
-                                                @if (alias == "beerBeverage")
+                                                @if (alias == "mlBeerVariation")
                                                 {
                                                     if (product?.Content?.Value<IEnumerable<BlockListItem>>("beerVariations")?.Any() ?? false)
                                                     {
@@ -367,7 +368,7 @@
 
                                                         </div>
 
-                                                        @if (alias == "beerBeverage")
+                                                        @if (alias == "mlBeerVariation")
                                                         {
                                                             decimal? alc = product.Content.Value<decimal>("alcohol");
                                                             int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -469,7 +470,7 @@
 
                                                                 <div class="swiper-container tabs-buttons">
                                                                     <div class="swiper-wrapper">
-                                                                        @if (alias == "beerBeverage")
+                                                                        @if (alias == "mlBeerVariation")
                                                                         {
                                                                             decimal? alc = product.Content.Value<decimal>("alcohol");
                                                                             int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -494,7 +495,7 @@
                                                                 <div class="swiper-container tabs-content">
                                                                     <div class="swiper-wrapper">
 
-                                                                        @if (alias == "beerBeverage")
+                                                                        @if (alias == "mlBeerVariation")
                                                                         {
                                                                             <div class="swiper-slide swiper-slide-active">
                                                                                 @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
@@ -568,7 +569,7 @@
 
                                                         </div>
 
-                                                        @if (alias == "beerBeverage")
+                                                        @if (alias == "mlBeerVariation")
                                                         {
                                                             decimal? alc = product.Content.Value<decimal>("alcohol");
                                                             int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -776,7 +777,7 @@
 
 
 
-                                                        @if (alias == "beerBeverage")
+                                                        @if (alias == "mlBeerVariation")
                                                         {
                                                             if (product?.Content?.Value<IEnumerable<BlockListItem>>("beerVariations")?.Any() ?? false)
                                                             {
@@ -836,7 +837,7 @@
 
                                                                 </div>
 
-                                                                @if (alias == "beerBeverage")
+                                                                @if (alias == "mlBeerVariation")
                                                                 {
                                                                     decimal? alc = product.Content.Value<decimal>("alcohol");
                                                                     int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -872,7 +873,7 @@
 
                                                                         <div class="swiper-container tabs-buttons">
                                                                             <div class="swiper-wrapper">
-                                                                                @if (alias == "beerBeverage")
+                                                                                @if (alias == "mlBeerVariation")
                                                                                 {
                                                                                     decimal? alc = product.Content.Value<decimal>("alcohol");
                                                                                     int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -897,7 +898,7 @@
                                                                         <div class="swiper-container tabs-content">
                                                                             <div class="swiper-wrapper">
 
-                                                                                @if (alias == "beerBeverage")
+                                                                                @if (alias == "mlBeerVariation")
                                                                                 {
                                                                                     <div class="swiper-slide swiper-slide-active">
                                                                                         @if (!string.IsNullOrEmpty(discountType) && discountType != "Hide")
@@ -971,7 +972,7 @@
 
                                                                 </div>
 
-                                                                @if (alias == "beerBeverage")
+                                                                @if (alias == "mlBeerVariation")
                                                                 {
                                                                     decimal? alc = product.Content.Value<decimal>("alcohol");
                                                                     int? ibu = product.Content.Value<int>("internationalBitternessUnits");
@@ -1018,7 +1019,7 @@
             </div>
 
             <section class="tonny">
-                <a href="/" target="_blank" class="tony-homepage"><h1>tonny.gr - Digital Menu Solutions</h1></a>
+                <a href="@home.Url()" target="_blank" class="tony-homepage"><h1>tonny.gr - Digital Menu Solutions</h1></a>
             </section>
 
         </div>
@@ -1333,8 +1334,8 @@
                                         <a class="contact-text" href="tel:@conText" target="_blank">
                                             <i class="fa fa-phone" aria-hidden="true"></i>
                                             <span class="contact">@conText</span>
-                                            <i class="fa fa-external-link" aria-hidden="true"></i>
-                                        </a>
+@*                                             <i class="fa fa-external-link" aria-hidden="true"></i>
+ *@                                        </a>
 
                                     }
 

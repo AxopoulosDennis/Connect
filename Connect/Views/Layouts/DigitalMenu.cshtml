@@ -4,6 +4,12 @@
 
 @{
     Layout = null;
+
+    var privacyTerms = Umbraco.ContentAtRoot().
+           Where(x => x.IsDocumentType("privacyTerms")).FirstOrDefault();
+
+
+
 }
 
 <!DOCTYPE html>
@@ -18,11 +24,22 @@
 
     @RenderBody()
 
-    <footer>
-@*         <div class="container" style="min-height:100px; padding-top: 60px;">
-            &copy; 2023 - DigitalMenu - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div> *@
+    <footer id="footer" >
+        <div class="footer-content">
+
+            <span class="copyright">
+                © Tonny 2024. All rights reserved.
+            </span>
+
+            <div class="links__container">
+                <span class="terms">
+                    <a href="@privacyTerms.Url()" target="_blank">Όροι χρήσης & Πολιτική απορρήτου</a>
+                </span>
+            </div>
+
+        </div>
     </footer>
+
 
     <partial name="Scripts/_DigitalMenu" />
     @await RenderSectionAsync("BeforeBodyClose", required: false)

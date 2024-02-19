@@ -2273,4 +2273,60 @@ body {
                 }
             }
         }
-    }  
+    }
+
+.tonny{
+    margin-top: 2em;
+}
+
+footer {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2em;
+    text-align: center;
+
+
+    .footer-content {
+        border-top: 1px solid lightgray;
+        max-width: 960px;
+        width: 100%;
+        padding: 2em 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+        margin: 0 2em;
+        color: #a9b8c9;
+        font-size: .835rem;
+        font-weight: 500;
+
+        a {
+            text-decoration: none;
+            color: #a9b8c9;
+            font-size: .835rem;
+            font-weight: 500;
+
+
+
+        }
+
+        .copyright {
+            color: #a9b8c9;
+            font-size: .835rem;
+            font-weight: 500;
+        }
+
+        .terms {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a9b8c9;
+            font-size: .835rem;
+            font-weight: 500;
+        }
+    }
+}
