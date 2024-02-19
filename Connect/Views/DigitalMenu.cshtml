@@ -24,6 +24,8 @@
 
     var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
 }
+<input type="hidden" id="themeColor"  value="@themeColor"/>
+
 <div class="qr-code">
     @Html.AntiForgeryToken()
 
@@ -73,7 +75,7 @@
 
                         <div class="search-placeholder">
                             <div class="input-container">
-                                <input id="searchInput" placeholder="Αναζήτηση..." />
+                                <input id="searchInput" placeholder="Αναζήτηση..."  style="background-color:@themeColor"/>
                             </div>
                         </div>
 
@@ -664,6 +666,26 @@
 
 
                                                                         </div>
+
+                                                                        <style>
+                                                                            .out-of-stock-product:after {
+                                                                                content: "OUT OF STOCK";
+                                                                                display: flex;
+                                                                                justify-content: center;
+                                                                                align-items: center;
+                                                                                position: absolute;
+                                                                                left: 30px;
+                                                                                top: 0;
+                                                                                width: 100%;
+                                                                                height: .9em;
+                                                                                background-color: @themeColor;
+                                                                                transform: rotate(45deg);
+                                                                                opacity: 70%;
+                                                                                margin: 50px;
+                                                                                color: white;
+                                                                                font-size: 1.4rem;
+                                                                            }
+                                                                        </style>
                                                                     </div>
 
 
@@ -1034,7 +1056,7 @@
             <span class="close-container" id="close-item">
                 <i class="fa fa-close"></i>
             </span>
-            <div class="section-title" id="sectionTitle"></div>
+            <div class="section-title" id="sectionTitle" style="border-bottom: 3px solid @themeColor;"></div>
 
         </div>
 

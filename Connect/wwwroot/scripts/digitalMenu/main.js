@@ -419,6 +419,9 @@ $(document).ready(() => {
     let slider;
     let thumbs;
 
+    var themeColor = $("#themeColor").val();
+    var style = 'style="background-color:' + themeColor + ';"'
+
     $(products).on("click", function (event) {
 
         $("#main-gallery-swiper").empty();
@@ -518,7 +521,7 @@ $(document).ready(() => {
 
 
                 thumbsProducts +=
-                    '                <div class="swiper-slide">' +
+                    '                <div class="swiper-slide"' + style + '>' +
                     '                    <div class="text-photo-container">' +
                     '                        <div class="product-info">' +
                     '                            <div class="product-text">' +
@@ -738,7 +741,7 @@ $(document).ready(() => {
 
 
                     thumbsProducts +=
-                        '                <div class="swiper-slide">' +
+                        '                <div class="swiper-slide"' + style + '>' +
                         '                    <div class="text-photo-container">' +
                         '                        <div class="product-info">' +
                         '                            <div class="product-text">' +
