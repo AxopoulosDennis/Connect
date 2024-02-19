@@ -562,13 +562,28 @@ body.loaded {
   margin: 0;
   padding: 0;
   padding: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+.main__page__content .contact .my-form input {
+  position: relative;
+}
+.main__page__content .contact .my-form .grid-2, .main__page__content .contact .my-form .grid-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
 }
 .main__page__content .contact .my-form h1 {
   margin-bottom: 1.5rem;
 }
 .main__page__content .contact .my-form li,
 .main__page__content .contact .my-form .grid > *:not(:last-child) {
-  margin-bottom: 1.5rem;
+  /*            margin-bottom: 1.5rem;
+  */
 }
 .main__page__content .contact .my-form select,
 .main__page__content .contact .my-form input,
@@ -928,4 +943,22 @@ footer .footer-content .terms {
   color: #a9b8c9;
   font-size: 0.835rem;
   font-weight: 500;
+}
+
+.feedback-error {
+  display: none !important;
+  font-size: 0.835rem;
+  margin-left: 0.35rem;
+}
+
+.send-error {
+  margin-top: 2em !important;
+  color: indianred;
+  opacity: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.main__page__content p {
+  background-color: transparent !important;
 }

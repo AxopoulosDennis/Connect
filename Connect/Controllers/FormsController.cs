@@ -135,6 +135,12 @@ namespace Connect.Controllers
 
                 sb_client.Append("<table width='600' style='width:600px;'>");
 
+
+                sb_client.Append("<tr>");
+                sb_client.Append("<td>Subject: &nbsp;</td>");
+                sb_client.Append("<td>" + model.Subject ?? "" + "</td>");
+                sb_client.Append("</tr>");
+
                 sb_client.Append("<tr>");
                 sb_client.Append("<td>First Name: &nbsp;</td>");
                 sb_client.Append("<td>" + model.FirstName + "</td>");
@@ -146,13 +152,13 @@ namespace Connect.Controllers
                 sb_client.Append("</tr>");
 
                 sb_client.Append("<tr>");
-                sb_client.Append("<td>Subject: &nbsp;</td>");
-                sb_client.Append("<td>" + model.Subject ?? "" + "</td>");
+                sb_client.Append("<td>E-mail: &nbsp;</td>");
+                sb_client.Append("<td>" + model.Email + "</td>");
                 sb_client.Append("</tr>");
 
                 sb_client.Append("<tr>");
-                sb_client.Append("<td>E-mail: &nbsp;</td>");
-                sb_client.Append("<td>" + model.Email + "</td>");
+                sb_client.Append("<td>Tel: &nbsp;</td>");
+                sb_client.Append("<td>" + (model.Tel ?? "") + "</td>");
                 sb_client.Append("</tr>");
 
                 sb_client.Append("<tr>");
@@ -170,10 +176,10 @@ namespace Connect.Controllers
                 System.Net.Mail.MailMessage msg_client = new System.Net.Mail.MailMessage();
                 msg_client.IsBodyHtml = true;
                 msg_client.Body = sb_client.ToString();
-                msg_client.Subject = "KBVL WEBSITE - Contact Form Submission: " + model.FirstName + " " + model.LastName;
+                msg_client.Subject = "TONNY WEBSITE - Contact Form Submission: " + model.FirstName + " " + model.LastName;
                 msg_client.BodyEncoding = System.Text.Encoding.UTF8;
                 msg_client.From = new System.Net.Mail.MailAddress(config["MailSettings:MailSmtpFrom"],
-                    config["MailSettings:MailDisplayName"]);
+                config["MailSettings:MailDisplayName"]);
 
                 msg_client.To.Add(config["MailSettings:Recipients"]);
                 if (config["MailSettings:CcRecipients"] != "")
@@ -196,8 +202,8 @@ namespace Connect.Controllers
                 client.EnableSsl = (config["MailSettings:MailUseSsl"] == "true" ? true : false);
                 client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
                 client.Credentials = new System.Net.NetworkCredential(
-                    config["MailSettings:MailSmtpFrom"],
-                    config["MailSettings:MailSmtpPassword"]);
+                config["MailSettings:MailSmtpFrom"],
+                config["MailSettings:MailSmtpPassword"]);
 
                 client.Send(msg_client);
 
@@ -254,7 +260,7 @@ namespace Connect.Controllers
 
                 if (baseUrl.Contains("localhost"))
                 {
-                    baseUrl = "https://kbvl.noetik.gr/";
+                    baseUrl = "https://tonny.gr/";
                     var fullUrl = baseUrl + "media/hxhjrx3h/logo_email.png?rmode=max&width=500&v=1d9e0fa398b74b4";
                     sb_client.Append($"<img border=\"0\" alt =\"\" style = \"display: block; width: 140px; height: 38px; \" src=\"{fullUrl}\" />");
 
@@ -275,7 +281,7 @@ namespace Connect.Controllers
                 msg_client.Body = sb_client.ToString();
                 if (type == ConfirmationEmailTypeConstants.Contact)
                 {
-                    msg_client.Subject = "KBVL WEBSITE - Contact Form: " + email;
+                    msg_client.Subject = "TONNY WEBSITE - Contact Form: " + email;
 
                 }
 

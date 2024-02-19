@@ -181,13 +181,11 @@
                 <section class="contact" id="contact">
                     <div class="section__title">Επικοινωνία</div>
 
-                <div id="NewsletterSuccessMessage" class="mbc-3 mt-4" style="display:none;">
-                    <p class="successMessage text-success text-center" >
-                        @umbracoHelper.GetDictionaryValue("Forms.Contact.ThankYou", "Ευχαριστούμε, λάβαμε το μηνυμά σας και θα σας απαντήσουμε σύντομα.")
-                    </p>
-                </div>
 
-                <form class="my-form">
+
+                <form class="my-form contact-form">
+                    @Html.AntiForgeryToken()
+
                     <div class="container">
                         <ul>
                             <li>
@@ -243,7 +241,11 @@
                         </span>
                     </div>
                 </form>
-
+                <div id="NewsletterSuccessMessage" class="mbc-3" style="margin-top:4em;">
+                    <p class="successMessage text-success text-center">
+                        @umbracoHelper.GetDictionaryValue("Forms.Contact.ThankYou", "Ευχαριστούμε, λάβαμε το μηνυμά σας και θα σας απαντήσουμε σύντομα.")
+                    </p>
+                </div>
 
 @*                 
 

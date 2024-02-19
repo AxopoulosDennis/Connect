@@ -1171,8 +1171,8 @@
             @if (showHours == true)
             {
                 var standardHours = Model?.Value<IEnumerable<OpenOrClosed.Core.ViewModels.DaysViewModel>>("standardHours");
-
-
+@*                 var specialHours = Model?.Value <IEnumerable<OpenOrClosed.Core.ViewModels.SpecialDaysViewModel>>("specialBusinessHours");
+ *@
                 <div class="info-item-container">
                     <div class="title-tooltip">
                         <h3 class="s-title  ">
@@ -1196,6 +1196,7 @@
 
                                     @foreach (var day in standardHours)
                                     {
+
                                         if (day != null)
                                         {
                                             <tr>
@@ -1248,13 +1249,14 @@
                                                 {
                                                     foreach (var hours in day.HoursOfBusiness)
                                                     {
-                                                        if (hours.OpensAt != null && hours.ClosesAt != null)
+                                                        <td class="open-text">
+                                                        @if (hours.OpensAt != null && hours.ClosesAt != null)
                                                         {
-                                                            <td class="open-text">
+                                                            
                                                                 @hours?.OpensAt?.ToString("HH:mm") <text> - </text>@hours?.ClosesAt?.ToString("HH:mm") <br />
-                                                            </td>
                                                         }
 
+                                                        </td>
 
                                                     }
                                                 }

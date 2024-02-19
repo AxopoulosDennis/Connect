@@ -917,6 +917,7 @@ body .qr-code.show .container .qr-container {
   display: flex;
   justify-content: center;
   font-weight: 500;
+  border-bottom: 3px solid #e3edf7;
 }
 .item-info .close-container {
   border-radius: 100px;
@@ -961,7 +962,7 @@ body .qr-code.show .container .qr-container {
 }
 .item-info .gallery-thumbs .swiper-slide {
   width: 100px;
-  height: 100px;
+  height: 110px;
   text-align: center;
   overflow: hidden;
   opacity: 0.1;
@@ -1273,6 +1274,7 @@ body .qr-code.show .container .qr-container {
   background-color: white;
   padding-bottom: 3em;
   max-width: 960px;
+  width: 100%;
   padding: 0.4em;
   /*        border: 1px solid lightgray;
   */
@@ -1897,4 +1899,8 @@ footer .footer-content .terms {
   color: #a9b8c9;
   font-size: 0.835rem;
   font-weight: 500;
+}
+
+.main__page__content p {
+  background-color: transparent !important;
 }

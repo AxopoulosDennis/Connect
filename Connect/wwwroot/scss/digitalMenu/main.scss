@@ -1145,6 +1145,7 @@ body {
         display: flex;
         justify-content: center;
         font-weight: 500;
+        border-bottom: 3px solid #e3edf7;
     }
 
 
@@ -1196,7 +1197,7 @@ body {
 
             .swiper-slide {
                 width: 100px;
-                height: 100px;
+                height: 110px;
                 text-align: center;
                 overflow: hidden;
                 opacity: .1;
@@ -1578,6 +1579,7 @@ body {
             background-color: white;
             padding-bottom: 3em;
             max-width: 960px;
+            width: 100%;
             padding: .4em;
             /*        border: 1px solid lightgray;
 */
@@ -2330,3 +2332,4 @@ footer {
         }
     }
 }
+
