@@ -217,8 +217,8 @@ body.loaded {
     justify-content: center;
   }
   .main__page__content .nav-links.open {
-    clip-path: circle(1000px at 90% -10%);
-    -webkit-clip-path: circle(1000px at 90% -10%);
+    clip-path: circle(1200px at 90% -10%);
+    -webkit-clip-path: circle(1200px at 90% -10%);
     pointer-events: all;
   }
   .main__page__content .nav-links li {

@@ -8,7 +8,7 @@
 
 @{
     Layout = "Layouts/DigitalMenu";
-    
+
 
     var triggerColor = Model?.Value("aboutTriggerColor") ?? "ffffff";
     var menuSections = Model?.Value<IEnumerable<BlockListItem>>("menuSections");
@@ -21,6 +21,8 @@
     var dealItems = Model?.Value<IEnumerable<BlockListItem>>("dealItem")?.Where(x => x.Content.Value<bool>("hide") == false);
     var home = Umbraco.ContentAtRoot().
          Where(x => x.IsDocumentType("home")).FirstOrDefault();
+
+    var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
 }
 <div class="qr-code">
     @Html.AntiForgeryToken()
@@ -75,7 +77,7 @@
                             </div>
                         </div>
 
-                        <div class="menu-navigation-container">
+                        <div class="menu-navigation-container" style="background-color:@themeColor;">
 
 
                             <nav class="nav swiper mySwiper">
@@ -376,10 +378,10 @@
 
                                                             <div class="tags-container" data-filters-type="beer">
 
-                                                                <span class="tag" data-abv="@alc">
+                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
                                                                     @alc% ALC
                                                                 </span>
-                                                                <span class="tag" data-ibu="@ibu">
+                                                                <span class="tag" data-ibu="@ibu" style="background-color:@themeColor">
                                                                     @ibu IBU
                                                                 </span>
 
@@ -392,7 +394,7 @@
 
                                                             <div class="tags-container" data-filters-type="beer">
 
-                                                                <span class="tag" data-abv="@alc">
+                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
                                                                     @alc% ALC
                                                                 </span>
                                                                 @*                                                      <span class="tag" data-ibu="@ibu">
@@ -409,7 +411,7 @@
 
                                                             <div class="tags-container" data-filters-type="beer">
 
-                                                                <span class="tag" data-abv="@alc">
+                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
                                                                     @alc% ALC
                                                                 </span>
                                                                 @*                                                      <span class="tag" data-ibu="@ibu">
@@ -428,7 +430,7 @@
                                                             {
                                                                 <div class="tags-container" data-filters-type="beer">
 
-                                                                    <span class="tag" data-abv="@spiciness">
+                                                                    <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
                                                                         @if(spiciness == "1")
                                                                         {
                                                                             <i class="fa fa-pepper-hot"></i>
