@@ -245,32 +245,32 @@ namespace Connect.Controllers
 
                 if (type == ConfirmationEmailTypeConstants.Contact)
                 {
-                    var settings = _umbracoHelper.ContentAtRoot().FirstOrDefault(x => x.ContentType.Alias == "settings");
-                    if (settings != null)
+
+
+
+                    var baseUrl = config["Environment:BaseUrl"];
+                    var imgUrl = "";
+                    if (baseUrl.Contains("localhost"))
                     {
-                        var template = settings.Value<string>("contactReplyTemplate") ?? "";
-                        sb_client.Append(template);
+                        baseUrl = "https://tonny.gr/";
+                        var fullUrl = baseUrl + "images/tonny.png";
+                        imgUrl =  $"<img border=\"0\" alt =\"\" style = \"display: block; width: 160px; height: 80px; \" src=\"{fullUrl}\" />";
+
+
+                    }
+                    else
+                    {
+                       imgUrl = $"<img border=\"0\" alt =\"\" style = \"display: block; width: 160px; height: 80px; \" src=\"{baseUrl}/images/tonny.png\" />";
 
                     }
 
 
-                }
-
-                var baseUrl = config["Environment:BaseUrl"];
-
-                if (baseUrl.Contains("localhost"))
-                {
-                    baseUrl = "https://tonny.gr/";
-                    var fullUrl = baseUrl + "media/hxhjrx3h/logo_email.png?rmode=max&width=500&v=1d9e0fa398b74b4";
-                    sb_client.Append($"<img border=\"0\" alt =\"\" style = \"display: block; width: 140px; height: 38px; \" src=\"{fullUrl}\" />");
-
+                    var template = $"<body> \r\n<table cellpadding=\"0\" cellspacing=\"0\" width=\"640\" align=\"start\" border=\"0\">     \r\n<tr>         \r\n<td>            \r\n<table cellpadding=\"0\" cellspacing=\"0\" width=\"640\" align=\"left\" border=\"0\">                 \r\n<tr>                     \r\n<td>{imgUrl}</td>                 \r\n</tr>             \r\n</table>                        \r\n<table cellpadding=\"4px\" cellspacing=\"0\" width=\"640\" align=\"left\" border=\"1\">                 \r\n<tr>                     \r\n<td>Ευχαριστούμε για την επικοινωνία, λάβαμε το μηνυμά σας και θα σας απαντήσουμε σύντομα.</td>                 \r\n</tr>             \r\n</table>         \r\n</td>     \r\n</tr> \r\n</table> \r\n</body>";
+                    sb_client.Append(template);
 
                 }
-                else
-                {
-                    sb_client.Append($"<img border=\"0\" alt =\"\" style = \"display: block; width: 140px; height: 38px; \" src=\"{baseUrl}/images/logo_email.png\" />");
 
-                }
+
 
 
 
@@ -281,7 +281,7 @@ namespace Connect.Controllers
                 msg_client.Body = sb_client.ToString();
                 if (type == ConfirmationEmailTypeConstants.Contact)
                 {
-                    msg_client.Subject = "TONNY WEBSITE - Contact Form: " + email;
+                    msg_client.Subject = "Tonny - Digital Menu Services";
 
                 }
 
