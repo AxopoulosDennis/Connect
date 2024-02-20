@@ -26,6 +26,7 @@
 }
 <input type="hidden" id="themeColor"  value="@themeColor"/>
 
+
 <div class="qr-code">
     @Html.AntiForgeryToken()
 
@@ -43,7 +44,10 @@
 </div>
 
 <div class="inner-body" style="display:none">
-    <div class="main-content-page">
+
+
+    <div class="main-content-page" id="mainPage">
+        <button class="overlay" id="overlay"></button>
 
         <div class="inner-content">
 
@@ -1050,7 +1054,7 @@
 
     </div>
 
-    <div class="item-info loading">
+    <div class="item-info loading" id="item-info">
 
         <div class="top-bar">
             <span class="close-container" id="close-item">

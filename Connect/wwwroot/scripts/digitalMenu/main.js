@@ -57,6 +57,8 @@ $(document).ready(() => {
         $(".inner-body").show();
     }
 
+
+
     //#region SWIPER INIT
 
     //MENU NAVIGATION SWIPER
@@ -408,13 +410,25 @@ $(document).ready(() => {
     //#endregion
 
 
+    function onTouchMove(event) {
+        event.preventDefault()
+        event.bubbles = false;
+        return false
+    }
+
+    function onTouchStart(event) {
+        event.preventDefault()
+        event.bubbles = false;
+        return false
+    };
+
 
 
     //#region Single Product Info
 
     var products = $(".product");
     var close = $("#close-item");
-    var lastPosBeforeItemOpen = window.scrollY;
+    let lastPosBeforeItemOpen = window.scrollY;
 
     let slider;
     let thumbs;
@@ -422,10 +436,27 @@ $(document).ready(() => {
     var themeColor = $("#themeColor").val();
     var style = 'style="background-color:' + themeColor + ';"'
 
+  
+
     $(products).on("click", function (event) {
+        lastPosBeforeItemOpen = window.scrollY;
+
+        
+        $("body").addClass("no-scroll");
+        $(".main-content-page").addClass("blur");
+
+
+        let scrollElement = document.getElementById("mainPage");
+
+        scrollElement.addEventListener('touchstart', onTouchStart)
 
         $("#main-gallery-swiper").empty();
         $("#thumbs-gallery-swiper").empty();
+
+
+
+
+
 
         if (slider != undefined) {
             slider.destroy(true);
@@ -436,10 +467,7 @@ $(document).ready(() => {
 
         }
 
-        $("body").addClass("no-scroll");
-        $(".main-content-page").addClass("blur");
 
-        lastPosBeforeItemOpen = window.scrollY;
 
             var categoryIndex = parseInt($(this).attr("data-real-cat-index"));
             var category = $("#category_" + categoryIndex);
@@ -540,6 +568,7 @@ $(document).ready(() => {
         slider = new Swiper('.gallery-slider', {
             slidesPerView: 1,
             centeredSlides: false,
+            direction: 'horizontal',
 
         });
 
@@ -548,6 +577,7 @@ $(document).ready(() => {
             spaceBetween: 20,
             centeredSlides: true,
             slideToClickedSlide: true,
+            direction: 'horizontal',
 
         });
 
@@ -559,39 +589,52 @@ $(document).ready(() => {
         thumbs.on('slideChange', function () {
             slider.slideTo(thumbs.activeIndex)
         });
-        slider.on('sliderFirstMove', function (s,e) {
+
+
+        slider.on('sliderMove', function (s, e) {
+
+        
             var nextCat = document.getElementById("category_" + (categoryIndex + 1))
             var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
             //if is last swiper
             if (nextCat != null) {
                 if (slider.isEnd) {
-                    var swiped = e.movementX;
-                    if (swiped < 0) {
+
+                    var swiped = s.touches.diff;
+
+                    if (swiped != undefined) {
+                        if (swiped < 0) {
 
 
-                        //$(".gallery").addClass("hide");
-                        //$(".loader-container").removeClass("hide");
+                            //$(".gallery").addClass("hide");
+                            //$(".loader-container").removeClass("hide");
 
 
-                        //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+                            //setTimeout(nextCatSwiper, 400, categoryIndex, true);
 
-                        nextCatSwiper(categoryIndex, true);
-                    }
-                }
-                else if (slider.activeIndex == 0) {
-                    if (prevCat != null) {
-                        var swiped = e.movementX;
-                        if (swiped > 0) {
-                            nextCatSwiper(categoryIndex, false);
-
+                            nextCatSwiper(categoryIndex, true);
                         }
                     }
+                    else if (slider.activeIndex == 0) {
+                        if (prevCat != null) {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+                                nextCatSwiper(categoryIndex, false);
 
+                            }
+                        }
+
+                    }
                 }
+                else {
+                }
+
+
+ 
             }
             else {
-                var swiped = e.movementX;
+                var swiped = s.touches.diff;
                 if (swiped > 0) {
 
                     nextCatSwiper(categoryIndex, false);
@@ -644,8 +687,6 @@ $(document).ready(() => {
 
         if (catExists != null && catExists != undefined) {
             if (category != undefined) {
-
-
 
 
 
@@ -811,7 +852,7 @@ $(document).ready(() => {
                 thumbs.on('slideChange', function () {
                     slider.slideTo(thumbs.activeIndex)
                 });
-                slider.on('sliderFirstMove', function (s, e) {
+                slider.on('sliderMove', function (s, e) {
 
                     var nextCat = document.getElementById("category_" + (categoryIndex + 1))
                     var prevCat = document.getElementById("category_" + (categoryIndex + -1))
@@ -819,7 +860,7 @@ $(document).ready(() => {
                     //if is last swiper
                     if (nextCat != null) {
                         if (slider.isEnd) {
-                            var swiped = e.movementX;
+                            var swiped = s.touches.diff;
                             if (swiped < 0) {
 
 
@@ -834,7 +875,7 @@ $(document).ready(() => {
                         }
                         else if (slider.activeIndex == 0) {
                             if (prevCat != null) {
-                                var swiped = e.movementX;
+                                var swiped = s.touches.diff;
                                 if (swiped > 0) {
                                     nextCatSwiper(categoryIndex, false);
 
@@ -844,7 +885,7 @@ $(document).ready(() => {
                         }
                     }
                     else {
-                        var swiped = e.movementX;
+                        var swiped = s.touches.diff;
                         if (swiped > 0) {
 
                             nextCatSwiper(categoryIndex, false);
@@ -873,6 +914,10 @@ $(document).ready(() => {
 
     var close = $("#close-item");
     $(close).on("click", function () {
+
+
+        let scrollElement = document.getElementById("mainPage");
+        scrollElement.removeEventListener('touchstart', onTouchStart)
 
 
         $(".main-content-page").removeClass("hide");

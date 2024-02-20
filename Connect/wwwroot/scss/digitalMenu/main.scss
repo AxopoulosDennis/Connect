@@ -7,6 +7,8 @@
     font-family: "Inter", sans-serif;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: auto !important;
 }
 
 p, h3 {
@@ -15,9 +17,31 @@ p, h3 {
 }
 
 body {
-    &.no-scroll {
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
         height: 100%;
+        width: 100vw;
+        opacity: 40%;
+        display: none;
+    }
+
+    &.no-scroll {
         overflow: hidden;
+        touch-action: pan-x;
+
+
+
+        .inner-body {
+            height: 100vh;
+        }
+
+        .overlay {
+            background-color: #e3edf7;
+            display: block;
+        }
     }
 
     .inner-body {
@@ -46,8 +70,8 @@ body {
 
         .bg-container-2 {
             position: absolute;
-            bottom:0;
-            left:0;
+            bottom: 0;
+            left: 0;
             background: url(/images/tonny.png);
             background-repeat: repeat-x;
             width: 100%;
@@ -123,6 +147,8 @@ body {
 }
 
 .main-content-page {
+
+
 
     .menu-navigation-bg-abs {
         z-index: 10;
@@ -223,8 +249,6 @@ body {
         flex-direction: column;
         justify-content: center;
         gap: 8px;
-
-  
     }
 }
 
@@ -1176,7 +1200,7 @@ body {
             .swiper-slide {
                 width: auto;
                 height: auto;
-                touch-action: pan-y;
+                touch-action: pan-x;
 
                 img {
                     display: block;
@@ -1932,6 +1956,7 @@ body {
 
     @media screen and (max-width:480px) {
         .item-info {
+            z-index: 200;
             .gallery-slider {
 
 
