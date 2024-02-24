@@ -957,10 +957,10 @@ $(document).ready(() => {
             //    nextEl: ".next" + index,
             //    prevEl: ".prev" + index,
             //},
-            //pagination: {
-            //    el: "swiper-pagination-" + index,
-            //    dynamicBullets: true,
-            //},
+            pagination: {
+                el: ".out-swiper-pagination-" + index,
+                dynamicBullets: true,
+            },
             direction: 'horizontal',
 
         });
@@ -974,7 +974,10 @@ $(document).ready(() => {
 
         //$(next).addClass("next" + index);
         //$(prev).addClass("prev" + index);
-        //$(pagination).addClass("swiper-pagination-" + index)
+
+        var pagination = $(this).find(".swiper-pagination");
+        $(pagination).addClass("out-swiper-pagination-" + index);
+        $(pagination).addClass("out-of-stock-pagination");
 
         var anotherOne = buildSwiperOutOfStock($(this), index);
         outOfStockSwipers.push(anotherOne);

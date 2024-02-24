@@ -1388,10 +1388,10 @@ body {
 /*                align-items: center;
 */
                 .out-of-stock-product {
-                    padding: 0;
+                    padding:  0;
                     position: relative;
                     border-bottom: 0 !important;
-
+                    padding-bottom: .4em;
 
 
 
@@ -2334,5 +2334,25 @@ footer {
 .product__container:last-of-type {
     .product {
         border-bottom: 0;
+    }
+}
+
+
+
+.out-of-stock-pagination {
+    position: relative;
+
+    .swiper-pagination-bullets-dynamic {
+        top: 0;
+    }
+
+    .swiper-pagination-bullet {
+        background-color: #e3edf7 !important;
+        opacity: 70%;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: #e3edf7 !important;
+        opacity: 100%;
     }
 }
