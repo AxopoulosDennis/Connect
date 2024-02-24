@@ -14,6 +14,45 @@ p, h3 {
 body {
   overflow-x: hidden;
 }
+body .outer-body {
+  min-height: 80vh;
+}
+body .outer-body .loader__container {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .outer-body .loader__container .loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}
 body.no-scroll {
   overflow: hidden;
   touch-action: pan-x;
@@ -1455,28 +1494,28 @@ body .qr-code.show .container .qr-container {
   opacity: 70%;
 }
 
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 56.5vh;
-}
-.loader-container.hide {
-  display: none;
-}
+/*    .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 56.5vh;
 
-.loader {
-  color: #708090;
-  font-size: 7px;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  position: relative;
-  text-indent: -9999em;
-  animation: mulShdSpin 1.3s infinite linear;
-  transform: translateZ(0);
-}
+        &.hide {
+            display: none;
+        }
+    }
 
+    .loader {
+        color: #708090;
+        font-size: 7px;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        position: relative;
+        text-indent: -9999em;
+        animation: mulShdSpin 1.3s infinite linear;
+        transform: translateZ(0);
+    }*/
 @keyframes mulShdSpin {
   0%, 100% {
     box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
