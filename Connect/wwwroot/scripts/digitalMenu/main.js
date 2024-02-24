@@ -808,7 +808,9 @@ $(document).ready(() => {
                         slidesPerView: 1,
                         centeredSlides: false,
                         cssMode: false,
-                        initialSlide: countSwipers
+                        initialSlide: countSwipers,
+                        direction: 'horizontal',
+
                     });
 
                     thumbs = new Swiper('.gallery-thumbs', {
@@ -817,7 +819,9 @@ $(document).ready(() => {
                         centeredSlides: true,
                         slideToClickedSlide: true,
                         cssMode: false,
-                        initialSlide: countSwipers
+                        initialSlide: countSwipers,
+                        direction: 'horizontal',
+
 
                     });
 
@@ -827,7 +831,9 @@ $(document).ready(() => {
                         slidesPerView: 1,
                         centeredSlides: false,
                         cssMode: false,
-                        initialSlide: 0
+                        initialSlide: 0,
+                        direction: 'horizontal',
+
                     });
 
                     thumbs = new Swiper('.gallery-thumbs', {
@@ -836,7 +842,9 @@ $(document).ready(() => {
                         centeredSlides: true,
                         slideToClickedSlide: true,
                         cssMode: false,
-                        initialSlide: 0
+                        initialSlide: 0,
+                        direction: 'horizontal',
+
 
                     });
 
@@ -923,14 +931,16 @@ $(document).ready(() => {
         $(".main-content-page").removeClass("hide");
         $(".item-info").removeClass("display");
 
+
+
+        $("body").removeClass("no-scroll");
+        $(".main-content-page").removeClass("blur");
+
         window.scrollTo({
             top: lastPosBeforeItemOpen,
             left: 0,
             behavior: 'instant',
         });
-
-        $("body").removeClass("no-scroll");
-        $(".main-content-page").removeClass("blur");
     });
 
 
@@ -951,6 +961,7 @@ $(document).ready(() => {
             //    el: "swiper-pagination-" + index,
             //    dynamicBullets: true,
             //},
+            direction: 'horizontal',
 
         });
     }
@@ -1011,6 +1022,8 @@ $(document).ready(() => {
                     depth: 100,
                     modifier: 1,
                     slideShadows: true,
+                    direction: 'horizontal',
+
                 },
             //pagination: {
             //    el: ".swiper-pagination",

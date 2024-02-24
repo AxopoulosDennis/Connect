@@ -47,7 +47,6 @@
 
 
     <div class="main-content-page" id="mainPage">
-        <button class="overlay" id="overlay"></button>
 
         <div class="inner-content">
 
@@ -179,46 +178,49 @@
                                             var dealPhoto = product?.Content?.Value<IPublishedContent>("dealPhoto")?.MediaUrl() ?? "";
                                             var dealDescription = product?.Content?.Value<string>("dealDescription") ?? "";
 
-                                            <div class="swiper-slide product"
-                                                 data-category="category_@counter"
-                                                 data-real-cat-index="@counter"
-                                                 data-product-index="@productIndex"
-                                                 data-desc="@dealDescription"
-                                                 data-name="@dealName"
-                                                 data-activate-discount="False"
-                                                 data-photo="@dealPhoto"
-                                                 data-original-price=""
-                                                 data-is-deals="True">
-                                                
-                                                 @{productIndex++;}
+                                                <div class="swiper-slide product"
+                                                     data-category="category_@counter"
+                                                     data-real-cat-index="@counter"
+                                                     data-product-index="@productIndex"
+                                                     data-desc="@dealDescription"
+                                                     data-name="@dealName"
+                                                     data-activate-discount="False"
+                                                     data-photo="@dealPhoto"
+                                                     data-original-price=""
+                                                     data-is-deals="True">
 
-                                                <div class="photo__caption">
-                                                    <div class="badge__container">
-                                                        @if(!string.IsNullOrEmpty(dealPhoto))
-                                                        {
-                                                            <img src="@dealPhoto" class="product__photo" />
-                                                        }
-                                                        <div class="special__prices">
-                                                            @if(product.Content.ContentType.Alias == "priceDealItem")
+                                                    @{
+                                                        productIndex++;
+                                                    }
+
+                                                    <div class="photo__caption">
+                                                        <div class="badge__container">
+                                                            @if (!string.IsNullOrEmpty(dealPhoto))
                                                             {
-                                                                var dealPrice = product?.Content?.Value<decimal>("price") ?? 0;
-
-                                                                <div class="price__badge"><span class="final-price has-discount">@dealPrice.ToString("F2")&#8364</span></div>
-
+                                                                <img src="@dealPhoto" class="product__photo" />
                                                             }
-                                                            else if (product.Content.ContentType.Alias == "textDealItem")
-                                                            {
-                                                                var dealText = product?.Content?.Value<string>("text") ?? "";
-                                                                <div class="price__badge"><span class="final-price">@dealText</span></div>
+                                                            <div class="special__prices">
+                                                                @if (product.Content.ContentType.Alias == "priceDealItem")
+                                                                {
+                                                                    var dealPrice = product?.Content?.Value<decimal>("price") ?? 0;
 
-                                                            }
+                                                                    <div class="price__badge"><span class="final-price has-discount">@dealPrice.ToString("F2")&#8364</span></div>
+
+                                                                }
+                                                                else if (product.Content.ContentType.Alias == "textDealItem")
+                                                                {
+                                                                    var dealText = product?.Content?.Value<string>("text") ?? "";
+                                                                    <div class="price__badge"><span class="final-price">@dealText</span></div>
+
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="caption">
+                                                            <p>@dealName</p>
                                                         </div>
                                                     </div>
-                                                    <div class="caption">
-                                                        <p>@dealName</p>
-                                                    </div>
                                                 </div>
-                                            </div>
+
 
                                         }
                                     </div>
@@ -320,147 +322,152 @@
 
                                                 if (hasVariations == false)
                                                 {
-                                                    <div class="product"
-                                                         data-category="category_@counter"
-                                                         data-real-cat-index="@counter"
-                                                         data-product-index="@productIndex"
-                                                         data-category-name="@catName"
-                                                         data-name="@productName"
-                                                         data-desc="@productDesc"
-                                                         data-original-price="@originalPrice.ToString("F2")&#8364"
-                                                         data-final-price="@finalPrice.ToString("F2")&#8364"
-                                                         data-activate-discount="@activateDiscount"
-                                                         data-photo="@mainPhoto">
+                                                    <div class="product__container">
+                                                        <div class="product"
+                                                             data-category="category_@counter"
+                                                             data-real-cat-index="@counter"
+                                                             data-product-index="@productIndex"
+                                                             data-category-name="@catName"
+                                                             data-name="@productName"
+                                                             data-desc="@productDesc"
+                                                             data-original-price="@originalPrice.ToString("F2")&#8364"
+                                                             data-final-price="@finalPrice.ToString("F2")&#8364"
+                                                             data-activate-discount="@activateDiscount"
+                                                             data-photo="@mainPhoto"
+                                                             role="button">
 
-                                                        @{
-                                                            productIndex++;
-                                                        }
-
-                                                        <div class="text-photo-container">
-                                                            <div class="product-info @className">
-
-                                                                <div class="product-text">
-
-                                                                    <h3>@productName</h3>
-                                                                    @if (!string.IsNullOrEmpty(productDesc))
-                                                                    {
-                                                                        <p>@productDesc</p>
-                                                                    }
-                                                                </div>
-
-                                                                <div class="product-price">
-                                                                    @if (!string.IsNullOrEmpty(discountType) && activateDiscount)
-                                                                    {
-
-
-                                                                        <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
-
-                                                                    }
-                                                                </div>
-
-
-
-
-                                                            </div>
-                                                            @if (!string.IsNullOrEmpty(mainPhoto))
-                                                            {
-                                                                <div class="product-photo-container">
-                                                                    <img src="@mainPhoto" class="product-photo">
-                                                                </div>
+                                                            @{
+                                                                productIndex++;
                                                             }
 
-                                                        </div>
+                                                            <div class="text-photo-container">
+                                                                <div class="product-info @className">
 
-                                                        @if (alias == "mlBeerVariation")
-                                                        {
-                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
-                                                            int? ibu = product.Content.Value<int>("internationalBitternessUnits");
-                                                            int? ml = product.Content.Value<int>("millilitre");
+                                                                    <div class="product-text">
 
-                                                            <div class="tags-container" data-filters-type="beer">
+                                                                        <h3>@productName</h3>
+                                                                        @if (!string.IsNullOrEmpty(productDesc))
+                                                                        {
+                                                                            <p>@productDesc</p>
+                                                                        }
+                                                                    </div>
 
-                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
-                                                                    @alc% ALC
-                                                                </span>
-                                                                <span class="tag" data-ibu="@ibu" style="background-color:@themeColor">
-                                                                    @ibu IBU
-                                                                </span>
-
-
-                                                            </div>
-                                                        }
-                                                        else if (alias == "generalAlcoholicBeverage")
-                                                        {
-                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
-
-                                                            <div class="tags-container" data-filters-type="beer">
-
-                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
-                                                                    @alc% ALC
-                                                                </span>
-                                                                @*                                                      <span class="tag" data-ibu="@ibu">
-                                    @ibu IBU
-                                    </span> *@
+                                                                    <div class="product-price">
+                                                                        @if (!string.IsNullOrEmpty(discountType) && activateDiscount)
+                                                                        {
 
 
-                                                            </div>
-                                                        }
-                                                        else if (alias == "wineBeverage")
-                                                        {
-                                                            decimal? alc = product.Content.Value<decimal>("alcohol");
-                                                            int? ml = product.Content.Value<int>("millilitre");
+                                                                            <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364<span class="original-price">@originalPrice.ToString("F2")&#8364</span></p>
 
-                                                            <div class="tags-container" data-filters-type="beer">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
 
-                                                                <span class="tag" data-abv="@alc" style="background-color:@themeColor">
-                                                                    @alc% ALC
-                                                                </span>
-                                                                @*                                                      <span class="tag" data-ibu="@ibu">
-                                    @ibu IBU
-                                    </span> *@
+                                                                        }
+                                                                    </div>
 
+
+
+
+                                                                </div>
+                                                                @if (!string.IsNullOrEmpty(mainPhoto))
+                                                                {
+                                                                    <div class="product-photo-container">
+                                                                        <img src="@mainPhoto" class="product-photo">
+                                                                    </div>
+                                                                }
 
                                                             </div>
 
-                                                        }
-                                                        else if (alias == "cocktailBeverage")
-                                                        {
-                                                            var spiciness = product?.Content?.Value("spiciness")?.ToString() ?? "";
-
-                                                            if(spiciness != null && spiciness != "0" && spiciness !="")
+                                                            @if (alias == "mlBeerVariation")
                                                             {
+                                                                decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                                int? ibu = product.Content.Value<int>("internationalBitternessUnits");
+                                                                int? ml = product.Content.Value<int>("millilitre");
+
                                                                 <div class="tags-container" data-filters-type="beer">
 
-                                                                    <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
-                                                                        @if(spiciness == "1")
-                                                                        {
-                                                                            <i class="fa fa-pepper-hot"></i>
-                                                                        }
-                                                                        else if(spiciness == "2")
-                                                                        {
-                                                                            <i class="fa fa-pepper-hot"></i>
-                                                                            <i class="fa fa-pepper-hot"></i>
-
-                                                                        }
-                                                                        else if(spiciness == "3")
-                                                                        {
-                                                                            <i class="fa fa-pepper-hot"></i>
-                                                                            <i class="fa fa-pepper-hot"></i>
-                                                                            <i class="fa fa-pepper-hot"></i>
-
-                                                                        }
+                                                                    <span class="tag" data-abv="@alc" style="background-color:@themeColor">
+                                                                        @alc% ALC
                                                                     </span>
+                                                                    <span class="tag" data-ibu="@ibu" style="background-color:@themeColor">
+                                                                        @ibu IBU
+                                                                    </span>
+
 
                                                                 </div>
                                                             }
+                                                            else if (alias == "generalAlcoholicBeverage")
+                                                            {
+                                                                decimal? alc = product.Content.Value<decimal>("alcohol");
 
-                                                        }
+                                                                <div class="tags-container" data-filters-type="beer">
+
+                                                                    <span class="tag" data-abv="@alc" style="background-color:@themeColor">
+                                                                        @alc% ALC
+                                                                    </span>
+                                                                    @*                                                      <span class="tag" data-ibu="@ibu">
+                                        @ibu IBU
+                                        </span> *@
+
+
+                                                                </div>
+                                                            }
+                                                            else if (alias == "wineBeverage")
+                                                            {
+                                                                decimal? alc = product.Content.Value<decimal>("alcohol");
+                                                                int? ml = product.Content.Value<int>("millilitre");
+
+                                                                <div class="tags-container" data-filters-type="beer">
+
+                                                                    <span class="tag" data-abv="@alc" style="background-color:@themeColor">
+                                                                        @alc% ALC
+                                                                    </span>
+                                                                    @*                                                      <span class="tag" data-ibu="@ibu">
+                                        @ibu IBU
+                                        </span> *@
+
+
+                                                                </div>
+
+                                                            }
+                                                            else if (alias == "cocktailBeverage")
+                                                            {
+                                                                var spiciness = product?.Content?.Value("spiciness")?.ToString() ?? "";
+
+                                                                if (spiciness != null && spiciness != "0" && spiciness != "")
+                                                                {
+                                                                    <div class="tags-container" data-filters-type="beer">
+
+                                                                        <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
+                                                                            @if (spiciness == "1")
+                                                                            {
+                                                                                <i class="fa fa-pepper-hot"></i>
+                                                                            }
+                                                                            else if (spiciness == "2")
+                                                                            {
+                                                                                <i class="fa fa-pepper-hot"></i>
+                                                                                <i class="fa fa-pepper-hot"></i>
+
+                                                                            }
+                                                                            else if (spiciness == "3")
+                                                                            {
+                                                                                <i class="fa fa-pepper-hot"></i>
+                                                                                <i class="fa fa-pepper-hot"></i>
+                                                                                <i class="fa fa-pepper-hot"></i>
+
+                                                                            }
+                                                                        </span>
+
+                                                                    </div>
+                                                                }
+
+                                                            }
+                                                        </div>
+
                                                     </div>
+
 
                                                 }
                                                 else

@@ -21,29 +21,35 @@
                 if (socialLink != null)
                 {
                     var imageSrc = "";
+                    var ariaLabel = "";
 
                     if (name == "facebook")
                     {
                         imageSrc = "/images/_3dtheme/light/social/facebook_social.png";
+                        ariaLabel = "Facebook";
                     }
                     else if (name == "instagram")
                     {
                         imageSrc = "/images/_3dtheme/light/social/instagram_social.png";
+                        ariaLabel = "Instagram";
 
                     }
                     else if (name == "tiktok")
                     {
                         imageSrc = "/images/_3dtheme/light/social/tiktok_social.png";
+                        ariaLabel = "TikTok";
+
                     }
                     else if (name == "tripadvisor")
                     {
                         imageSrc = "/images/_3dtheme/light/social/trip_social.png";
+                        ariaLabel = "Trip Advisor";
 
                     }
 
 
 
-                    <a href="@socialLink" target="_blank"><img class="social-icon" src="@imageSrc"></a>
+                    <a href="@socialLink" target="_blank"><img arial-label="Follow company on @ariaLabel" class="social-icon" src="@imageSrc"></a>
 
                 }
 
