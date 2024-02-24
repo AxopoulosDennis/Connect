@@ -23,6 +23,8 @@
          Where(x => x.IsDocumentType("home")).FirstOrDefault();
 
     var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
+
+    var isDemo = Model?.Value<bool>("isDemo") ?? false;
 }
 <input type="hidden" id="themeColor"  value="@themeColor"/>
 
@@ -44,6 +46,7 @@
 </div>
 
 <div class="outer-body">
+
 
     <div class="loader__container">
         <span class="loader"></span>
@@ -1220,7 +1223,8 @@
                     var contacts = Model?.Value<IEnumerable<BlockListItem>>("contacts");
                     var googleMapsLink = Model?.Value<Link>("googleMapsLink")?.Url ?? "";
                     var about = Model?.Value<string>("about") ?? "";
-
+                    var map = Model?.Value<string>("mapCode") ?? "";
+                    var hideMap = Model?.Value<bool>("hideMap") ?? true;
                 }
 
                 @if (showHours == true)
@@ -1409,6 +1413,11 @@
                     </div>
                 }
 
+                @if(!string.IsNullOrEmpty(map) && !hideMap)
+                {
+                    @Html.Raw(map);
+                }
+
                 @*     @if(!string.IsNullOrEmpty(about))
                 {
                 <div class="info-item-container">
@@ -1430,6 +1439,12 @@
 
         <div class="search-page-container"></div>
     </div>
+
+    @if(isDemo)
+    {
+        <div class="is__demo" id="isDemo"><span class="text">Αυτη η ιστοσελίδα είναι μια παρουσίαση και δεν αντικατοπτρίζει τις πραγματικές πληροφορίες της επιχείρησης.</span><span class="close-container" id="closeDemo"><i class="fa fa-close"></i></span></div>
+    }
+
 </div>
 
 

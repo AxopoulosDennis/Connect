@@ -481,7 +481,7 @@ body {
         flex-wrap: nowrap;
         align-items: center;
         justify-content: space-between;
-        height: 3.5em;
+        height: 4em;
 
         &.sticky {
             background-color: white;
@@ -532,9 +532,9 @@ body {
 
                 input {
 /*                    background-color: #e3edf7;
-*/                    padding: 6.8px 28px;
+*/                    padding: .5em 28px;
                     padding-right: 38px;
-                    border-radius: 20px;
+                    border-radius: 30px;
                     border-color: transparent;
                     display: block;
                     font-weight: 500;
@@ -557,7 +557,7 @@ body {
         }
 
         .menu-navigation-container {
-            border-radius: 20px;
+            border-radius: 30px;
             margin: 0 -6px;
             overflow: clip;
             width: 92%;
@@ -577,16 +577,16 @@ body {
                     justify-content: center;
                     align-items: center;
                     width: max-content;
-                    padding: 0 12px;
+                    padding: .1em 12px;
                     z-index: 1;
 
                     .nav-link {
-                        padding: 4px 16px;
+                        padding: .2em 16px;
                         margin: 6px 0;
                         color: black;
                         opacity: 60%;
                         font-weight: 500;
-                        font-size: .9rem;
+                        font-size: .975rem;
                         border-radius: 20px;
 
 
@@ -2406,4 +2406,52 @@ footer {
         background-color: #e3edf7 !important;
         opacity: 100%;
     }
+}
+
+.mapouter {
+    position: relative;
+    text-align: right;
+    width: 100%;
+    height: 400px;
+    padding: 0 2em;
+}
+
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    width: 100%;
+    height: 400px;
+}
+
+.gmap_iframe {
+    width: 100% !important;
+    height: 400px !important;
+ }
+
+.is__demo {
+    padding: 1.1em;
+    background-color: #e3edf7;
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    gap: 1em;
+    border: 1px solid lightgray;
+    font-size: .875rem;
+
+    .text{
+        opacity: 80%;
+    }
+
+    svg{
+    }
+
+    .close-container{
+
+    }
+
+   
 }

@@ -1334,6 +1334,13 @@ $(document).ready(() => {
     }, 500));
 
     //#endregion
+
+
+    $("#closeDemo").on("click", function () {
+
+        $("#isDemo").hide();
+
+    });
 });
 
 

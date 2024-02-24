@@ -382,7 +382,7 @@ body .qr-code.show .container .qr-container {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  height: 3.5em;
+  height: 4em;
 }
 .content-container .menu-navigation-bg.sticky {
   background-color: white;
@@ -423,9 +423,9 @@ body .qr-code.show .container .qr-container {
 .content-container .menu-navigation-bg .search-placeholder.expand input {
   /*                    background-color: #e3edf7;
   */
-  padding: 6.8px 28px;
+  padding: 0.5em 28px;
   padding-right: 38px;
-  border-radius: 20px;
+  border-radius: 30px;
   border-color: transparent;
   display: block;
   font-weight: 500;
@@ -443,7 +443,7 @@ body .qr-code.show .container .qr-container {
   background-color: #eff5fa;
 }
 .content-container .menu-navigation-bg .menu-navigation-container {
-  border-radius: 20px;
+  border-radius: 30px;
   margin: 0 -6px;
   overflow: clip;
   width: 92%;
@@ -462,16 +462,16 @@ body .qr-code.show .container .qr-container {
   justify-content: center;
   align-items: center;
   width: max-content;
-  padding: 0 12px;
+  padding: 0.1em 12px;
   z-index: 1;
 }
 .content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item .nav-link {
-  padding: 4px 16px;
+  padding: 0.2em 16px;
   margin: 6px 0;
   color: black;
   opacity: 60%;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.975rem;
   border-radius: 20px;
 }
 .content-container .menu-navigation-bg .menu-navigation-container .navigation-list .nav-item .nav-link.active {
@@ -1950,4 +1950,42 @@ footer .footer-content .terms {
 .out-of-stock-pagination .swiper-pagination-bullet-active {
   background-color: #e3edf7 !important;
   opacity: 100%;
+}
+
+.mapouter {
+  position: relative;
+  text-align: right;
+  width: 100%;
+  height: 400px;
+  padding: 0 2em;
+}
+
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  width: 100%;
+  height: 400px;
+}
+
+.gmap_iframe {
+  width: 100% !important;
+  height: 400px !important;
+}
+
+.is__demo {
+  padding: 1.1em;
+  background-color: #e3edf7;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  gap: 1em;
+  border: 1px solid lightgray;
+  font-size: 0.875rem;
+}
+.is__demo .text {
+  opacity: 80%;
 }
