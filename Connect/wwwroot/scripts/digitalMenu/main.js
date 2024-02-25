@@ -1147,9 +1147,7 @@ $(document).ready(() => {
     //#region Search
 
 
-
-
-    let lastPosBeforeSearch = window.scrollY;
+    var lastPosBeforeSearch = 0;
     $("#search-trigger").on("click", function () {
 
         if ($(this).hasClass("expanded")) {
@@ -1167,20 +1165,35 @@ $(document).ready(() => {
 
             $("#close-search-icon").removeClass("show");
             $("#open-search-icon").removeClass("hide");
-
             $("#searchInput").val("");
 
+            $(this).removeClass("expanded");
+
+            //setTimeout(function () {
+            //    window.scrollTo({
+            //        top: lastPosBeforeSearch,
+            //        left: 0,
+            //        behavior: 'instant',
+            //    });
+            //}, 50);
             window.scrollTo({
                 top: lastPosBeforeSearch,
                 left: 0,
                 behavior: 'instant',
             });
 
+            $([document.documentElement, document.body]).animate({
+                scrollTop: lastPosBeforeSearch
+            }, 100);
+
+
+
 
         }//if going to expand
         else {
-
             lastPosBeforeSearch = window.scrollY;
+
+            $(this).addClass("expanded")
 
             $(".category.deals").hide();
 
@@ -1199,12 +1212,24 @@ $(document).ready(() => {
 
             $(".out-of-stock-items").hide();
 
+            //window.scrollTo({
+            //    top: 0,
+            //    left: 0,
+            //    behavior: 'instant',
+            //});
 
             window.scrollTo({
                 top: 0,
                 left: 0,
                 behavior: 'instant',
             });
+
+            $([document.documentElement, document.body]).animate(
+            { scrollTop: 0 },
+            100);
+
+
+
 
             //$([document.documentElement, document.body]).animate({
             //    scrollTop: 0
@@ -1213,6 +1238,9 @@ $(document).ready(() => {
         }
 
  
+    });
+    $('textarea').on('touchstart', function () {
+        $(this).trigger("focus");
     });
 
 
