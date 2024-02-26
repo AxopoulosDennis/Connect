@@ -443,8 +443,6 @@ $(document).ready(() => {
     $(products).on("click", function (event) {
         lastPosBeforeItemOpen = window.scrollY;
 
-        
-        $("body").addClass("no-scroll");
         $(".main-content-page").addClass("blur");
 
 
@@ -683,6 +681,7 @@ $(document).ready(() => {
 
 
         $(".item-info").addClass("display");
+        $("body").addClass("no-scroll");
 
     });
     function delay(fn, ms) {
