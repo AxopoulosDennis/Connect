@@ -455,13 +455,14 @@ $(document).ready(() => {
 
 
         if (slider != undefined) {
-            slider.destroy(true);
+            slider.destroy(true,true);
 
         }
         if (thumbs != undefined) {
-            thumbs.destroy(true);
+            thumbs.destroy(true, true);
 
         }
+
 
 
 
@@ -528,7 +529,21 @@ $(document).ready(() => {
                         '                           <img src="' + image + '" class="product-photo">' +
                         '                        </div>' +
                         '                    </div>' +
-                        '                </div>';
+                        '                   <div class="tags-container">';
+
+                    var tags = $(categoryItems[index]).find(".tags-container");
+                    if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                        var children = $(tags).clone();
+                        mainProducts += children.html();
+                        mainProducts += '</div></div>';
+
+                    }
+                    else {
+                        mainProducts += '</div></div>';
+                    }
+
+
+                       
                 }
                 else
                 {
@@ -539,9 +554,21 @@ $(document).ready(() => {
                         '                           <div src="" class="product-photo"></div>' +
                         '                        </div>' +
                         '                    </div>' +
-                        '                </div>';
+                        '                   <div class="tags-container">';
+
+                    var tags = $(categoryItems[index]).find(".tags-container");
+                    if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                        var children = $(tags).clone();
+                        mainProducts += children.html();
+                        mainProducts += '</div></div>';
+
+                    }
+                    else {
+                        mainProducts += '</div></div>';
+                    }
+
                 }
-                    
+
 
 
                 thumbsProducts +=
@@ -719,11 +746,11 @@ $(document).ready(() => {
                 $("#thumbs-gallery-swiper").empty();
 
                 if (slider != undefined) {
-                    slider.destroy(true);
+                    slider.destroy(false,true);
 
                 }
                 if (thumbs != undefined) {
-                    thumbs.destroy(true);
+                    thumbs.destroy(false,true);
 
                 }
 
@@ -736,6 +763,7 @@ $(document).ready(() => {
 
                 let mainProducts = "";
                 let thumbsProducts = "";
+                
 
                 $(categoryItems).each(function (index) {
                     var name = $(categoryItems[index]).attr("data-name");
@@ -791,7 +819,21 @@ $(document).ready(() => {
                             '                           <img src="' + image + '" class="product-photo">' +
                             '                        </div>' +
                             '                    </div>' +
-                            '                </div>';
+                            '                   <div class="tags-container">';
+
+                        var tags = $(categoryItems[index]).find(".tags-container");
+                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                            var children = $(tags).clone();
+                            mainProducts += children.html();
+                            mainProducts += '</div></div>';
+
+                        }
+                        else {
+                            mainProducts += '</div></div>';
+                        }
+
+
+
                     }
                     else {
                         mainProducts +=
@@ -801,7 +843,19 @@ $(document).ready(() => {
                             '                           <div src="" class="product-photo"></div>' +
                             '                        </div>' +
                             '                    </div>' +
-                            '                </div>';
+                            '                   <div class="tags-container">';
+
+                        var tags = $(categoryItems[index]).find(".tags-container");
+                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                            var children = $(tags).clone();
+                            mainProducts += children.html();
+                            mainProducts += '</div></div>';
+
+                        }
+                        else {
+                            mainProducts += '</div></div>';
+                        }
+
                     }
 
 
@@ -821,7 +875,6 @@ $(document).ready(() => {
 
                 $("#main-gallery-swiper").prepend(mainProducts);
                 $("#thumbs-gallery-swiper").prepend(thumbsProducts);
-                var currentIndex = $(this).attr("data-product-index");
 
                 //Swiper to initial View Or Last Based On Swipe Direction
 
@@ -881,11 +934,11 @@ $(document).ready(() => {
                 slider.on('slideChange', function () {
                     thumbs.slideTo(slider.activeIndex)
                 });
-
                 thumbs.on('slideChange', function () {
                     slider.slideTo(thumbs.activeIndex)
                 });
-                slider.on('sliderMove', function (s, e) {
+
+                slider.on('sliderMove', function (s,e) {
 
                     var nextCat = document.getElementById("category_" + (categoryIndex + 1))
                     var prevCat = document.getElementById("category_" + (categoryIndex + -1))
@@ -926,7 +979,7 @@ $(document).ready(() => {
                     }
 
                 });
-                thumbs.on('sliderMove', function (s, e) {
+                thumbs.on('sliderMove', function (s,e) {
 
                     var nextCat = document.getElementById("category_" + (categoryIndex + 1))
                     var prevCat = document.getElementById("category_" + (categoryIndex + -1))
