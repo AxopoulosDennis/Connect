@@ -28,7 +28,7 @@
         <nav>
             <div class="logo-container">
                 <a class="logo" href="@home.Url()" style="text-decoration:none;">TONNY</a>
-
+                <img src="~/images/qr-tonny.png" />
             </div>
             <div class="hamburger">
                 <div class="line1"></div>
@@ -37,8 +37,8 @@
             </div>
             <ul class="nav-links">
 
-                <li><a class="nav__link" href="#partners">Συνεργάτες</a></li>
-                <li><a class="nav__link"  href="#about">Σχετικά</a></li>
+@*                 <li><a class="nav__link" href="#partners">Συνεργάτες</a></li>
+ *@                <li><a class="nav__link"  href="#about">Σχετικά</a></li>
                 <li><a class="nav__link"  href="#services">Υπηρεσίες</a></li>
                 <li><a class="join-button btn btn-4 hover-border-6 nav__link contact__trigger" href="#contact">ΓΙΝΕ ΣΥΝΕΡΓΑΤΗΣ</a></li>
 
@@ -46,7 +46,7 @@
         </nav>		
         
         <div class="main__content">
-            @if (partners?.Any() ?? false)
+@*             @if (partners?.Any() ?? false)
             {
                 <section class="partners" id="partners">
                     <div class="section__title">Δείχνουμε περηφάνια για τους συνεργάτες μας</div>
@@ -54,8 +54,7 @@
                     {
                         var name = item?.Content.Value<string>("brandName") ?? "";
                         var address = item?.Content.Value<string>("address") ?? "";
-@*                      var desc = item?.Content.Value<string>("desc") ?? "";
- *@                        
+                      
                         var url = item?.Content?.Value<Link>("url")?.Url ?? "";
                         var logo = item?.Content.Value<IPublishedContent>("logo")?.MediaUrl() ?? "";
 
@@ -87,19 +86,17 @@
 
                 </section>
             }
-
+ *@
                 <section class="about" id="about">
                     <div class="section__title">Σχετικά με το brand</div>
                     <div class="about__content">
                         <div class="about__text">
-                            Το tonny.gr είναι μια εγχώρια start up που αποσκοπεί
-                            στο να προσφέρει πρωτοπόρες ιδέες και λύσεις στην αγορά των ψηφιακών μενού,
-                            με συνεχής βελτιώση και άξονα τις ανάγκες των χρηστών και των συνεργατών της.
+                        Η εγχώρια start-up tonny.gr στοχεύει στο να υποστηρίξει τις τοπικές επιχειρήσεις προσφέροντάς τους προηγμένες λύσεις για την ψηφιακή παρουσία τους. Χρησιμοποιούμε τεχνολογία κορυφαίας ποιότητας για να δημιουργήσουμε εξατομικευμένα ψηφιακά μενού που ανταποκρίνονται στις ανάγκες και τις προτιμήσεις των πελατών μας. Με τον προσανατολισμό και την αφοσίωσή μας στην ποιότητα, βοηθάμε τις επιχειρήσεις να αναπτυχθούν και να επιτύχουν στην ψηφιακή εποχή.
                         </div>
 
-                        @{var aboutPhotos = Model?.Value<IEnumerable<IPublishedContent>>("brandPhotos");}
-
-                        @if(aboutPhotos?.Any() ?? false)
+@*                         @{var aboutPhotos = Model?.Value<IEnumerable<IPublishedContent>>("brandPhotos");}
+ *@
+@*                         @if(aboutPhotos?.Any() ?? false)
                         {
 
                             <div class="about_photos">
@@ -113,8 +110,13 @@
                                     </a>
                                 }
                             </div>
-                        }
+                        } *@
 
+                        <div class="section__title">Σκάναρέ το και μάθε περισσότερα.</div>
+                        <div class="qr__container">
+                            <img src="~/images/tonny-demo-qr.png" />
+                        <div class="tonny__demo__link"><a class="link" href="https://tonny.gr/demo" target="_blank">Παρουσιαστικό</a><i class="fa fa-external-link"></i></div>
+                        </div>
                     </div>
 
                 </section>
@@ -123,12 +125,7 @@
                 <section class="services" id="services">
                     <div class="section__title">Υπηρεσίες</div>
                     <div class="services__text">
-                        Νιώθεις τυχερός; Θα έπρεπε! Το Tonny.gr βρίσκεται στο πρώτο στάδιο της σταδιοδρομάς του.<br/>
-                        Αυτό σημαίνει πως σου προσφέρουμε τις υπηρεσίες μας εώς 31/05/2024 εντελώς δωρεάν. <br/> Θέλουμε να σιγουρευτούμε πως οι υπηρεσίες μας καλύπτουν
-                        τις ανάγκες σου.
-                        <br/>
-                        <br/>
-                        Δοκίμασέ το λοιπόν, δεν έχεις πάρα μόνο να κερδίσεις.
+                    Η επιχείρησή μας επιδεικνύει μια έντονη δέσμευση έναντι των πελατών της και της ποιότητας των υπηρεσιών που παρέχει. Γι' αυτόν τον λόγο, προσφέρουμε δωρεάν δοκιμαστικό για να δώσουμε στους πελάτες μας την ευκαιρία να εξετάσουν την ποιότητα και την ευκολία χρήσης των ψηφιακών μενού μας. Αυτή η προσφορά ισχύει έως τις 31/05/2024, προσφέροντας στους πελάτες μας την ευκαιρία να εξοικειωθούν με την εμπειρία που προσφέρουμε, πριν αποφασίσουν να κάνουν μια τελική επένδυση.
                     </div>
 
 					<div class="container">

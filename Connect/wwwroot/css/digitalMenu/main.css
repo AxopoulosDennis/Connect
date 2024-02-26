@@ -53,10 +53,21 @@ body .outer-body .loader__container .loader {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
   }
 }
+@keyframes fadeOut {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 body.no-scroll {
   overflow: hidden;
   touch-action: pan-x;
   position: fixed;
+}
+body.no-scroll .main-content-page {
+  opacity: 0;
 }
 body .inner-body.hide {
   display: none;
@@ -238,10 +249,11 @@ body .qr-code.show .container .qr-container {
   position: relative;
 }
 .brand-container .top-cover .cover-container .cover-image-container .cover-image {
-  border: 1px solid whitesmoke;
+  /*                    border: 1px solid whitesmoke;
+  */
   border-radius: 20px 20px;
   width: 100%;
-  min-height: 32vh;
+  min-height: 35vh;
   max-height: 35vh;
   object-fit: cover;
   -webkit-box-shadow: 0px 8px 6px -7px rgba(0, 0, 0, 0.56);
@@ -251,7 +263,6 @@ body .qr-code.show .container .qr-container {
   position: absolute;
   right: 0.8em;
   top: 0.2em;
-  color: lightgray;
   font-size: 1.6em;
   padding: 0.2em;
 }
@@ -265,7 +276,8 @@ body .qr-code.show .container .qr-container {
   z-index: 10;
 }
 .brand-container .top-cover .cover-container .brand-image-container .brand-image {
-  border: 1px solid whitesmoke;
+  /*                    border: 1px solid transparent;
+  */
   border-radius: 20px 20px;
   width: 100%;
   min-height: 7em;
@@ -280,6 +292,7 @@ body .qr-code.show .container .qr-container {
 }
 .brand-container .brand-info-container {
   margin-left: 1em;
+  margin-right: 1em;
   margin-top: 1.2em;
   display: flex;
   flex-direction: column;
@@ -1154,6 +1167,9 @@ body .qr-code.show .container .qr-container {
   border-radius: 10px;
   padding: 0.2em;
 }
+.out-of-stock-container .swiper-pagination {
+  z-index: 2;
+}
 .out-of-stock-container .out-of-stock-swiper {
   width: 100%;
   height: 100%;
@@ -1423,6 +1439,9 @@ body .qr-code.show .container .qr-container {
 }
 #brand-info-content .info-item-container .event-about {
   padding: 0.6em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
 }
 #brand-info-content .s-title {
   padding: 0.2em;
@@ -1978,7 +1997,6 @@ footer .footer-content .terms {
 
 .is__demo {
   padding: 1.1em;
-  background-color: #e3edf7;
   position: fixed;
   bottom: 0;
   z-index: 100;

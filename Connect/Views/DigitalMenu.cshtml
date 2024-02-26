@@ -199,6 +199,9 @@
                                                 var dealName = product?.Content?.Value<string>("dealName") ?? "";
                                                 var dealPhoto = product?.Content?.Value<IPublishedContent>("dealPhoto")?.MediaUrl() ?? "";
                                                 var dealDescription = product?.Content?.Value<string>("dealDescription") ?? "";
+                                                var price = product?.Content?.Value<decimal>("price") ?? 0;
+
+                                                var hasPrice = price > 0;
 
                                                 <div class="swiper-slide product"
                                                      data-category="category_@counter"
@@ -208,8 +211,10 @@
                                                      data-name="@dealName"
                                                      data-activate-discount="False"
                                                      data-photo="@dealPhoto"
-                                                     data-original-price=""
-                                                     data-is-deals="True">
+                                                     data-original-price="@price.ToString("F2")&#8364"
+                                                     data-is-deals="True"
+                                                     data-has-price="@hasPrice"
+                                                     role="button">
 
                                                     @{
                                                         productIndex++;
@@ -298,8 +303,12 @@
                                                     bool hasVariations = false;
                                                     bool activateDiscount = product.Content.Value<bool>("activateDiscount");
 
+
                                                     decimal discountAmount = product.Content.Value<decimal>("discountAmount");
                                                     decimal finalPrice = originalPrice;
+
+                                                    var hasPrice = originalPrice > 0;
+
 
                                                     var className = "";
                                                     if (string.IsNullOrEmpty(productDesc))
@@ -356,6 +365,7 @@
                                                                  data-final-price="@finalPrice.ToString("F2")&#8364"
                                                                  data-activate-discount="@activateDiscount"
                                                                  data-photo="@mainPhoto"
+                                                                 data-has-price="@hasPrice"
                                                                  role="button">
 
                                                                 @{
@@ -483,6 +493,73 @@
                                                                             </span>
 
                                                                         </div>
+                                                                    }
+
+                                                                }
+                                                                else if(alias == "foodItem")
+                                                                {
+                                                                    var filters = product?.Content?.Value<IEnumerable<string>>("foodFIlters")?? null;
+                                                                    var spiciness = product?.Content?.Value("spiciness")?.ToString() ?? "";
+
+                                                                    if ((spiciness != null && spiciness != "0" && spiciness != "") ||
+                                                                    (filters?.Any() ?? false))
+                                                                    {
+                                                                        <div class="tags-container" data-filters-type="food">
+
+                                                                            @if(filters?.Any() ?? false)
+                                                                            {
+                                                                                @foreach (var item in filters)
+                                                                                {
+                                                                                    <span class="tag" data-filter="@item" style="background-color:@themeColor">
+                                                                                        @item
+                                                                                    </span>
+
+                                                                                }
+                                                                            }
+
+                                                                            @if (spiciness != null && spiciness != "0" && spiciness != "")
+                                                                            {
+                                                                                <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
+
+                                                                                    @if (spiciness == "1")
+                                                                                    {
+                                                                                        <i class="fa fa-pepper-hot"></i>
+                                                                                    }
+                                                                                    else if (spiciness == "2")
+                                                                                    {
+                                                                                        <i class="fa fa-pepper-hot"></i>
+                                                                                        <i class="fa fa-pepper-hot"></i>
+
+                                                                                    }
+                                                                                    else if (spiciness == "3")
+                                                                                    {
+                                                                                        <i class="fa fa-pepper-hot"></i>
+                                                                                        <i class="fa fa-pepper-hot"></i>
+                                                                                        <i class="fa fa-pepper-hot"></i>
+
+                                                                                    }
+                                                                                </span>
+                                                                            }
+
+
+
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                                else if (alias == "nonAlcoholicDrink")
+                                                                {
+
+                                                                    var millilitre = product?.Content?.Value("millilitre")?.ToString() ?? "";
+                                                                    @if (millilitre != null && millilitre != "0" && millilitre != "")
+                                                                    {
+                                                                        <div class="tags-container" data-filters-type="nonAlcholicDrink">
+
+                                                                        <span class="tag" data-ml="@millilitre" style="background-color:@themeColor">
+                                                                            @millilitre ml                                            
+                                                                        </span>
+
+                                                                        </div>
+
                                                                     }
 
                                                                 }
@@ -615,7 +692,7 @@
                                                                 <div class="tags-container" data-filters-type="beer">
 
                                                                     <span class="tag" data-abv="@alc">
-                                                                        @alc% ABV
+                                                                        @alc% ALC
                                                                     </span>
                                                                     <span class="tag" data-ibu="@ibu">
                                                                         @ibu IBU
@@ -1150,7 +1227,7 @@
 
                 @if (events?.Any() ?? false)
                 {
-                    events = events.Where(x => !x.Content.Value<bool>("hide") && x.Content.Value<DateTime>("eventStart") > DateTime.Now);
+                    events = events.Where(x => !x.Content.Value<bool>("hide") && x.Content.Value<DateTime>("eventEnd") > DateTime.Now);
 
 
                     if (events?.Any() ?? false)
@@ -1452,8 +1529,14 @@
     @if(isDemo)
     {
         <div class="is__demo" id="isDemo"><span class="text">Αυτη η ιστοσελίδα είναι μια παρουσίαση και δεν αντικατοπτρίζει τις πραγματικές πληροφορίες της επιχείρησης.</span><span class="close-container" id="closeDemo"><i class="fa fa-close"></i></span></div>
+
     }
 
+    <style>
+        .is__demo {
+            background-color: @themeColor;
+        }
+    </style>
 </div>
 
 

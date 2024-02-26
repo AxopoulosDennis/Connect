@@ -1,7 +1,7 @@
 ﻿@charset "UTF-8";
 @font-face {
-  font-family: "ocraextended";
-  src: url("../../fonts/ocraextended.ttf") format("truetype");
+  font-family: "hacked";
+  src: url("../../fonts/hacked.ttf") format("truetype");
 }
 * {
   font-family: "Carlito", sans-serif;
@@ -25,10 +25,10 @@ body {
 }
 body.block {
   display: block;
-  background: #E3EDF7;
+  background: #252525;
 }
 body.loaded {
-  background-color: #E3EDF7;
+  background-color: #252525;
 }
 
 .main__page__content {
@@ -37,18 +37,25 @@ body.loaded {
   justify-content: center;
   align-items: center;
   height: 100%;
+  margin-bottom: 5em;
   /*Styling logo*/
   /*Styling Links*/
   /*Styling Buttons*/
   /*Styling Hamburger Icon*/
   /*Stying for small screens*/
   /*Animating Hamburger Icon on Click*/
+  /*
+  img {
+      max-width: 100%;
+      height: 450px;
+      box-shadow: 2px 2px 4px 1px #ddd;
+  }*/
 }
 .main__page__content .intro {
   text-align: center;
 }
 .main__page__content .intro h1 {
-  font-family: ocraextended;
+  font-family: hacked;
   font-size: 4rem;
   opacity: 0.1;
   color: #E3EDF7;
@@ -64,14 +71,14 @@ body.loaded {
     text-align: center;
   }
   .main__page__content .intro h1 {
-    font-family: ocraextended;
+    font-family: hacked;
     font-size: 2.8rem;
     opacity: 0.1;
     color: #E3EDF7;
   }
 }
 .main__page__content div.small {
-  background: #E3EDF7;
+  background: #252525;
   width: 20px;
   height: 20px;
   position: absolute;
@@ -84,7 +91,7 @@ body.loaded {
   width: 100%;
   height: 100%;
   border-radius: 0;
-  background: #E3EDF7;
+  background: #252525;
 }
 .main__page__content nav {
   height: 6rem;
@@ -97,18 +104,26 @@ body.loaded {
   left: 0;
   justify-content: space-between;
   z-index: 10;
-  padding: 0 1em;
+  padding: 0 0.4em;
 }
 .main__page__content .logo-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2em;
+  gap: 0.2em;
+}
+.main__page__content .logo-container img {
+  height: 100%;
+  width: 100%;
 }
 .main__page__content .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0.2em;
+  margin-top: 0.1em;
   text-align: center;
-  font-family: ocraextended;
+  font-family: hacked;
   font-size: 4rem;
   color: #E3EDF7;
   opacity: 0;
@@ -176,7 +191,6 @@ body.loaded {
   font-weight: 600;
   font-size: 2rem;
   padding: 0.2em;
-  padding-top: 1em;
   border-bottom: 1px solid rgba(19, 20, 24, 0.1);
   margin-bottom: 1em;
   width: 100%;
@@ -324,11 +338,6 @@ body.loaded {
   font-size: 18px;
   line-height: 1.3;
 }
-.main__page__content img {
-  max-width: 100%;
-  height: 450px;
-  box-shadow: 2px 2px 4px 1px #ddd;
-}
 @media (max-width: 600px) {
   .main__page__content .main {
     display: block;
@@ -351,6 +360,10 @@ body.loaded {
 .main__page__content .about {
   max-width: 1140px;
   width: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 30px 40px 40px;
   /*        @media(max-width:600px) {
       .about_photos {
           display: flex;
@@ -394,6 +407,11 @@ body.loaded {
 }
 .main__page__content .services {
   max-width: 1140px;
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  color: black;
+  border-radius: 12px;
+  padding: 30px 40px 40px;
 }
 .main__page__content .services .button-container {
   margin-top: 2em;
@@ -403,7 +421,7 @@ body.loaded {
 }
 .main__page__content .services .join-button {
   color: #f2f5f7;
-  background-color: #f0f8ff;
+  background-color: #E2ECF6;
   border: 1.5px solid aliceblue;
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
@@ -426,15 +444,11 @@ body.loaded {
 }
 .main__page__content .services .single-service {
   margin-top: 40px;
-  background-color: white;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  color: black;
-  border-radius: 12px;
 }
 .main__page__content .services .single-service .part-1 {
   padding: 30px 40px;
   border-bottom: 0;
-  background-color: aliceblue;
+  background-color: #E2ECF6;
   border-radius: 12px;
   color: black;
   display: flex;
@@ -498,6 +512,11 @@ body.loaded {
 .main__page__content .contact {
   width: 100%;
   max-width: 1140px;
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  color: black;
+  border-radius: 12px;
+  padding: 30px 40px 40px;
   /* Remove native arrow on IE */
   /*Remove dotted outline from selected option on Firefox*/
   /*https://stackoverflow.com/questions/3773430/remove-outline-from-select-box-in-ff/18853002#18853002*/
@@ -550,11 +569,7 @@ body.loaded {
   --bgFormElsFocus: hsl(0, 7%, 20%);
 }
 .main__page__content .contact .my-form {
-  background-color: white;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  color: black;
-  border-radius: 12px;
-  padding: 2em 0;
+  padding: 1em 0;
   display: flex;
   justify-content: center;
 }
@@ -722,14 +737,36 @@ body.loaded {
   }
 }
 @media screen and (max-width: 900px) {
+  .main__page__content .logo-container img {
+    display: none;
+  }
+  .main__page__content nav {
+    height: 4em;
+  }
   .main__page__content .main__content {
     padding: 1em 1em;
+    padding-top: 8em;
+  }
+  .main__page__content .main__content .about {
+    padding: 20px 18px 20px;
+  }
+  .main__page__content .main__content .services {
+    padding: 20px 18px 20px;
+  }
+  .main__page__content .main__content .services ul {
+    padding-left: 8px;
+  }
+  .main__page__content .main__content .contact {
+    padding: 20px 18px 20px;
+  }
+  .main__page__content .main__content .contact ul {
+    padding: 12px !important;
   }
   .main__page__content .intro {
     text-align: center;
   }
   .main__page__content .intro h1 {
-    font-family: ocraextended;
+    font-family: hacked;
     font-size: 2.8rem;
     opacity: 0.1;
     color: #E3EDF7;
@@ -796,6 +833,7 @@ body.loaded {
   color: black;
   width: 100%;
   max-width: 1140px;
+  padding-bottom: 4em;
 }
 .page__container .privacy__terms a {
   text-decoration: none;
@@ -829,7 +867,7 @@ body.loaded {
 .page__container .logo {
   padding: 0.2em;
   text-align: center;
-  font-family: ocraextended;
+  font-family: hacked;
   font-size: 4rem;
   color: #E3EDF7;
   opacity: 1;
@@ -907,7 +945,6 @@ footer {
   justify-content: center;
   padding-top: 2em;
   text-align: center;
-  margin-top: 5em;
 }
 footer .footer-content {
   max-width: 1140px;
@@ -961,4 +998,30 @@ footer .footer-content .terms {
 
 .main__page__content p {
   background-color: transparent !important;
+}
+
+.qr__container {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+}
+.qr__container .tonny__demo__link {
+  color: black;
+  padding: 1em 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-left: 1.6em;
+}
+.qr__container .tonny__demo__link a {
+  color: black;
+  text-decoration: none;
+}
+.qr__container .tonny__demo__link a:hover {
+  color: #708090;
+}
+.qr__container img {
+  border-radius: 12px;
+  width: 50%;
+  height: 50%;
 }

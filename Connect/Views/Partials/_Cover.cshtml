@@ -3,6 +3,22 @@
     Layout = "";
     var coverPhotoUrl = Model?.Value<IPublishedContent>("coverPhoto")?.MediaUrl() ?? "";
     var profilePhotoUrl = Model?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
+    var infoTriggerColor = Model?.Value<string>("infoTriggerColor");
+
+    var triggerColor = "Lightgray";
+
+    if(infoTriggerColor != null && infoTriggerColor != "")
+    {
+        if (infoTriggerColor == "Light")
+        {
+            triggerColor = "Lightgray";
+        }
+        else
+        {
+            triggerColor = "Black";
+
+        }
+    }
 
 }
 
@@ -18,6 +34,12 @@
                 <i class="fa fa-info-circle"></i>
             </span>
         </div>
+
+        <style>
+            .info-container{
+                color: @triggerColor;
+            }
+        </style>
 
         @if (!string.IsNullOrEmpty(profilePhotoUrl))
         {

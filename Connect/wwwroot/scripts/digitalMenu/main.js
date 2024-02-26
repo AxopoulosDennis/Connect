@@ -446,6 +446,7 @@ $(document).ready(() => {
         $(".main-content-page").addClass("blur");
 
 
+
         let scrollElement = document.getElementById("mainPage");
 
         scrollElement.addEventListener('touchstart', onTouchStart)
@@ -483,6 +484,7 @@ $(document).ready(() => {
                 var finalPrice = $(categoryItems[index]).attr("data-final-price");
                 var image = $(categoryItems[index]).attr("data-photo");
                 var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                var hasPrice = $(categoryItems[index]).attr("data-has-price")
                 var className = "";
                 if (desc == undefined || desc == "") {
                     className = "no-desc";
@@ -508,16 +510,27 @@ $(document).ready(() => {
 
 
                 if (hasDiscount === "True") {
+
                     mainProducts +=
                         '                                <p class="final-price has-discount">' + finalPrice +
                         '                                    <span class="original-price">' + originalPrice + '</span>' +
                         '                                </p>';
                 }
                 else {
-                    mainProducts +=
-                        '                                <p class="final-price">' +
-                    '                                       <span class="original-price">' + originalPrice  +'</span>' +
-                        '                                </p>';
+
+                    if (hasPrice == "True") {
+                        mainProducts +=
+                            '                                <p class="final-price">' +
+                            '                                       <span class="original-price">' + originalPrice + '</span>' +
+                            '                                </p>';
+                    }
+                    else {
+                        mainProducts +=
+                            '                                <p class="final-price">' +
+                            '                                       <span class="original-price"></span>' +
+                            '                                </p>';
+                    }
+
                 }
 
                 if (image != "" && image != undefined)
@@ -704,8 +717,6 @@ $(document).ready(() => {
 
         slider.slideTo(currentIndex);
         thumbs.slideTo(currentIndex);
-
-
 
         $(".item-info").addClass("display");
         $("body").addClass("no-scroll");
@@ -1235,7 +1246,6 @@ $(document).ready(() => {
             $("#close-search-icon").addClass("show");
             //$(".search-results").addClass("show");
 
-            $("#searchInput").trigger("focus");
 
             $(".out-of-stock-items").hide();
 
@@ -1256,6 +1266,7 @@ $(document).ready(() => {
             100);
 
 
+            $("#searchInput").trigger("focus");
 
 
             //$([document.documentElement, document.body]).animate({
