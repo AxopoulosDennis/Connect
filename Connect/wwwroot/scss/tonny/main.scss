@@ -23,7 +23,7 @@
 body {
     display: grid;
     place-content: center;
-    min-height: 100vh;
+    min-height: 100svh;
     background: #111;
 
     &.block {
@@ -33,6 +33,45 @@ body {
 
     &.loaded {
         background-color: #252525;
+    }
+}
+
+.qr__container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    .tonny__demo__link {
+        color: black;
+        padding: 1em 0;
+        display: flex;
+        align-items: center;
+        gap: .6em;
+        width: 50%;
+
+
+        a {
+            color: black;
+            text-decoration: none;
+
+            &:hover {
+                color: #708090;
+            }
+        }
+    }
+
+    img {
+        border-radius: 12px;
+        width: 50%;
+        height: 50%;
+    }
+
+    .link {
+        display: none;
+    }
+
+    svg {
+        display: none;
     }
 }
 
@@ -92,7 +131,7 @@ body {
     }
 
     div.big {
-        min-height: 100vh;
+        min-height: 100svh;
         width: 100%;
         height: 100%;
         border-radius: 0;
@@ -112,6 +151,30 @@ body {
         justify-content: space-between;
         z-index: 10;
         padding: 0 .4em;
+
+        .nav-links {
+            display: none;
+        }
+
+        .nav__container {
+            display: flex;
+
+            .nav-links {
+                display: flex;
+            }
+        }
+
+        .socials-container {
+            margin-right: 1em;
+            display: flex;
+            align-items: center;
+            gap: .6em;
+
+            img {
+                height: 30px;
+                width: 30px;
+            }
+        }
     }
 
     .logo-container {
@@ -224,8 +287,12 @@ body {
         font-family: "Comfortaa", sans-serif;
     }
     /*Stying for small screens*/
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1050px) {
+        .main__content{
+            margin-top: 8em;
 
+        } 
+        
         .section__title {
             font-weight: 600;
             font-size: 1.4rem;
@@ -237,6 +304,14 @@ body {
             position: fixed;
             z-index: 3;
             height: 5em;
+
+            .nav-links {
+                display: flex;
+            }
+
+            .nav__container {
+                display: none;
+            }
         }
 
         .hamburger {
@@ -253,7 +328,7 @@ body {
         .nav-links {
             position: fixed;
             background: #131418;
-            height: 100vh;
+            height: 100svh;
             width: 100%;
             flex-direction: column;
             clip-path: circle(50px at 90% -20%);
@@ -879,19 +954,18 @@ body {
 
 
     @media screen and (max-width: 900px) {
-        .logo-container{
-            img{
-                display:none;
+        .logo-container {
+            img {
+                display: none;
             }
         }
 
-        nav{
+        nav {
             height: 4em;
         }
-        
+
         .main__content {
             padding: 1em 1em;
-            padding-top: 8em;
 
             .about {
                 padding: 20px 18px 20px;
@@ -1207,34 +1281,88 @@ footer {
     }
 }
 
-.qr__container {
-    display: flex;
-    flex-direction: column;
-    width: max-content;
-
-    .tonny__demo__link {
-        color: black;
-        padding: 1em 0;
+@media screen and (max-width: 640px)
+{
+    .qr__container {
         display: flex;
-        align-items: center;
-        gap: .6em;
-        margin-left: 1.6em;
+        flex-direction: column;
+        width: 75%;
+        justify-content:center;
+        align-items:center;
 
-
-
-        a {
+        .tonny__demo__link {
             color: black;
-            text-decoration: none;
+            padding: 1em 0;
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            gap: .6em;
+            width: 100%;
 
-            &:hover {
-                color: #708090;
+
+            a {
+                color: black;
+                text-decoration: none;
+
+                &:hover {
+                    color: #708090;
+                }
             }
+        }
+
+        img {
+            border-radius: 12px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .link {
+            display: block;
+        }
+
+        svg {
+            display: block;
         }
     }
 
-    img {
-        border-radius: 12px;
-        width: 50%;
-        height: 50%;
+    .section__title {
+        font-weight: 600;
+        font-size: 1.2rem !important;
+        padding-top: 1em;
+        border-bottom: 1px solid rgba(19, 20, 24, 0.1);
+    }
+
+
+}
+
+.social {
+    .socials-container {
+        display: flex;
+        gap: 1em;
+    }
+
+
+    .social__icon {
+        img{
+            width:40px;
+            height:40px;
+        }
+
+        &:hover {
+
+            img {
+                transition: all 0.5s ease-out;
+                transform: scale(1.2);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1200px)
+{
+    .logo-container{
+        img{
+            display:none;
+        }
     }
 }

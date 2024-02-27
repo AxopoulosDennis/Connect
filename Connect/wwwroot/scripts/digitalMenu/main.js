@@ -471,8 +471,48 @@ $(document).ready(() => {
             var category = $("#category_" + categoryIndex);
             var catName = $(category).attr("data-section-name");
             var categoryItems = $(category).find(".product");
+            var catId = $(category).attr("id");
 
-            $("#sectionTitle").text(catName);
+        $("#sectionTitle").text(catName);
+
+        //$("#sectionTitle").empty();
+
+        //var allCategories = $(".category");
+
+        //var sectionTitleHtml = '<div class="select-wrapper"><div class="select-dropdown">' +
+        //    '<select>';
+        //$(allCategories).each(function (index) {
+
+        //    var thisCatName = $(allCategories[index]).attr("data-section-name");
+        //    var thisCatId = $(allCategories[index]).attr("id");
+
+        //    if (thisCatId == catId) {
+        //        sectionTitleHtml += '<option value="' + thisCatId +'" selected>' + thisCatName + '</option>';
+
+        //    }
+        //    else {
+        //        sectionTitleHtml += '<option value="' + thisCatId +'">' + thisCatName + '</option>';
+
+        //    }
+
+
+        //});
+        //sectionTitleHtml += '</select>' +
+        //    '</div></div>';
+
+        //var sectionTitleHtml =
+        //    '<div class="select-dropdown">' +
+        //    '	<select>' +
+        //    '		<option value="">2nd Option</option>' +
+        //    '		<option value="" selected>' + catName + '</option>' +
+        //    '		<option value="">Option Number 3</option>' +
+        //    '	</select>' +
+        //    '</div>';
+
+
+        //$("#sectionTitle").append(sectionTitleHtml);
+
+
 
             let mainProducts = "";
             let thumbsProducts = "";
@@ -629,6 +669,7 @@ $(document).ready(() => {
 
         slider.on('sliderMove', function (s, e) {
 
+            var thisCat = document.getElementById("category_" + (categoryIndex))
             var nextCat = document.getElementById("category_" + (categoryIndex + 1))
             var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
@@ -647,6 +688,18 @@ $(document).ready(() => {
 
                         nextCatSwiper(categoryIndex, true);
                     }
+                    else {
+                        if (swiped > 0) {
+
+                            if ($(thisCat).find(".product").length == 1) {
+
+                                nextCatSwiper(categoryIndex, false);
+
+                            }
+                        }
+
+                    }
+
                 }
                 else if (slider.activeIndex == 0) {
                     if (prevCat != null) {
@@ -670,6 +723,7 @@ $(document).ready(() => {
         });
         thumbs.on('sliderMove', function (s, e) {
 
+            var thisCat = document.getElementById("category_" + (categoryIndex))
             var nextCat = document.getElementById("category_" + (categoryIndex + 1))
             var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
@@ -687,6 +741,17 @@ $(document).ready(() => {
                         //setTimeout(nextCatSwiper, 400, categoryIndex, true);
 
                         nextCatSwiper(categoryIndex, true);
+                    }
+                    else {
+                        if (swiped > 0) {
+
+                            if ($(thisCat).find(".product").length == 1) {
+
+                                nextCatSwiper(categoryIndex, false);
+
+                            }
+                        }
+
                     }
                 }
                 else if (slider.activeIndex == 0) {
@@ -770,7 +835,11 @@ $(document).ready(() => {
                 var catName = $(category).attr("data-section-name");
                 var categoryItems = $(category).find(".product");
 
+
+
                 $("#sectionTitle").text(catName);
+
+
 
                 let mainProducts = "";
                 let thumbsProducts = "";
@@ -783,6 +852,7 @@ $(document).ready(() => {
                     var finalPrice = $(categoryItems[index]).attr("data-final-price");
                     var image = $(categoryItems[index]).attr("data-photo");
                     var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                    var hasPrice = $(categoryItems[index]).attr("data-has-price")
 
                     var className = "";
                     if (desc == undefined || desc == "") {
@@ -810,16 +880,27 @@ $(document).ready(() => {
 
 
                     if (hasDiscount === "True") {
+
                         mainProducts +=
                             '                                <p class="final-price has-discount">' + finalPrice +
                             '                                    <span class="original-price">' + originalPrice + '</span>' +
                             '                                </p>';
                     }
                     else {
-                        mainProducts +=
-                            '                                <p class="final-price">' +
-                            '                                       <span class="original-price">' + originalPrice + '</span>' +
-                            '                                </p>';
+
+                        if (hasPrice == "True") {
+                            mainProducts +=
+                                '                                <p class="final-price">' +
+                                '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                '                                </p>';
+                        }
+                        else {
+                            mainProducts +=
+                                '                                <p class="final-price">' +
+                                '                                       <span class="original-price"></span>' +
+                                '                                </p>';
+                        }
+
                     }
 
                     if (image != "" && image != undefined) {
@@ -951,6 +1032,7 @@ $(document).ready(() => {
 
                 slider.on('sliderMove', function (s,e) {
 
+                    var thisCat = document.getElementById("category_" + (categoryIndex))
                     var nextCat = document.getElementById("category_" + (categoryIndex + 1))
                     var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
@@ -968,6 +1050,17 @@ $(document).ready(() => {
                                 //setTimeout(nextCatSwiper, 400, categoryIndex, true);
 
                                 nextCatSwiper(categoryIndex, true);
+                            }
+                            else {
+                                if (swiped > 0) {
+
+                                    if ($(thisCat).find(".product").length == 1) {
+
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
                             }
                         }
                         else if (slider.activeIndex == 0) {
@@ -992,6 +1085,7 @@ $(document).ready(() => {
                 });
                 thumbs.on('sliderMove', function (s,e) {
 
+                    var thisCat = document.getElementById("category_" + (categoryIndex))
                     var nextCat = document.getElementById("category_" + (categoryIndex + 1))
                     var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
@@ -1009,6 +1103,17 @@ $(document).ready(() => {
                                 //setTimeout(nextCatSwiper, 400, categoryIndex, true);
 
                                 nextCatSwiper(categoryIndex, true);
+                            }
+                            else {
+                                if (swiped > 0) {
+
+                                    if ($(thisCat).find(".product").length == 1) {
+
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
                             }
                         }
                         else if (slider.activeIndex == 0) {

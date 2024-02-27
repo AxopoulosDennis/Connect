@@ -20,7 +20,7 @@
 body {
   display: grid;
   place-content: center;
-  min-height: 100vh;
+  min-height: 100svh;
   background: #111;
 }
 body.block {
@@ -29,6 +29,38 @@ body.block {
 }
 body.loaded {
   background-color: #252525;
+}
+
+.qr__container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+.qr__container .tonny__demo__link {
+  color: black;
+  padding: 1em 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  width: 50%;
+}
+.qr__container .tonny__demo__link a {
+  color: black;
+  text-decoration: none;
+}
+.qr__container .tonny__demo__link a:hover {
+  color: #708090;
+}
+.qr__container img {
+  border-radius: 12px;
+  width: 50%;
+  height: 50%;
+}
+.qr__container .link {
+  display: none;
+}
+.qr__container svg {
+  display: none;
 }
 
 .main__page__content {
@@ -87,7 +119,7 @@ body.loaded {
   opacity: 0;
 }
 .main__page__content div.big {
-  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -105,6 +137,25 @@ body.loaded {
   justify-content: space-between;
   z-index: 10;
   padding: 0 0.4em;
+}
+.main__page__content nav .nav-links {
+  display: none;
+}
+.main__page__content nav .nav__container {
+  display: flex;
+}
+.main__page__content nav .nav__container .nav-links {
+  display: flex;
+}
+.main__page__content nav .socials-container {
+  margin-right: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.main__page__content nav .socials-container img {
+  height: 30px;
+  width: 30px;
 }
 .main__page__content .logo-container {
   display: flex;
@@ -196,7 +247,10 @@ body.loaded {
   width: 100%;
   font-family: "Comfortaa", sans-serif;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1050px) {
+  .main__page__content .main__content {
+    margin-top: 8em;
+  }
   .main__page__content .section__title {
     font-weight: 600;
     font-size: 1.4rem;
@@ -207,6 +261,12 @@ body.loaded {
     position: fixed;
     z-index: 3;
     height: 5em;
+  }
+  .main__page__content nav .nav-links {
+    display: flex;
+  }
+  .main__page__content nav .nav__container {
+    display: none;
   }
   .main__page__content .hamburger {
     display: block;
@@ -221,7 +281,7 @@ body.loaded {
   .main__page__content .nav-links {
     position: fixed;
     background: #131418;
-    height: 100vh;
+    height: 100svh;
     width: 100%;
     flex-direction: column;
     clip-path: circle(50px at 90% -20%);
@@ -745,7 +805,6 @@ body.loaded {
   }
   .main__page__content .main__content {
     padding: 1em 1em;
-    padding-top: 8em;
   }
   .main__page__content .main__content .about {
     padding: 20px 18px 20px;
@@ -1000,28 +1059,63 @@ footer .footer-content .terms {
   background-color: transparent !important;
 }
 
-.qr__container {
+@media screen and (max-width: 640px) {
+  .qr__container {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    justify-content: center;
+    align-items: center;
+  }
+  .qr__container .tonny__demo__link {
+    color: black;
+    padding: 1em 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    width: 100%;
+  }
+  .qr__container .tonny__demo__link a {
+    color: black;
+    text-decoration: none;
+  }
+  .qr__container .tonny__demo__link a:hover {
+    color: #708090;
+  }
+  .qr__container img {
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+  }
+  .qr__container .link {
+    display: block;
+  }
+  .qr__container svg {
+    display: block;
+  }
+  .section__title {
+    font-weight: 600;
+    font-size: 1.2rem !important;
+    padding-top: 1em;
+    border-bottom: 1px solid rgba(19, 20, 24, 0.1);
+  }
+}
+.social .socials-container {
   display: flex;
-  flex-direction: column;
-  width: max-content;
+  gap: 1em;
 }
-.qr__container .tonny__demo__link {
-  color: black;
-  padding: 1em 0;
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin-left: 1.6em;
+.social .social__icon img {
+  width: 40px;
+  height: 40px;
 }
-.qr__container .tonny__demo__link a {
-  color: black;
-  text-decoration: none;
+.social .social__icon:hover img {
+  transition: all 0.5s ease-out;
+  transform: scale(1.2);
 }
-.qr__container .tonny__demo__link a:hover {
-  color: #708090;
-}
-.qr__container img {
-  border-radius: 12px;
-  width: 50%;
-  height: 50%;
+
+@media screen and (max-width: 1200px) {
+  .logo-container img {
+    display: none;
+  }
 }
