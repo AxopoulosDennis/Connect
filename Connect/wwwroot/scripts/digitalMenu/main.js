@@ -1885,18 +1885,21 @@ $(document).ready(() => {
 
 
         });
+        justOpened = true;
 
-
-        $("#categoriesOverlay").append(itemsHtml);
 
         $("#itemsCategories").removeClass("hide");
         $("#itemsCategories").addClass("show");
         $("#itemsCategories").show();
 
 
-        justOpened = true;
+
 
         $(".item-info").addClass("item-info-overlayed");
+
+        $("#categoriesOverlay").append(itemsHtml);
+
+
 
 
     })
@@ -1905,15 +1908,13 @@ $(document).ready(() => {
     $("#closeCategoriesOverlay").on("click", function () {
 
         $(".item-info").removeClass("item-info-overlayed");
-
         $("#itemsCategories").removeClass("show");
         $("#itemsCategories").addClass("hide");
 
         setTimeout(function () {
 
             $("#itemsCategories").hide();
-            $("#categoriesOverlay").empty();
-        }, 500);
+        }, 200);
     });
 
     $("#categoriesOverlay").on("click", 'li', function () {
@@ -1953,41 +1954,41 @@ $(document).ready(() => {
     });
 
 
-    $(".item-info").on("click", function (e) {
+    //$(".item-info").on("click", function (e) {
 
-        if (justOpened == false) {
-            if ($(this).hasClass("item-info-overlayed")) {
-
-
-                if ($("#itemCategories").hasClass("show"));
-                {
-                    setTimeout(function () {
-                        $(".item-info").removeClass("item-info-overlayed");
-
-                        $("#itemsCategories").removeClass("show");
-                        $("#itemsCategories").addClass("hide");
-
-                        $("#categoriesOverlay").empty();
-                    }, 300);
+    //    if (justOpened == false) {
+    //        if ($(this).hasClass("item-info-overlayed")) {
 
 
-                    setTimeout(function () {
-                        $("#itemsCategories").hide();
-                    }, 500);
-                }
+    //            if ($("#itemCategories").hasClass("show"));
+    //            {
+    //                setTimeout(function () {
+    //                    $(".item-info").removeClass("item-info-overlayed");
 
-            }
-        }
-        else {
-            justOpened = false;
-        }
+    //                    $("#itemsCategories").removeClass("show");
+    //                    $("#itemsCategories").addClass("hide");
+
+    //                    $("#categoriesOverlay").empty();
+    //                }, 300);
 
 
+    //                setTimeout(function () {
+    //                    $("#itemsCategories").hide();
+    //                }, 500);
+    //            }
+
+    //        }
+    //    }
+    //    else {
+    //        justOpened = false;
+    //    }
 
 
 
 
-    });
+
+
+    //});
 
 
 });
