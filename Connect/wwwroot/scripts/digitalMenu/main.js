@@ -1875,11 +1875,11 @@ $(document).ready(() => {
             var categoryIndex = index + 1;
 
             if ("#" + thisCatId == currentCategoryId) {
-                itemsHtml += '<li class="overlay-category-item selected"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '">' + thisCatName + '</li>';
+                itemsHtml += '<li class="overlay-category-item selected"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '"><span>' + thisCatName + '</span></li>';
 
             }
             else {
-                itemsHtml += '<li class="overlay-category-item"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '">' + thisCatName + '</li>';
+                itemsHtml += '<li class="overlay-category-item"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '"><span>' + thisCatName + '</span></li>';
 
             }
 
@@ -1903,6 +1903,8 @@ $(document).ready(() => {
 
 
     $("#closeCategoriesOverlay").on("click", function () {
+
+        $(".item-info").removeClass("item-info-overlayed");
 
         $("#itemsCategories").removeClass("show");
         $("#itemsCategories").addClass("hide");
@@ -1929,6 +1931,8 @@ $(document).ready(() => {
 
 
         setTimeout(function () {
+            $(".item-info").removeClass("item-info-overlayed");
+
             $("#itemsCategories").removeClass("show");
             $("#itemsCategories").addClass("hide");
 
@@ -1949,13 +1953,17 @@ $(document).ready(() => {
     });
 
 
-    $(".item-info").on("click", function () {
+    $(".item-info").on("click", function (e) {
 
         if (justOpened == false) {
             if ($(this).hasClass("item-info-overlayed")) {
+
+
                 if ($("#itemCategories").hasClass("show"));
                 {
                     setTimeout(function () {
+                        $(".item-info").removeClass("item-info-overlayed");
+
                         $("#itemsCategories").removeClass("show");
                         $("#itemsCategories").addClass("hide");
 

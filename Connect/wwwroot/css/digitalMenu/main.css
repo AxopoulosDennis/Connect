@@ -936,7 +936,16 @@ body .qr-code.show .container .qr-container {
       margin-right: 1em;
   }*/
 }
-.item-info.blur {
+.item-info .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6em;
+}
+.item-info .wrapper svg {
+  margin-top: -0.3em;
+}
+.item-info.item-info-overlayed {
   filter: blur(2px);
 }
 .item-info .swiper-pagination-bullet-active {
@@ -2174,7 +2183,7 @@ footer .footer-content .terms {
   left: 0;
   top: 0;
   height: 100%;
-  width: 85%;
+  width: 100%;
   background-color: #252525;
   z-index: 500;
   border: 1px solid lightgray;
@@ -2241,23 +2250,33 @@ footer .footer-content .terms {
   width: 100%;
 }
 #itemsCategories .wraper ul li {
-  border-radius: 20px;
+  border-radius: 30px;
   text-align: start;
-  font-size: 1.2rem;
+  font-size: 1.125rem;
   padding: 0;
   margin: 0;
   width: 100%;
-  transition: all 0.3s linear;
+  transition: all 0.2s ease-in-out;
   z-index: 330;
+  font-weight: 400;
+  opacity: 90%;
 }
 #itemsCategories .wraper ul li.selected {
-  border-radius: 20px;
-  color: #fff;
-  background-color: #708090;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.1em 1em;
-  transition: all 0.3s linear;
-  z-index: 330;
+  justify-content: start;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  opacity: 100%;
+}
+#itemsCategories .wraper ul li.selected span {
+  position: relative;
+}
+#itemsCategories .wraper ul li.selected span:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  border-bottom: 3px solid #708090;
 }

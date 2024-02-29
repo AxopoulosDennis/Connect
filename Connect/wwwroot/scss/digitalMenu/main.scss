@@ -1159,7 +1159,18 @@ body {
     /*    border-top-left-radius: 20px;
     border-top-right-radius: 20px;*/
 
-    &.blur {
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .6em;
+
+        svg {
+            margin-top: -.3em;
+        }
+    }
+
+    &.item-info-overlayed {
         filter: blur(2px);
     }
 
@@ -2659,7 +2670,7 @@ footer {
     left: 0;
     top: 0;
     height: 100%;
-    width: 85%;
+    width: 100%;
     background-color: #252525;
     z-index: 500;
     border: 1px solid lightgray;
@@ -2731,25 +2742,37 @@ footer {
             width: 100%;
 
             li {
-                border-radius: 20px;
+                border-radius: 30px;
                 text-align: start;
-                font-size: 1.2rem;
+                font-size: 1.125rem;
                 padding: 0;
                 margin: 0;
                 width: 100%;
-                transition: all .3s linear;
+                transition: all .2s ease-in-out;
                 z-index: 330;
+                font-weight: 400;
+                opacity: 90%;
 
                 &.selected {
-                    border-radius: 20px;
-                    color: #fff;
-                    background-color: #708090;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    padding: .1em 1em;
-                    transition: all .3s linear;
-                    z-index: 330;
+                    justify-content: start;
+                    transition: all .2s ease-in-out;
+                    position: relative;
+                    opacity: 100%;
+
+                    span {
+                        position: relative;
+
+                        &:after {
+                            content: "";
+                            width: 100%;
+                            position: absolute;
+                            left: 0;
+                            bottom: -1px;
+                            border-bottom: 3px solid #708090;
+                        }
+                    }
                 }
             }
         }
