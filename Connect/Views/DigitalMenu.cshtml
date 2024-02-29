@@ -1206,6 +1206,27 @@
 
         </div>
 
+        <div id="itemsCategories" >
+            <div class="categories-exit">
+                <span class="close-container">
+
+                    <span class="close-area" id="closeCategoriesOverlay">
+                        <i class="fa fa-close close-icon"> </i>
+                    </span>
+@*                     <span class="brand-name">
+                        Tonny - Παρουσιαστικό
+                    </span> *@
+                </span>
+                <div class="wraper">
+                    <ul class="categories-container" id="categoriesOverlay">
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+
 
         @{
             var events = Model?.Value<IEnumerable<BlockListItem>>("events");

@@ -57,6 +57,9 @@ $(document).ready(() => {
         $(".inner-body").show();
         $(".loader").hide();
 
+
+
+
     }
 
 
@@ -474,6 +477,8 @@ $(document).ready(() => {
             var catId = $(category).attr("id");
 
         $("#sectionTitle").text(catName);
+        $("#sectionTitle").attr("data-current-cat-id", "#" + catId);
+        $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
 
         //$("#sectionTitle").empty();
 
@@ -502,7 +507,7 @@ $(document).ready(() => {
 
         //var sectionTitleHtml =
         //    '<div class="select-dropdown">' +
-        //    '	<select>' +
+        //    '	<ul class="nav-links-dropdown">' +
         //    '		<option value="">2nd Option</option>' +
         //    '		<option value="" selected>' + catName + '</option>' +
         //    '		<option value="">Option Number 3</option>' +
@@ -838,7 +843,8 @@ $(document).ready(() => {
 
 
                 $("#sectionTitle").text(catName);
-
+                $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
 
 
                 let mainProducts = "";
@@ -1153,6 +1159,335 @@ $(document).ready(() => {
 
     }
 
+    function newCatSwiper(lastCategoryIndex) {
+
+        $(".gallery").removeClass("hide");
+        $(".loader-container").addClass("hide");
+
+        var categoryIndex = lastCategoryIndex;
+
+        var category = $("#category_" + categoryIndex);
+        var catExists = document.getElementById("category_" + categoryIndex);
+
+
+
+
+        if (catExists != null && catExists != undefined) {
+            if (category != undefined) {
+
+
+                $("#main-gallery-swiper").empty();
+                $("#thumbs-gallery-swiper").empty();
+
+                if (slider != undefined) {
+                    slider.destroy(false, true);
+
+                }
+                if (thumbs != undefined) {
+                    thumbs.destroy(false, true);
+
+                }
+
+
+
+                var catName = $(category).attr("data-section-name");
+                var categoryItems = $(category).find(".product");
+
+
+  
+
+                $("#sectionTitle").text(catName);
+                $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+
+
+                let mainProducts = "";
+                let thumbsProducts = "";
+
+
+                $(categoryItems).each(function (index) {
+                    var name = $(categoryItems[index]).attr("data-name");
+                    var desc = $(categoryItems[index]).attr("data-desc");
+                    var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                    var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                    var image = $(categoryItems[index]).attr("data-photo");
+                    var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                    var hasPrice = $(categoryItems[index]).attr("data-has-price")
+
+                    var className = "";
+                    if (desc == undefined || desc == "") {
+                        className = "no-desc";
+                    }
+
+                    //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                    var dealsClass = "";
+                    //if (isDeals != undefined && isDeals == "True") {
+                    //    dealsClass = "deals";
+                    //}
+
+
+                    mainProducts +=
+                        '                <div class="swiper-slide">' +
+                        '                    <div class="text-photo-container ' + dealsClass + '">' +
+                        '                        <div class="product-info ' + className + '">' +
+                        '                            <div class="product-text">' +
+                        '                                <h3 class="product-name">' + name + '</h3>' +
+                        '                                <p class="product-desc">' + desc + '</p>' +
+                        '                            </div>' +
+                        '                            <div class="product-price">';
+
+
+
+
+                    if (hasDiscount === "True") {
+
+                        mainProducts +=
+                            '                                <p class="final-price has-discount">' + finalPrice +
+                            '                                    <span class="original-price">' + originalPrice + '</span>' +
+                            '                                </p>';
+                    }
+                    else {
+
+                        if (hasPrice == "True") {
+                            mainProducts +=
+                                '                                <p class="final-price">' +
+                                '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                '                                </p>';
+                        }
+                        else {
+                            mainProducts +=
+                                '                                <p class="final-price">' +
+                                '                                       <span class="original-price"></span>' +
+                                '                                </p>';
+                        }
+
+                    }
+
+                    if (image != "" && image != undefined) {
+                        mainProducts +=
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                        <div class="product-photo-container">' +
+                            '                           <img src="' + image + '" class="product-photo">' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                   <div class="tags-container">';
+
+                        var tags = $(categoryItems[index]).find(".tags-container");
+                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                            var children = $(tags).clone();
+                            mainProducts += children.html();
+                            mainProducts += '</div></div>';
+
+                        }
+                        else {
+                            mainProducts += '</div></div>';
+                        }
+
+
+
+                    }
+                    else {
+                        mainProducts +=
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                        <div class="product-photo-container">' +
+                            '                           <div src="" class="product-photo"></div>' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                   <div class="tags-container">';
+
+                        var tags = $(categoryItems[index]).find(".tags-container");
+                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                            var children = $(tags).clone();
+                            mainProducts += children.html();
+                            mainProducts += '</div></div>';
+
+                        }
+                        else {
+                            mainProducts += '</div></div>';
+                        }
+
+                    }
+
+
+
+                    thumbsProducts +=
+                        '                <div class="swiper-slide"' + style + '>' +
+                        '                    <div class="text-photo-container">' +
+                        '                        <div class="product-info">' +
+                        '                            <div class="product-text">' +
+                        '                                <h3 class="product-name">' + name + '</h3>' +
+                        '                            </div>' +
+                        '                        </div>' +
+                        '                    </div>' +
+                        '                </div>';
+
+                });
+
+                $("#main-gallery-swiper").prepend(mainProducts);
+                $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+
+                //Swiper to initial View Or Last Based On Swipe Direction
+
+
+                var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
+
+                slider = new Swiper('.gallery-slider', {
+                    slidesPerView: 1,
+                    centeredSlides: false,
+                    cssMode: false,
+                    initialSlide: 0,
+                    direction: 'horizontal',
+
+                });
+
+                thumbs = new Swiper('.gallery-thumbs', {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20,
+                    centeredSlides: true,
+                    slideToClickedSlide: true,
+                    cssMode: false,
+                    initialSlide: 0,
+                    direction: 'horizontal',
+
+
+                });
+
+
+
+                slider.on('slideChange', function () {
+                    thumbs.slideTo(slider.activeIndex)
+                });
+                thumbs.on('slideChange', function () {
+                    slider.slideTo(thumbs.activeIndex)
+                });
+
+                slider.on('sliderMove', function (s, e) {
+
+                    var thisCat = document.getElementById("category_" + (categoryIndex))
+                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                    //if is last swiper
+                    if (nextCat != null) {
+                        if (slider.isEnd) {
+                            var swiped = s.touches.diff;
+                            if (swiped < 0) {
+
+
+                                //$(".gallery").addClass("hide");
+                                //$(".loader-container").removeClass("hide");
+
+
+                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                nextCatSwiper(categoryIndex, true);
+                            }
+                            else {
+                                if (swiped > 0) {
+
+                                    if ($(thisCat).find(".product").length == 1) {
+
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else if (slider.activeIndex == 0) {
+                            if (prevCat != null) {
+                                var swiped = s.touches.diff;
+                                if (swiped > 0) {
+                                    nextCatSwiper(categoryIndex, false);
+
+                                }
+                            }
+
+                        }
+                    }
+                    else {
+                        var swiped = s.touches.diff;
+                        if (swiped > 0) {
+
+                            nextCatSwiper(categoryIndex, false);
+                        }
+                    }
+
+                });
+                thumbs.on('sliderMove', function (s, e) {
+
+                    var thisCat = document.getElementById("category_" + (categoryIndex))
+                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                    //if is last swiper
+                    if (nextCat != null) {
+                        if (slider.isEnd) {
+                            var swiped = s.touches.diff;
+                            if (swiped < 0) {
+
+
+                                //$(".gallery").addClass("hide");
+                                //$(".loader-container").removeClass("hide");
+
+
+                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                nextCatSwiper(categoryIndex, true);
+                            }
+                            else {
+                                if (swiped > 0) {
+
+                                    if ($(thisCat).find(".product").length == 1) {
+
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else if (slider.activeIndex == 0) {
+                            if (prevCat != null) {
+                                var swiped = s.touches.diff;
+                                if (swiped > 0) {
+                                    nextCatSwiper(categoryIndex, false);
+
+                                }
+                            }
+
+                        }
+                    }
+                    else {
+                        var swiped = s.touches.diff;
+                        if (swiped > 0) {
+
+                            nextCatSwiper(categoryIndex, false);
+                        }
+                    }
+
+                });
+
+                //slider.controller.control = thumbs;
+                //thumbs.controller.control = slider;
+                //slider.params.control = thumbs;
+                //thumbs.params.control = slider;
+
+
+
+
+
+            }
+        }
+
+
+
+    }
+
+
 
     var close = $("#close-item");
     $(close).on("click", function () {
@@ -1389,6 +1724,10 @@ $(document).ready(() => {
 
     var allCategories = $(".category:not(.deals)");
 
+    function multipleItemsIndex(items, term) {
+
+        return false;
+    }
 
     $("#searchInput").on("keyup", delay(function (e) {
 
@@ -1410,6 +1749,7 @@ $(document).ready(() => {
                 var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
                 var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
                 var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                var tags = $(this).find(".tag");
 
                 if (
                     (dataCat.indexOf(singleTerm) > -1)
@@ -1425,6 +1765,7 @@ $(document).ready(() => {
                     (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
                     ||
                     (dataDesc.indexOf(singleTerm) > -1)
+                    || multipleItemsIndex(tags, singleTerm)
 
 
                 ) {
@@ -1433,7 +1774,6 @@ $(document).ready(() => {
 
                 }
                 else {
-
                     let searchTermSplit = searchTerm.split(' ');
                     //filter input space
                     searchTermSplit = searchTermSplit.filter((item) => item != '');
@@ -1512,6 +1852,136 @@ $(document).ready(() => {
         $("#isDemo").hide();
 
     });
+
+
+    let justOpened = false;
+
+    $("#sectionTitle").on("click", function () {
+
+        $("#categoriesOverlay").empty();
+
+
+        var allCategories = $(".category");
+        var currentCategoryId = $("#sectionTitle").attr("data-current-cat-id");
+        var currentCategoryName = $("#sectionTitle").attr("data-current-cat-name");
+
+
+        var itemsHtml = "";
+
+        $(allCategories).each(function (index) {
+
+            var thisCatName = $(allCategories[index]).attr("data-section-name");
+            var thisCatId = $(allCategories[index]).attr("id");
+            var categoryIndex = index + 1;
+
+            if ("#" + thisCatId == currentCategoryId) {
+                itemsHtml += '<li class="overlay-category-item selected"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '">' + thisCatName + '</li>';
+
+            }
+            else {
+                itemsHtml += '<li class="overlay-category-item"  id="#' + thisCatId + '" data-real-cat-index="' + categoryIndex + '">' + thisCatName + '</li>';
+
+            }
+
+
+        });
+
+
+        $("#categoriesOverlay").append(itemsHtml);
+
+        $("#itemsCategories").removeClass("hide");
+        $("#itemsCategories").addClass("show");
+        $("#itemsCategories").show();
+
+
+        justOpened = true;
+
+        $(".item-info").addClass("item-info-overlayed");
+
+
+    })
+
+
+    $("#closeCategoriesOverlay").on("click", function () {
+
+        $("#itemsCategories").removeClass("show");
+        $("#itemsCategories").addClass("hide");
+
+        setTimeout(function () {
+
+            $("#itemsCategories").hide();
+            $("#categoriesOverlay").empty();
+        }, 500);
+    });
+
+    $("#categoriesOverlay").on("click", 'li', function () {
+        var lastCategoryIndex = parseInt($(".overlay-category-item.selected").attr("data-real-cat-index"));
+
+
+        $(".overlay-category-item.selected").removeClass("selected");
+        $(this).addClass("selected");
+
+
+        var newCategoryIndex = parseInt($(".overlay-category-item.selected").attr("data-real-cat-index"));
+
+        newCatSwiper(newCategoryIndex);
+
+
+
+        setTimeout(function () {
+            $("#itemsCategories").removeClass("show");
+            $("#itemsCategories").addClass("hide");
+
+            $("#categoriesOverlay").empty();
+        }, 300);
+
+
+        setTimeout(function () {
+            $("#itemsCategories").hide();
+        }, 500);
+
+        var newCatId = $(".overlay-category-item.selected").attr("id");
+
+
+        $("#sectionTitle").attr("data-real-cat-index", newCategoryIndex);
+        $("#sectionTitle").attr("data-current-cat-id", newCatId);
+
+    });
+
+
+    $(".item-info").on("click", function () {
+
+        if (justOpened == false) {
+            if ($(this).hasClass("item-info-overlayed")) {
+                if ($("#itemCategories").hasClass("show"));
+                {
+                    setTimeout(function () {
+                        $("#itemsCategories").removeClass("show");
+                        $("#itemsCategories").addClass("hide");
+
+                        $("#categoriesOverlay").empty();
+                    }, 300);
+
+
+                    setTimeout(function () {
+                        $("#itemsCategories").hide();
+                    }, 500);
+                }
+
+            }
+        }
+        else {
+            justOpened = false;
+        }
+
+
+
+
+
+
+    });
+
+
 });
 
 
