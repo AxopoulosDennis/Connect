@@ -266,9 +266,21 @@ body .qr-code.show .container .qr-container {
   top: 0.2em;
   font-size: 1.6em;
   padding: 0.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  background-color: black;
+  border-radius: 1.2rem;
+  color: white;
+  padding: 0.2em 0.4em;
 }
 .brand-container .top-cover .cover-container .cover-image-container .info-container:hover {
   cursor: pointer;
+}
+.brand-container .top-cover .cover-container .cover-image-container .info-container .text {
+  opacity: 90%;
+  font-size: 0.875rem;
 }
 .brand-container .top-cover .cover-container .brand-image-container {
   position: absolute;
@@ -978,7 +990,7 @@ body .qr-code.show .container .qr-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   padding: 0.6em;
 }
 .item-info .gallery {
@@ -1384,7 +1396,7 @@ body .qr-code.show .container .qr-container {
   margin-left: 0.4em;
   color: black;
   opacity: 70%;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 #brand-info-content .close-container .brand-name {
   font-weight: 500;
@@ -1747,7 +1759,7 @@ body .qr-code.show .container .qr-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   .item-info .gallery {
     width: 100%;
@@ -2222,7 +2234,7 @@ footer .footer-content .terms {
   border-bottom: 1px solid #d3d3d3;
 }
 #itemsCategories .close-container .close-area {
-  font-size: 1.2em;
+  font-size: 1.3em;
   display: flex;
   flex-direction: row;
   justify-content: center;

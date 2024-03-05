@@ -76,6 +76,7 @@ $(document).ready(() => {
             el: ".swiper-pagination",
             clickable: true,
         },
+        direction: 'horizontal',
 
     });
 
@@ -113,6 +114,7 @@ $(document).ready(() => {
         //scrollbar: {
         //    el: ".swiper-scrollbar",
         //},
+        direction: 'horizontal',
 
     });
 
@@ -211,6 +213,8 @@ $(document).ready(() => {
             spaceBetween: 2,
             freeMode: false,
             grabCursor: true,
+            direction: 'horizontal',
+
         });
     }
     var subCats = $(".sub-cat-links");
@@ -268,7 +272,7 @@ $(document).ready(() => {
                 var counter = 0;
                 navLinkEls.forEach(navLinkEl => {
                     var dataLink = navLinkEl.dataset.link;
-                    if (dataLink.includes(currentGroup)) {
+                    if (dataLink == ('#'+currentGroup)) {
                         $('.nav-link').removeClass('active');
                         navLinkEl.classList.add('active');
                         swiper.slideTo(counter);
@@ -338,6 +342,8 @@ $(document).ready(() => {
             spaceBetween: 10,
             freeMode: false,
             grabCursor: true,
+            direction: 'horizontal',
+
         });
     }
     function buildSwiperContent(ele, index) {
@@ -347,6 +353,8 @@ $(document).ready(() => {
             spaceBetween: 10,
             freeMode: false,
             grabCursor: true,
+            direction: 'horizontal',
+
         });
     }
 
@@ -1578,7 +1586,10 @@ $(document).ready(() => {
     //#endregion
 
     var eventsSwiper;
+    let lastWindowBeforeInfo;
+
     $("#brand-info-trigger").on("click", function (event) {
+        lastWindowBeforeInfo = window.scrollY;
 
         $(".main-content-page").addClass("hide");
         $("#brand-info-content").addClass("display");
@@ -1608,11 +1619,20 @@ $(document).ready(() => {
                  pauseOnMouseEnter: true,
 
 
-             });
+        });
+
 
     });
 
+    
+
     $("#close-info").on("click", function (event) {
+
+        window.scrollTo({
+            top: lastWindowBeforeInfo,
+            left: 0,
+            behavior: 'instant',
+        });
 
         $(".main-content-page").removeClass("hide");
         $("#brand-info-content").removeClass("display");

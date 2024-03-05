@@ -53,6 +53,9 @@ body {
         a {
             color: black;
             text-decoration: none;
+            background-color: #e2ecf6;
+            border-radius:.6rem;
+            padding: .4em .8em;
 
             &:hover {
                 color: #708090;
