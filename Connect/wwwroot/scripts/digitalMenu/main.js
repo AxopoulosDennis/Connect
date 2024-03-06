@@ -327,7 +327,8 @@ $(document).ready(() => {
             }
      
 
-
+            $("#dropdown-btn").removeClass("expand");
+            $(".dropdown-content").removeClass("expand");
 
         }, 10));
 
@@ -2267,15 +2268,45 @@ let locales = selectedLanguages;
   
 
 
-    $("#dropdown-btn").on("focusout", function () {
+$("#dropdown-btn").on("focusout", function () {
 
-        setTimeout(function () {
-            $(this).removeClass("expand");
-            $(".dropdown-content").removeClass("expand");
-        }, 150);
+    setTimeout(function () {
+        $(".dropdown-content").removeClass("expand");
+    }, 50);
 
-    })
+})
+
+$("#dropdown-btn").on("blur", function () {
+
+    setTimeout(function () {
+        $(this).removeClass("expand");
+        $(".dropdown-content").removeClass("expand");
+    }, 55);
+
+})
 
 
+$(".cover-image").on("click", function(){
 
+    setTimeout(function () {
+        $(".dropdown-content").removeClass("expand");
+    }, 60);
+})
 
+$(".brand-info-container").on("click", function () {
+    setTimeout(function () {
+        $(".dropdown-content").removeClass("expand");
+    }, 60);
+})
+
+$(".content-container").on("click", function () {
+    setTimeout(function () {
+        $(".dropdown-content").removeClass("expand");
+    }, 60);
+})
+
+$(".brand-image-container").on("click", function () {
+    setTimeout(function () {
+        $(".dropdown-content").removeClass("expand");
+    }, 80);
+})

@@ -2022,6 +2022,7 @@ footer .footer-content .terms {
 }
 
 .is__demo {
+  width: 100%;
   padding: 1.1em;
   position: fixed;
   bottom: 0;
