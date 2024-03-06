@@ -20,7 +20,7 @@
     bool hideDealsGroup = Model?.Value<bool>("hideDealsGroup") ?? true;
     var dealItems = Model?.Value<IEnumerable<BlockListItem>>("dealItem")?.Where(x => x.Content.Value<bool>("hide") == false);
     var home = Umbraco.ContentAtRoot().
-         Where(x => x.IsDocumentType("home")).FirstOrDefault();
+         Where(x => x.IsDocumentType("digitalMenu")).FirstOrDefault();
 
     var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
 
@@ -711,7 +711,7 @@
 
                                                     <div class="out-of-stock-items collapsed" data-index="@outOfStockCounter" data-bs-toggle="collapse" href="#out-of-stock-section-@counter" role="button" aria-expanded="false" aria-controls="out-of-stock-section-@counter">
                                                         <span class="num-not-available">@outOfStockItems.Count()</span>
-                                                        <span class="not-available-text">μη διαθέσιμα προϊόντα</span>
+                                                        <span class="not-available-text">@(Umbraco.GetDictionaryValue("OutOfStockProducts") ?? "")</span>
                                                         <span class="dropdown-icon">
                                                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                                                         </span>
@@ -1259,7 +1259,7 @@
                         <div class="info-item-container">
 
                             <h3 class="s-title">
-                                Εκδηλώσεις Προσεχώς
+                                @(Umbraco.GetDictionaryValue("UpcomingEvents") ?? "")
                             </h3>
 
                             <div class="border-container">
@@ -1345,7 +1345,7 @@
                     <div class="info-item-container">
                         <div class="title-tooltip">
                             <h3 class="s-title  ">
-                                Ωράριο Λειτουργίας
+                                @(Umbraco.GetDictionaryValue("OpeningHours") ?? "")
                             </h3>
                         </div>
 
@@ -1357,58 +1357,69 @@
                                 <table class="table table-striped table table-bordered opening-hours">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Ημέρα</th>
-                                            <th scope="col">Ωρες</th>
+                                            <th scope="col">@(Umbraco.GetDictionaryValue("Day")??"")</th>
+                                            <th scope="col">@(Umbraco.GetDictionaryValue("Hours")??"")</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table table-striped">
 
                                         @foreach (var day in standardHours)
                                         {
+                                            var dayName = "";
 
                                             if (day != null)
                                             {
+
+                                                
+
                                                 <tr>
                                                     @if (day.DayOfTheWeek == "Monday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Monday") ?? "";
                                                         <td>
-                                                            Δευτέρα
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Tuesday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Tuesday") ?? "";
                                                         <td>
-                                                            Τρίτη
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Wednesday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Wednesday") ?? "";
                                                         <td>
-                                                            Τετάρτη
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Thursday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Thursday") ?? "";
                                                         <td>
-                                                            Πέμπτη
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Friday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Friday") ?? "";
                                                         <td>
-                                                            Παρασκευή
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Saturday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Saturday") ?? "";
                                                         <td>
-                                                            Σάββατο
+                                                            @dayName
                                                         </td>
                                                     }
                                                     else if (day.DayOfTheWeek == "Sunday")
                                                     {
+                                                        dayName = @Umbraco.GetDictionaryValue("Sunday") ?? "";
                                                         <td>
-                                                            Κυριακή
+                                                            @dayName
                                                         </td>
                                                     }
 
@@ -1433,7 +1444,8 @@
                                                     }
                                                     else
                                                     {
-                                                        <td class="closed-text">ΚΛΕΙΣΤΑ</td>
+                                                        var closed = @Umbraco.GetDictionaryValue("Closed") ?? "";
+                                                        <td class="closed-text">@closed</td>
                                                     }
                                                 </tr>
                                             }
@@ -1454,9 +1466,11 @@
 
                 @if ((locations?.Any() ?? false) || (contacts?.Any() ?? false))
                 {
+                    var contactText = Umbraco.GetDictionaryValue("Contact") ?? "";
+
                     <div class="info-item-container">
                         <h3 class="s-title">
-                            Επικοινωνία
+                            @(Umbraco.GetDictionaryValue("Contact") ?? "")
                         </h3>
 
                         <div class="border-container">
@@ -1552,7 +1566,7 @@
 
     @if(isDemo)
     {
-        <div class="is__demo" id="isDemo"><span class="text">Αυτη η ιστοσελίδα είναι μια παρουσίαση και δεν αντικατοπτρίζει τις πραγματικές πληροφορίες της επιχείρησης.</span><span class="close-container" id="closeDemo"><i class="fa fa-close"></i></span></div>
+        <div class="is__demo" id="isDemo"><span class="text">@(Umbraco.GetDictionaryValue("DemoText"))</span><span class="close-container" id="closeDemo"><i class="fa fa-close"></i></span></div>
 
     }
 

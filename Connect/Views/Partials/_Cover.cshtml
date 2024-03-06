@@ -5,6 +5,8 @@
     var profilePhotoUrl = Model?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
     var infoTriggerColor = Model?.Value<string>("infoTriggerColor");
 
+    var about = Umbraco.GetDictionaryValue("About");
+
     var triggerColor = "Lightgray";
 
     if(infoTriggerColor != null && infoTriggerColor != "")
@@ -31,7 +33,12 @@
             }
 
             <div class="info-container" id="brand-info-trigger">
-                <i class="fa fa-info-circle"></i><span class="text">Περισσότερα</span>
+                <i class="fa fa-info-circle"></i><span class="text">@about</span>
+            </div>
+
+            <div class="dropdown" tab-index="0">
+                <button id="dropdown-btn"></button>
+                <ul class="dropdown-content" id="dropdown-content"></ul>
             </div>
         </div>
 

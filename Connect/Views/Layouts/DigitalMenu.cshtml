@@ -17,6 +17,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    
+@*     <meta name="title" content="Tonny.gr - Digital Menu Solutions">
+    <meta name="image" content="Your image URL">
+    <meta name="description" content="Your page description">
+    <meta name="author" content="Your name">
+    <meta name="date" content="Your publication date"> *@
+   
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <partial name="Includes/_DigitalMenu" />
 
@@ -34,7 +41,7 @@
 
             <div class="links__container">
                 <span class="terms">
-                    <a href="@privacyTerms.Url()" target="_blank">Όροι χρήσης & Πολιτική απορρήτου</a>
+                    <a href="@privacyTerms.Url()" target="_blank">@(Umbraco.GetDictionaryValue("TermsAndPrivacyLinkText") ?? "")</a>
                 </span>
             </div>
 
