@@ -1,9 +1,13 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+﻿@using Umbraco.Community.Contentment.DataEditors
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
 @{
     Layout = "";
     var coverPhotoUrl = Model?.Value<IPublishedContent>("coverPhoto")?.MediaUrl() ?? "";
     var profilePhotoUrl = Model?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
     var infoTriggerColor = Model?.Value<string>("infoTriggerColor");
+    var languages = Model?.Value<IEnumerable<string>>("languagesCheckbox");
+
+
 
     var about = Umbraco.GetDictionaryValue("About");
 
@@ -35,11 +39,16 @@
             <div class="info-container" id="brand-info-trigger">
                 <i class="fa fa-info-circle"></i><span class="text">@about</span>
             </div>
+            @if((languages?.Any()?? false) && (languages?.Count() > 1))
+            {
+                <input type="hidden" value="@(string.Join(",",languages))" id="selectedLanguages"/>
+                
+                <div class="dropdown" tab-index="0">
+                    <button id="dropdown-btn"></button>
+                    <ul class="dropdown-content" id="dropdown-content"></ul>
+                </div>
+            }
 
-            <div class="dropdown" tab-index="0">
-                <button id="dropdown-btn"></button>
-                <ul class="dropdown-content" id="dropdown-content"></ul>
-            </div>
         </div>
 
         <style>

@@ -2030,25 +2030,8 @@ $(document).ready(() => {
     if (langButton != undefined) {
         langButton.addEventListener("click", function (event) {
 
-
-            if (cancelNext == false) {
-
-                if ($(this).hasClass("expand")) {
-                    $(this).removeClass("expand");
-                    $(".dropdown-content").removeClass("expand");
-                }
-                else {
-                    $(this).addClass("expand");
-                    $(".dropdown-content").addClass("expand");
-                }
-
-                cancelNext = true;
-
-            }
-            else {
-                cancelNext = false;
-
-            }
+            $(this).addClass("expand");
+            $(".dropdown-content").addClass("expand");
 
 
         });
@@ -2099,183 +2082,200 @@ $(document).ready(() => {
 
 //, "zh-CN", "de-DE", "es-ES", "fr-FR", "hi-IN", "it-IT", "in-ID", "ja-JP", "ko-KR", "nl-NL", "no-NO", "pl-PL", "pt-BR", "sv-SE", "fi-FI", "th-TH", "tr-TR", "uk-UA", "vi-VN", "ru-RU", "he-IL"
 
-const locales = ["el-GR", "en-US"];
-var lowerCaseLocales = locales.map(function (v) {
-    return v.toLowerCase();
-});
-function getFlagSrc(countryCode) {
-    return /^[A-Z]{2}$/.test(countryCode)
-        ? `https://flagsapi.com/${countryCode.toUpperCase()}/shiny/64.png`
-        : "";
-}
+    var selectedLanguages = $("#selectedLanguages").val();
+//if (selectedLanguages != undefined && selectedLanguages.length) {
+/*}*/
+var lowerCaseLocales
+let locales = selectedLanguages;
 
-const dropdownBtn = document.getElementById("dropdown-btn");
-const dropdownContent = document.getElementById("dropdown-content");
-
-//dropdownBtn.addEventListener("touchend", function () {
-//    $(this).trigger("focus");
-
-//});
+    if (locales != undefined) {
+        locales = locales.split(",");
 
 
-function intiLocale(locale, hasLang = true) {
-    const intlLocale = new Intl.Locale(locale);
-    const langName = new Intl.DisplayNames([locale], {
-        type: "language",
-    }).of(intlLocale.language);
-
-    dropdownContent.innerHTML = "";
-
-    const otherLocales = locales.filter((loc) => loc !== locale);
-    otherLocales.forEach((otherLocale) => {
-        const otherIntlLocale = new Intl.Locale(otherLocale);
-        const otherLangName = new Intl.DisplayNames([otherLocale], {
-            type: "language",
-        }).of(otherIntlLocale.language);
-
-        const listEl = document.createElement("li");
-        listEl.innerHTML = `${otherLangName}<img src="${getFlagSrc(
-            otherIntlLocale.region
-        )}" />`;
-        listEl.value = otherLocale;
-        listEl.addEventListener("click", function () {
-            setSelectedLocale(otherLocale);
+        lowerCaseLocales = locales.map(function (v) {
+            return v.toLowerCase();
         });
-        //listEl.addEventListener("mouseout", function () {
-        //    setSelectedLocale(otherLocale);
-        //});
-        dropdownContent.appendChild(listEl);
-    });
+    }
 
-    dropdownBtn.innerHTML = `<img src="${getFlagSrc(
-        intlLocale.region
-    )}" />${langName}<span class="arrow-down"></span>`;
+    function getFlagSrc(countryCode) {
+        return /^[A-Z]{2}$/.test(countryCode)
+            ? `https://flagsapi.com/${countryCode.toUpperCase()}/shiny/64.png`
+            : "";
+    }
 
-    var fullUrl = window.location.href;
+    const dropdownBtn = document.getElementById("dropdown-btn");
+    const dropdownContent = document.getElementById("dropdown-content");
 
-    if (hasLang == true) {
+    //dropdownBtn.addEventListener("touchend", function () {
+    //    $(this).trigger("focus");
 
+    //});
+
+
+    function intiLocale(locale, hasLang = true) {
+        const intlLocale = new Intl.Locale(locale);
+        const langName = new Intl.DisplayNames([locale], {
+            type: "language",
+        }).of(intlLocale.language);
+
+        dropdownContent.innerHTML = "";
+
+        const otherLocales = locales.filter((loc) => loc !== locale);
+        otherLocales.forEach((otherLocale) => {
+            const otherIntlLocale = new Intl.Locale(otherLocale);
+            const otherLangName = new Intl.DisplayNames([otherLocale], {
+                type: "language",
+            }).of(otherIntlLocale.language);
+
+            const listEl = document.createElement("li");
+            listEl.innerHTML = `${otherLangName}<img src="${getFlagSrc(
+                otherIntlLocale.region
+            )}" />`;
+            listEl.value = otherLocale;
+            listEl.addEventListener("click", function () {
+                setSelectedLocale(otherLocale);
+            });
+            //listEl.addEventListener("mouseout", function () {
+            //    setSelectedLocale(otherLocale);
+            //});
+            dropdownContent.appendChild(listEl);
+        });
+
+        dropdownBtn.innerHTML = `<img src="${getFlagSrc(
+            intlLocale.region
+        )}" />${langName}<span class="arrow-down"></span>`;
+
+        var fullUrl = window.location.href;
+
+        if (hasLang == true) {
+
+
+
+        }
+        else {
+
+            if (fullUrl.slice(-1) == "/") {
+
+                fullUrl = fullUrl.slice(0, -1);
+            }
+
+            fullUrl = fullUrl + "/" + intlLocale.baseName.toLowerCase();
+
+            window.location.replace(String(fullUrl));
+
+        }
 
 
     }
-    else {
+
+    function setSelectedLocale(locale, hasLang = true) {
+        const intlLocale = new Intl.Locale(locale);
+        const langName = new Intl.DisplayNames([locale], {
+            type: "language",
+        }).of(intlLocale.language);
+
+        dropdownContent.innerHTML = "";
+
+        const otherLocales = locales.filter((loc) => loc !== locale);
+        otherLocales.forEach((otherLocale) => {
+            const otherIntlLocale = new Intl.Locale(otherLocale);
+            const otherLangName = new Intl.DisplayNames([otherLocale], {
+                type: "language",
+            }).of(otherIntlLocale.language);
+
+            const listEl = document.createElement("li");
+            listEl.innerHTML = `${otherLangName}<img src="${getFlagSrc(
+                otherIntlLocale.region
+            )}" />`;
+            listEl.value = otherLocale;
+            listEl.addEventListener("click", function () {
+                setSelectedLocale(otherLocale);
+            });
+
+            //listEl.addEventListener("mouseout", function () {
+            //    setSelectedLocale(otherLocale);
+            //});
+            dropdownContent.appendChild(listEl);
+        });
+
+        dropdownBtn.innerHTML = `<img src="${getFlagSrc(
+            intlLocale.region
+        )}" />${langName}<span class="arrow-down"></span>`;
+
+        var fullUrl = window.location.href;
 
         if (fullUrl.slice(-1) == "/") {
 
             fullUrl = fullUrl.slice(0, -1);
         }
 
-        fullUrl = fullUrl + "/" + intlLocale.baseName.toLowerCase();
+        fullUrl = fullUrl.slice(0, fullUrl.lastIndexOf("/"));
+        fullUrl = fullUrl + "/" + intlLocale.baseName;
 
-        window.location.replace(String(fullUrl));
+
+        window.location.replace(fullUrl.toLowerCase());
+
+
+
+    }
+
+    var lastword = window.location.href.slice(window.location.href.lastIndexOf("/")).replace("/", "");
+    if (lastword == "") {
+        lastword = window.location.href.slice(0, -1);
+        lastword = lastword.slice(lastword.lastIndexOf("/")).replace("/", "");
+    }
+
+    function prepareLang(hasLang = false) {
+
+        if (hasLang == false) {
+            intiLocale(locales[0], false);
+        }
+        else {
+            const currentUrl = window.location.href;
+
+            var lastPart = currentUrl.split("/").pop();
+            if (lastPart == "") {
+                lastPart = currentUrl.slice(0, -1).split("/").pop();
+            }
+            const lower = locales.map(element => {
+                return element.toLowerCase();
+            });
+
+
+            localeIndex = lower.indexOf(lastPart);
+
+            intiLocale(lowerCaseLocales[localeIndex], true);
+        }
+
+
 
     }
 
 
-}
+    if (locales != undefined) {
+        if (lowerCaseLocales.indexOf(lastword) == -1) {
 
-function setSelectedLocale(locale, hasLang = true) {
-    const intlLocale = new Intl.Locale(locale);
-    const langName = new Intl.DisplayNames([locale], {
-        type: "language",
-    }).of(intlLocale.language);
+            prepareLang(false);
 
-    dropdownContent.innerHTML = "";
+        }
+        else {
 
-    const otherLocales = locales.filter((loc) => loc !== locale);
-    otherLocales.forEach((otherLocale) => {
-        const otherIntlLocale = new Intl.Locale(otherLocale);
-        const otherLangName = new Intl.DisplayNames([otherLocale], {
-            type: "language",
-        }).of(otherIntlLocale.language);
+            prepareLang(true);
 
-        const listEl = document.createElement("li");
-        listEl.innerHTML = `${otherLangName}<img src="${getFlagSrc(
-            otherIntlLocale.region
-        )}" />`;
-        listEl.value = otherLocale;
-        listEl.addEventListener("click", function () {
-            setSelectedLocale(otherLocale);
-        });
-
-        //listEl.addEventListener("mouseout", function () {
-        //    setSelectedLocale(otherLocale);
-        //});
-        dropdownContent.appendChild(listEl);
-    });
-
-    dropdownBtn.innerHTML = `<img src="${getFlagSrc(
-        intlLocale.region
-    )}" />${langName}<span class="arrow-down"></span>`;
-
-    var fullUrl = window.location.href;
-
-    if (fullUrl.slice(-1) == "/") {
-
-        fullUrl = fullUrl.slice(0, -1);
+        }
     }
-
-    fullUrl = fullUrl.slice(0, fullUrl.lastIndexOf("/"));
-    fullUrl = fullUrl + "/" + intlLocale.baseName;
-
-
-    window.location.replace(fullUrl.toLowerCase());
-
   
 
-}
 
-var lastword = window.location.href.slice(window.location.href.lastIndexOf("/")).replace("/", "");
-if (lastword == "") {
-    lastword = window.location.href.slice(0, -1);
-    lastword = lastword.slice(lastword.lastIndexOf("/")).replace("/", "");
-}
+    $("#dropdown-btn").on("focusout", function () {
 
-function prepareLang(hasLang = false) {
+        setTimeout(function () {
+            $(this).removeClass("expand");
+            $(".dropdown-content").removeClass("expand");
+        }, 150);
 
-    if (hasLang == false) {
-        intiLocale(locales[0], false);
-    }
-    else {
-        const currentUrl = window.location.href;
-
-        var lastPart = currentUrl.split("/").pop();
-        if (lastPart == "") {
-            lastPart = currentUrl.slice(0, -1).split("/").pop();
-        }
-        const lower = locales.map(element => {
-            return element.toLowerCase();
-        });
-
-
-        localeIndex = lower.indexOf(lastPart);
-
-        intiLocale(lowerCaseLocales[localeIndex],true);
-    }
+    })
 
 
 
-}
 
-
-
-if (lowerCaseLocales.indexOf(lastword) == -1) {
-
-    prepareLang(false);
-
-}
-else {
-
-    prepareLang(true);
-
-}
-
-
-
-//const browserLang = new Intl.Locale(navigator.language).language;
-//for (const locale of locales) {
-//    const localeLang = new Intl.Locale(locale).language;
-//    if (localeLang === browserLang) {
-//        setSelectedLocale(locale);
-//    }
-//}
