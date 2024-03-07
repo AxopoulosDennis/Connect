@@ -25,8 +25,13 @@
     var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
 
     var isDemo = Model?.Value<bool>("isDemo") ?? false;
+    string enableOrders = Model?.Value<bool>("enableOrders").ToString() ?? "false";
+    var pageId = Model?.Id;
 }
+
+
 <input type="hidden" id="themeColor"  value="@themeColor"/>
+<input type="hidden" id="pageId" value="@pageId" />
 
 
 <div class="qr-code">
@@ -272,6 +277,7 @@
                                 {
                                     var sectionItems = section.Content.Value<IEnumerable<BlockListItem>>("sectionItems");
                                     var link = "cat_" + counter;
+                                    var sectionKey = section.Content.Key;
 
                                     if (sectionItems?.Any() ?? false)
                                     {
@@ -302,7 +308,10 @@
                                                     string discountType = product.Content.Value<string>("discountType") ?? "";
                                                     bool hasVariations = false;
                                                     bool activateDiscount = product.Content.Value<bool>("activateDiscount");
-
+@*                                                     var productUdi = product.ContentUdi;
+ *@
+                                                    var productKey = product.Content.Key;
+                                                    
 
                                                     decimal discountAmount = product.Content.Value<decimal>("discountAmount");
                                                     decimal finalPrice = originalPrice;
@@ -355,6 +364,8 @@
                                                     {
                                                         <div class="product__container">
                                                             <div class="product"
+                                                                 data-section-key="@sectionKey.ToString()"
+                                                                 data-product-key="@productKey.ToString()"
                                                                  data-category="category_@counter"
                                                                  data-real-cat-index="@counter"
                                                                  data-product-index="@productIndex"
@@ -1161,6 +1172,10 @@
 
         </div>
 
+
+
+        <input type="hidden" value="@enableOrders" id="enableOrders"/>
+
         <div class="item-info loading" id="item-info">
 
             <div class="top-bar">
@@ -1178,6 +1193,8 @@
                 <span class="loader "></span>
 
             </div>
+
+            
 
             <div class="gallery-container">
                 <div class="gallery">
@@ -1198,10 +1215,19 @@
 
                 <div class="thumbs-container">
 
-                    <div class="swiper-container gallery-thumbs">
-                        <div class="swiper-wrapper" id="thumbs-gallery-swiper">
+                    @if(enableOrders == "True")
+                    {
+                        
+                    }
+                    else
+                    {
+                        <div class="swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper" id="thumbs-gallery-swiper">
+                            </div>
                         </div>
-                    </div>
+
+                    }
+
 
                 </div>
             </div>

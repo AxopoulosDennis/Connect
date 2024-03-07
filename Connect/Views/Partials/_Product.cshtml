@@ -1,0 +1,89 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Community.Contentment.DataEditors
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+
+@{
+    Layout = "";
+    BlockListItem product = ViewBag.Item;
+
+    var ingridients = product.Content.Value<IEnumerable<string>>("ingridients");
+
+
+    decimal originalPrice = product.Content.Value<decimal>("originalPrice");
+    bool activateDiscount = product.Content.Value<bool>("activateDiscount");
+    string discountType = product.Content.Value<string>("discountType") ?? "";
+    decimal discountAmount = product.Content.Value<decimal>("discountAmount");
+    decimal finalPrice = originalPrice;
+
+    var hasPrice = originalPrice > 0;
+
+    if (discountType == "Final Price")
+    {
+        finalPrice = discountAmount;
+    }
+    else if (discountType == "Fixed Price")
+    {
+        finalPrice = originalPrice - discountAmount;
+
+    }
+    else if (discountType == "Percentage")
+    {
+        var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
+        finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+
+    }
+
+}
+<div class="ingridients__container">
+@*     <div class="ingridients__title">
+       Υλικά
+    </div> *@
+
+    <div class="product_cart_item list-group list-group-light">
+        @if (ingridients?.Any() ?? false)
+        {
+            var counter = 0;
+
+            <div class="shrinked_ingridients">
+                <span class="title">Υλικά</span>
+
+                <div class="ingridients">
+                    @foreach (var ingridient in ingridients)
+                    {
+                        if(ingridient == ingridients.Last())
+                        {
+                            <span class="ingridient">@ingridient</span>
+
+                        }
+                        else
+                        {
+                            <span class="ingridient">@(ingridient + ",")</span>
+
+                        }
+                    }
+                </div>
+            </div>
+
+
+            @foreach (var ingridient in ingridients)
+            {
+
+       
+
+                counter++;
+
+
+@*                 <div class="input__container">
+                    <input class="form-check-input" type="checkbox" value="" id="ingridient_@counter" checked/>
+                    <label class="form-check-label" for="ingridient_@counter">@ingridient</label>
+                </div> *@
+
+            }
+
+        }
+    </div>
+</div>
+
+
+
+

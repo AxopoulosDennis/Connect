@@ -2937,3 +2937,57 @@ body {
     border-radius: 8px;
     background: #c2c9d2;
 }
+
+.ingridients__container {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+
+
+    .product_cart_item {
+        border: 1px solid lightgray;
+        padding: 1em;
+        gap: 1em;
+        display: flex;
+        justify-content: center;
+
+        .shrinked_ingridients {
+            display: flex;
+            flex-direction: column;
+            gap: .8em;
+            font-size: .785rem;
+            font-weight: 500;
+
+
+            .title {
+                font-size: .925rem;
+            }
+
+            .ingridients {
+                display: flex;
+                gap: .6em;
+                flex-wrap:wrap;
+                
+
+                .ingridient {
+                    border-radius: 4px;
+                    padding: 6px 10px;
+                    background-color: #e3edf7;
+                    display: flex;
+                    justify-content:center;
+                    align-items:center;
+                }
+            }
+        }
+
+
+        .input__container {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            gap: 1em;
+        }
+    }
+}
+

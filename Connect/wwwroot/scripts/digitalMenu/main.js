@@ -450,33 +450,28 @@ $(document).ready(() => {
     var themeColor = $("#themeColor").val();
     var style = 'style="background-color:' + themeColor + ';"'
 
-  
+    var enableOrders = $("#enableOrders").val();
 
-    $(products).on("click", function (event) {
-        lastPosBeforeItemOpen = window.scrollY;
+    var pageId = $("#pageId").val();
+    $(products).on("click", function (event)
+    {
+        if (enableOrders === "True") {
 
-        $(".main-content-page").addClass("blur");
+            lastPosBeforeItemOpen = window.scrollY;
 
+            $(".main-content-page").addClass("blur");
 
+            let scrollElement = document.getElementById("mainPage");
 
-        let scrollElement = document.getElementById("mainPage");
+            scrollElement.addEventListener('touchstart', onTouchStart)
 
-        scrollElement.addEventListener('touchstart', onTouchStart)
-
-        $("#main-gallery-swiper").empty();
-        $("#thumbs-gallery-swiper").empty();
-
-
-        if (slider != undefined) {
-            slider.destroy(true,true);
-
-        }
-        if (thumbs != undefined) {
-            thumbs.destroy(true, true);
-
-        }
+            $("#main-gallery-swiper").empty();
 
 
+            if (slider != undefined) {
+                slider.destroy(true, true);
+
+            }
 
 
             var categoryIndex = parseInt($(this).attr("data-real-cat-index"));
@@ -485,51 +480,13 @@ $(document).ready(() => {
             var categoryItems = $(category).find(".product");
             var catId = $(category).attr("id");
 
-        $("#sectionTitle").text(catName);
-        $("#sectionTitle").attr("data-current-cat-id", "#" + catId);
-        $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
-
-        //$("#sectionTitle").empty();
-
-        //var allCategories = $(".category");
-
-        //var sectionTitleHtml = '<div class="select-wrapper"><div class="select-dropdown">' +
-        //    '<select>';
-        //$(allCategories).each(function (index) {
-
-        //    var thisCatName = $(allCategories[index]).attr("data-section-name");
-        //    var thisCatId = $(allCategories[index]).attr("id");
-
-        //    if (thisCatId == catId) {
-        //        sectionTitleHtml += '<option value="' + thisCatId +'" selected>' + thisCatName + '</option>';
-
-        //    }
-        //    else {
-        //        sectionTitleHtml += '<option value="' + thisCatId +'">' + thisCatName + '</option>';
-
-        //    }
-
-
-        //});
-        //sectionTitleHtml += '</select>' +
-        //    '</div></div>';
-
-        //var sectionTitleHtml =
-        //    '<div class="select-dropdown">' +
-        //    '	<ul class="nav-links-dropdown">' +
-        //    '		<option value="">2nd Option</option>' +
-        //    '		<option value="" selected>' + catName + '</option>' +
-        //    '		<option value="">Option Number 3</option>' +
-        //    '	</select>' +
-        //    '</div>';
-
-
-        //$("#sectionTitle").append(sectionTitleHtml);
+            $("#sectionTitle").text(catName);
+            $("#sectionTitle").attr("data-current-cat-id", "#" + catId);
+            $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
 
 
 
             let mainProducts = "";
-            let thumbsProducts = "";
 
             $(categoryItems).each(function (index) {
                 var name = $(categoryItems[index]).attr("data-name");
@@ -540,6 +497,11 @@ $(document).ready(() => {
                 var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
                 var hasPrice = $(categoryItems[index]).attr("data-has-price")
                 var className = "";
+
+                var pKey = $(categoryItems[index]).attr("data-product-key");
+                var sKey = $(categoryItems[index]).attr("data-section-key");
+
+
                 if (desc == undefined || desc == "") {
                     className = "no-desc";
                 }
@@ -551,14 +513,14 @@ $(document).ready(() => {
                 //}
 
                 mainProducts +=
-                    '                <div class="swiper-slide">' +
-                '                    <div class="text-photo-container ' + dealsClass +'">' +
-                '                        <div class="product-info ' + className +'">' +
+                    '                <div class="swiper-slide" data-product-key="' + pKey + '"  data-section-key="' + sKey +'">' +
+                    '                    <div class="text-photo-container ' + dealsClass + '">' +
+                    '                        <div class="product-info ' + className + '">' +
                     '                            <div class="product-text">' +
                     '                                <h3 class="product-name">' + name + '</h3>' +
                     '                                <p class="product-desc">' + desc + '</p>' +
                     '                            </div>' +
-                    '                            <div class="product-price">'; 
+                    '                            <div class="product-price">';
 
 
 
@@ -587,8 +549,7 @@ $(document).ready(() => {
 
                 }
 
-                if (image != "" && image != undefined)
-                {
+                if (image != "" && image != undefined) {
                     mainProducts +=
                         '                            </div>' +
                         '                        </div>' +
@@ -610,10 +571,295 @@ $(document).ready(() => {
                     }
 
 
-                       
+
                 }
-                else
-                {
+                else {
+                    mainProducts +=
+                        '                            </div>' +
+                        '                        </div>' +
+                        '                        <div class="product-photo-container">' +
+                        '                           <div src="" class="product-photo"></div>' +
+                        '                        </div>' +
+                        '                    </div>' +
+                        '                   <div class="tags-container">';
+
+                    var tags = $(categoryItems[index]).find(".tags-container");
+                    if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                        var children = $(tags).clone();
+                        mainProducts += children.html();
+                        mainProducts += '</div></div>';
+
+                    }
+                    else {
+                        mainProducts += '</div></div>';
+                    }
+
+                }
+
+
+
+            });
+
+            $("#main-gallery-swiper").prepend(mainProducts);
+            var currentIndex = $(this).attr("data-product-index");
+
+            slider = new Swiper('.gallery-slider', {
+                slidesPerView: 1,
+                centeredSlides: false,
+                direction: 'horizontal',
+
+            });
+
+            slider.on('sliderMove', function (s, e) {
+
+                var thisCat = document.getElementById("category_" + (categoryIndex))
+                var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                //if is last swiper
+                if (nextCat != null) {
+                    if (slider.isEnd) {
+                        var swiped = s.touches.diff;
+                        if (swiped < 0) {
+
+
+                            //$(".gallery").addClass("hide");
+                            //$(".loader-container").removeClass("hide");
+
+
+                            //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                            nextCatSwiper(categoryIndex, true);
+                        }
+                        else {
+                            if (swiped > 0) {
+
+                                if ($(thisCat).find(".product").length == 1) {
+
+                                    nextCatSwiper(categoryIndex, false,true);
+
+                                }
+                            }
+
+                        }
+
+                    }
+                    else if (slider.activeIndex == 0) {
+                        if (prevCat != null) {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+                                nextCatSwiper(categoryIndex, false,true);
+
+                            }
+                        }
+
+                    }
+                }
+                else {
+                    var swiped = s.touches.diff;
+                    if (swiped > 0) {
+
+                        nextCatSwiper(categoryIndex, false,true);
+                    }
+                }
+
+            });
+
+
+            slider.slideTo(currentIndex);
+
+            var currentSectionKey = $(this).attr("data-section-key");
+            var currentProductKey = $(this).attr("data-product-key");
+
+            jQuery.ajax({
+                url: "/umbraco/surface/Products/GetItemInfo",
+                method: "GET",
+                data: {
+                    pageId: pageId,
+                    sKey : currentSectionKey,
+                    pKey: currentProductKey
+                },
+
+                success: function (data) {
+
+                    $(".thumbs-container").append(data);
+
+                },
+                error: function () {
+
+
+                }
+            });
+
+            $(".item-info").addClass("display");
+            $("body").addClass("no-scroll");
+
+
+
+        }
+        else {
+            lastPosBeforeItemOpen = window.scrollY;
+
+            $(".main-content-page").addClass("blur");
+
+
+
+            let scrollElement = document.getElementById("mainPage");
+
+            scrollElement.addEventListener('touchstart', onTouchStart)
+
+            $("#main-gallery-swiper").empty();
+            $("#thumbs-gallery-swiper").empty();
+
+
+            if (slider != undefined) {
+                slider.destroy(true, true);
+
+            }
+
+
+
+            if (thumbs != undefined) {
+                thumbs.destroy(true, true);
+
+            }
+
+
+
+
+            var categoryIndex = parseInt($(this).attr("data-real-cat-index"));
+            var category = $("#category_" + categoryIndex);
+            var catName = $(category).attr("data-section-name");
+            var categoryItems = $(category).find(".product");
+            var catId = $(category).attr("id");
+
+            $("#sectionTitle").text(catName);
+            $("#sectionTitle").attr("data-current-cat-id", "#" + catId);
+            $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+            //$("#sectionTitle").empty();
+
+            //var allCategories = $(".category");
+
+            //var sectionTitleHtml = '<div class="select-wrapper"><div class="select-dropdown">' +
+            //    '<select>';
+            //$(allCategories).each(function (index) {
+
+            //    var thisCatName = $(allCategories[index]).attr("data-section-name");
+            //    var thisCatId = $(allCategories[index]).attr("id");
+
+            //    if (thisCatId == catId) {
+            //        sectionTitleHtml += '<option value="' + thisCatId +'" selected>' + thisCatName + '</option>';
+
+            //    }
+            //    else {
+            //        sectionTitleHtml += '<option value="' + thisCatId +'">' + thisCatName + '</option>';
+
+            //    }
+
+
+            //});
+            //sectionTitleHtml += '</select>' +
+            //    '</div></div>';
+
+            //var sectionTitleHtml =
+            //    '<div class="select-dropdown">' +
+            //    '	<ul class="nav-links-dropdown">' +
+            //    '		<option value="">2nd Option</option>' +
+            //    '		<option value="" selected>' + catName + '</option>' +
+            //    '		<option value="">Option Number 3</option>' +
+            //    '	</select>' +
+            //    '</div>';
+
+
+            //$("#sectionTitle").append(sectionTitleHtml);
+
+
+
+            let mainProducts = "";
+            let thumbsProducts = "";
+
+            $(categoryItems).each(function (index) {
+                var name = $(categoryItems[index]).attr("data-name");
+                var desc = $(categoryItems[index]).attr("data-desc");
+                var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                var image = $(categoryItems[index]).attr("data-photo");
+                var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                var hasPrice = $(categoryItems[index]).attr("data-has-price")
+                var className = "";
+                if (desc == undefined || desc == "") {
+                    className = "no-desc";
+                }
+
+                //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                var dealsClass = "";
+                //if (isDeals != undefined && isDeals == "True") {
+                //    dealsClass = "deals";
+                //}
+
+                mainProducts +=
+                    '                <div class="swiper-slide">' +
+                    '                    <div class="text-photo-container ' + dealsClass + '">' +
+                    '                        <div class="product-info ' + className + '">' +
+                    '                            <div class="product-text">' +
+                    '                                <h3 class="product-name">' + name + '</h3>' +
+                    '                                <p class="product-desc">' + desc + '</p>' +
+                    '                            </div>' +
+                    '                            <div class="product-price">';
+
+
+
+
+                if (hasDiscount === "True") {
+
+                    mainProducts +=
+                        '                                <p class="final-price has-discount">' + finalPrice +
+                        '                                    <span class="original-price">' + originalPrice + '</span>' +
+                        '                                </p>';
+                }
+                else {
+
+                    if (hasPrice == "True") {
+                        mainProducts +=
+                            '                                <p class="final-price">' +
+                            '                                       <span class="original-price">' + originalPrice + '</span>' +
+                            '                                </p>';
+                    }
+                    else {
+                        mainProducts +=
+                            '                                <p class="final-price">' +
+                            '                                       <span class="original-price"></span>' +
+                            '                                </p>';
+                    }
+
+                }
+
+                if (image != "" && image != undefined) {
+                    mainProducts +=
+                        '                            </div>' +
+                        '                        </div>' +
+                        '                        <div class="product-photo-container">' +
+                        '                           <img src="' + image + '" class="product-photo">' +
+                        '                        </div>' +
+                        '                    </div>' +
+                        '                   <div class="tags-container">';
+
+                    var tags = $(categoryItems[index]).find(".tags-container");
+                    if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                        var children = $(tags).clone();
+                        mainProducts += children.html();
+                        mainProducts += '</div></div>';
+
+                    }
+                    else {
+                        mainProducts += '</div></div>';
+                    }
+
+
+
+                }
+                else {
                     mainProducts +=
                         '                            </div>' +
                         '                        </div>' +
@@ -651,116 +897,74 @@ $(document).ready(() => {
 
             });
 
-        $("#main-gallery-swiper").prepend(mainProducts);
-        $("#thumbs-gallery-swiper").prepend(thumbsProducts);
-        var currentIndex = $(this).attr("data-product-index");
+            $("#main-gallery-swiper").prepend(mainProducts);
+            $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+            var currentIndex = $(this).attr("data-product-index");
 
-        slider = new Swiper('.gallery-slider', {
-            slidesPerView: 1,
-            centeredSlides: false,
-            direction: 'horizontal',
+            slider = new Swiper('.gallery-slider', {
+                slidesPerView: 1,
+                centeredSlides: false,
+                direction: 'horizontal',
 
-        });
+            });
 
-        thumbs = new Swiper('.gallery-thumbs', {
-            slidesPerView: 'auto',
-            spaceBetween: 20,
-            centeredSlides: true,
-            slideToClickedSlide: true,
-            direction: 'horizontal',
+            thumbs = new Swiper('.gallery-thumbs', {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                centeredSlides: true,
+                slideToClickedSlide: true,
+                direction: 'horizontal',
 
-        });
-
-
-        slider.on('slideChange', function () {
-            thumbs.slideTo(slider.activeIndex)
-        });
-  
-        thumbs.on('slideChange', function () {
-            slider.slideTo(thumbs.activeIndex)
-        });
+            });
 
 
-        slider.on('sliderMove', function (s, e) {
+            slider.on('slideChange', function () {
+                thumbs.slideTo(slider.activeIndex)
+            });
 
-            var thisCat = document.getElementById("category_" + (categoryIndex))
-            var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-            var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-            //if is last swiper
-            if (nextCat != null) {
-                if (slider.isEnd) {
-                    var swiped = s.touches.diff;
-                    if (swiped < 0) {
+            thumbs.on('slideChange', function () {
+                slider.slideTo(thumbs.activeIndex)
+            });
 
 
-                        //$(".gallery").addClass("hide");
-                        //$(".loader-container").removeClass("hide");
+            slider.on('sliderMove', function (s, e) {
 
+                var thisCat = document.getElementById("category_" + (categoryIndex))
+                var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                var prevCat = document.getElementById("category_" + (categoryIndex + -1))
 
-                        //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                        nextCatSwiper(categoryIndex, true);
-                    }
-                    else {
-                        if (swiped > 0) {
-
-                            if ($(thisCat).find(".product").length == 1) {
-
-                                nextCatSwiper(categoryIndex, false);
-
-                            }
-                        }
-
-                    }
-
-                }
-                else if (slider.activeIndex == 0) {
-                    if (prevCat != null) {
+                //if is last swiper
+                if (nextCat != null) {
+                    if (slider.isEnd) {
                         var swiped = s.touches.diff;
-                        if (swiped > 0) {
-                            nextCatSwiper(categoryIndex, false);
+                        if (swiped < 0) {
+
+
+                            //$(".gallery").addClass("hide");
+                            //$(".loader-container").removeClass("hide");
+
+
+                            //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                            nextCatSwiper(categoryIndex, true);
+                        }
+                        else {
+                            if (swiped > 0) {
+
+                                if ($(thisCat).find(".product").length == 1) {
+
+                                    nextCatSwiper(categoryIndex, false);
+
+                                }
+                            }
 
                         }
+
                     }
-
-                }
-            }
-            else {
-                var swiped = s.touches.diff;
-                if (swiped > 0) {
-
-                    nextCatSwiper(categoryIndex, false);
-                }
-            }
-
-        });
-        thumbs.on('sliderMove', function (s, e) {
-
-            var thisCat = document.getElementById("category_" + (categoryIndex))
-            var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-            var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-            //if is last swiper
-            if (nextCat != null) {
-                if (slider.isEnd) {
-                    var swiped = s.touches.diff;
-                    if (swiped < 0) {
-
-
-                        //$(".gallery").addClass("hide");
-                        //$(".loader-container").removeClass("hide");
-
-
-                        //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                        nextCatSwiper(categoryIndex, true);
-                    }
-                    else {
-                        if (swiped > 0) {
-
-                            if ($(thisCat).find(".product").length == 1) {
-
+                    else if (slider.activeIndex == 0) {
+                        if (prevCat != null) {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
                                 nextCatSwiper(categoryIndex, false);
 
                             }
@@ -768,39 +972,87 @@ $(document).ready(() => {
 
                     }
                 }
-                else if (slider.activeIndex == 0) {
-                    if (prevCat != null) {
+                else {
+                    var swiped = s.touches.diff;
+                    if (swiped > 0) {
+
+                        nextCatSwiper(categoryIndex, false);
+                    }
+                }
+
+            });
+            thumbs.on('sliderMove', function (s, e) {
+
+                var thisCat = document.getElementById("category_" + (categoryIndex))
+                var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                //if is last swiper
+                if (nextCat != null) {
+                    if (slider.isEnd) {
                         var swiped = s.touches.diff;
-                        if (swiped > 0) {
-                            nextCatSwiper(categoryIndex, false);
+                        if (swiped < 0) {
+
+
+                            //$(".gallery").addClass("hide");
+                            //$(".loader-container").removeClass("hide");
+
+
+                            //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                            nextCatSwiper(categoryIndex, true);
+                        }
+                        else {
+                            if (swiped > 0) {
+
+                                if ($(thisCat).find(".product").length == 1) {
+
+                                    nextCatSwiper(categoryIndex, false);
+
+                                }
+                            }
 
                         }
                     }
+                    else if (slider.activeIndex == 0) {
+                        if (prevCat != null) {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+                                nextCatSwiper(categoryIndex, false);
 
+                            }
+                        }
+
+                    }
                 }
-            }
-            else {
-                var swiped = s.touches.diff;
-                if (swiped > 0) {
+                else {
+                    var swiped = s.touches.diff;
+                    if (swiped > 0) {
 
-                    nextCatSwiper(categoryIndex, false);
+                        nextCatSwiper(categoryIndex, false);
+                    }
                 }
-            }
 
-        });
-        //slider.controller.control = thumbs;
-        //thumbs.controller.control = slider;
-        //slider.params.control = thumbs;
-        //thumbs.params.control = slider;
+            });
+            //slider.controller.control = thumbs;
+            //thumbs.controller.control = slider;
+            //slider.params.control = thumbs;
+            //thumbs.params.control = slider;
 
 
-        slider.slideTo(currentIndex);
-        thumbs.slideTo(currentIndex);
+            slider.slideTo(currentIndex);
+            thumbs.slideTo(currentIndex);
 
-        $(".item-info").addClass("display");
-        $("body").addClass("no-scroll");
+            $(".item-info").addClass("display");
+            $("body").addClass("no-scroll");
+
+        }
 
     });
+
+
+
+    
     function delay(fn, ms) {
         let timer = 0
         return function (...args) {
@@ -808,597 +1060,859 @@ $(document).ready(() => {
             timer = setTimeout(fn.bind(this, ...args), ms || 0)
         }
     }
-    function nextCatSwiper(lastCategoryIndex, next) {
+    function nextCatSwiper(lastCategoryIndex, next, order = false) {
 
-        $(".gallery").removeClass("hide");
-        $(".loader-container").addClass("hide");
+        if (order === false) {
+            $(".gallery").removeClass("hide");
+            $(".loader-container").addClass("hide");
 
-        var categoryIndex = lastCategoryIndex;
+            var categoryIndex = lastCategoryIndex;
 
-        if (next == true) {
+            if (next == true) {
 
-            categoryIndex = categoryIndex + 1;
-        }
-        else {
-            categoryIndex = categoryIndex -1;
-
-        }
-
-        var category = $("#category_" + categoryIndex);
-        var catExists = document.getElementById("category_" + categoryIndex);
-
-        if (catExists != null && catExists != undefined) {
-            if (category != undefined) {
-
-
-
-                $("#main-gallery-swiper").empty();
-                $("#thumbs-gallery-swiper").empty();
-
-                if (slider != undefined) {
-                    slider.destroy(false,true);
-
-                }
-                if (thumbs != undefined) {
-                    thumbs.destroy(false,true);
-
-                }
-
-
-
-                var catName = $(category).attr("data-section-name");
-                var categoryItems = $(category).find(".product");
-
-
-
-                $("#sectionTitle").text(catName);
-                $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
-                $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
-
-
-                let mainProducts = "";
-                let thumbsProducts = "";
-                
-
-                $(categoryItems).each(function (index) {
-                    var name = $(categoryItems[index]).attr("data-name");
-                    var desc = $(categoryItems[index]).attr("data-desc");
-                    var originalPrice = $(categoryItems[index]).attr("data-original-price");
-                    var finalPrice = $(categoryItems[index]).attr("data-final-price");
-                    var image = $(categoryItems[index]).attr("data-photo");
-                    var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
-                    var hasPrice = $(categoryItems[index]).attr("data-has-price")
-
-                    var className = "";
-                    if (desc == undefined || desc == "") {
-                        className = "no-desc";
-                    }
-
-                    //var isDeals = $(categoryItems[index]).attr("data-is-deals");
-                    var dealsClass = "";
-                    //if (isDeals != undefined && isDeals == "True") {
-                    //    dealsClass = "deals";
-                    //}
-
-
-                    mainProducts +=
-                        '                <div class="swiper-slide">' +
-                        '                    <div class="text-photo-container ' + dealsClass + '">' +
-                        '                        <div class="product-info ' + className + '">' +
-                        '                            <div class="product-text">' +
-                        '                                <h3 class="product-name">' + name + '</h3>' +
-                        '                                <p class="product-desc">' + desc + '</p>' +
-                        '                            </div>' +
-                        '                            <div class="product-price">';
-
-
-
-
-                    if (hasDiscount === "True") {
-
-                        mainProducts +=
-                            '                                <p class="final-price has-discount">' + finalPrice +
-                            '                                    <span class="original-price">' + originalPrice + '</span>' +
-                            '                                </p>';
-                    }
-                    else {
-
-                        if (hasPrice == "True") {
-                            mainProducts +=
-                                '                                <p class="final-price">' +
-                                '                                       <span class="original-price">' + originalPrice + '</span>' +
-                                '                                </p>';
-                        }
-                        else {
-                            mainProducts +=
-                                '                                <p class="final-price">' +
-                                '                                       <span class="original-price"></span>' +
-                                '                                </p>';
-                        }
-
-                    }
-
-                    if (image != "" && image != undefined) {
-                        mainProducts +=
-                            '                            </div>' +
-                            '                        </div>' +
-                            '                        <div class="product-photo-container">' +
-                            '                           <img src="' + image + '" class="product-photo">' +
-                            '                        </div>' +
-                            '                    </div>' +
-                            '                   <div class="tags-container">';
-
-                        var tags = $(categoryItems[index]).find(".tags-container");
-                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
-                            var children = $(tags).clone();
-                            mainProducts += children.html();
-                            mainProducts += '</div></div>';
-
-                        }
-                        else {
-                            mainProducts += '</div></div>';
-                        }
-
-
-
-                    }
-                    else {
-                        mainProducts +=
-                            '                            </div>' +
-                            '                        </div>' +
-                            '                        <div class="product-photo-container">' +
-                            '                           <div src="" class="product-photo"></div>' +
-                            '                        </div>' +
-                            '                    </div>' +
-                            '                   <div class="tags-container">';
-
-                        var tags = $(categoryItems[index]).find(".tags-container");
-                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
-                            var children = $(tags).clone();
-                            mainProducts += children.html();
-                            mainProducts += '</div></div>';
-
-                        }
-                        else {
-                            mainProducts += '</div></div>';
-                        }
-
-                    }
-
-
-
-                    thumbsProducts +=
-                        '                <div class="swiper-slide"' + style + '>' +
-                        '                    <div class="text-photo-container">' +
-                        '                        <div class="product-info">' +
-                        '                            <div class="product-text">' +
-                        '                                <h3 class="product-name">' + name + '</h3>' +
-                        '                            </div>' +
-                        '                        </div>' +
-                        '                    </div>' +
-                        '                </div>';
-
-                });
-
-                $("#main-gallery-swiper").prepend(mainProducts);
-                $("#thumbs-gallery-swiper").prepend(thumbsProducts);
-
-                //Swiper to initial View Or Last Based On Swipe Direction
-
-
-                var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
-
-                if (next == false) {
-                    slider = new Swiper('.gallery-slider', {
-                        slidesPerView: 1,
-                        centeredSlides: false,
-                        cssMode: false,
-                        initialSlide: countSwipers,
-                        direction: 'horizontal',
-
-                    });
-
-                    thumbs = new Swiper('.gallery-thumbs', {
-                        slidesPerView: 'auto',
-                        spaceBetween: 20,
-                        centeredSlides: true,
-                        slideToClickedSlide: true,
-                        cssMode: false,
-                        initialSlide: countSwipers,
-                        direction: 'horizontal',
-
-
-                    });
-
-                }
-                else {
-                    slider = new Swiper('.gallery-slider', {
-                        slidesPerView: 1,
-                        centeredSlides: false,
-                        cssMode: false,
-                        initialSlide: 0,
-                        direction: 'horizontal',
-
-                    });
-
-                    thumbs = new Swiper('.gallery-thumbs', {
-                        slidesPerView: 'auto',
-                        spaceBetween: 20,
-                        centeredSlides: true,
-                        slideToClickedSlide: true,
-                        cssMode: false,
-                        initialSlide: 0,
-                        direction: 'horizontal',
-
-
-                    });
-
-
-                }
-
-
-
-                slider.on('slideChange', function () {
-                    thumbs.slideTo(slider.activeIndex)
-                });
-                thumbs.on('slideChange', function () {
-                    slider.slideTo(thumbs.activeIndex)
-                });
-
-                slider.on('sliderMove', function (s,e) {
-
-                    var thisCat = document.getElementById("category_" + (categoryIndex))
-                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-                    //if is last swiper
-                    if (nextCat != null) {
-                        if (slider.isEnd) {
-                            var swiped = s.touches.diff;
-                            if (swiped < 0) {
-
-
-                                //$(".gallery").addClass("hide");
-                                //$(".loader-container").removeClass("hide");
-
-
-                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                                nextCatSwiper(categoryIndex, true);
-                            }
-                            else {
-                                if (swiped > 0) {
-
-                                    if ($(thisCat).find(".product").length == 1) {
-
-                                        nextCatSwiper(categoryIndex, false);
-
-                                    }
-                                }
-
-                            }
-                        }
-                        else if (slider.activeIndex == 0) {
-                            if (prevCat != null) {
-                                var swiped = s.touches.diff;
-                                if (swiped > 0) {
-                                    nextCatSwiper(categoryIndex, false);
-
-                                }
-                            }
-
-                        }
-                    }
-                    else {
-                        var swiped = s.touches.diff;
-                        if (swiped > 0) {
-
-                            nextCatSwiper(categoryIndex, false);
-                        }
-                    }
-
-                });
-                thumbs.on('sliderMove', function (s,e) {
-
-                    var thisCat = document.getElementById("category_" + (categoryIndex))
-                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-                    //if is last swiper
-                    if (nextCat != null) {
-                        if (slider.isEnd) {
-                            var swiped = s.touches.diff;
-                            if (swiped < 0) {
-
-
-                                //$(".gallery").addClass("hide");
-                                //$(".loader-container").removeClass("hide");
-
-
-                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                                nextCatSwiper(categoryIndex, true);
-                            }
-                            else {
-                                if (swiped > 0) {
-
-                                    if ($(thisCat).find(".product").length == 1) {
-
-                                        nextCatSwiper(categoryIndex, false);
-
-                                    }
-                                }
-
-                            }
-                        }
-                        else if (slider.activeIndex == 0) {
-                            if (prevCat != null) {
-                                var swiped = s.touches.diff;
-                                if (swiped > 0) {
-                                    nextCatSwiper(categoryIndex, false);
-
-                                }
-                            }
-
-                        }
-                    }
-                    else {
-                        var swiped = s.touches.diff;
-                        if (swiped > 0) {
-
-                            nextCatSwiper(categoryIndex, false);
-                        }
-                    }
-
-                });
-
-                //slider.controller.control = thumbs;
-                //thumbs.controller.control = slider;
-                //slider.params.control = thumbs;
-                //thumbs.params.control = slider;
-
-
-
-
+                categoryIndex = categoryIndex + 1;
+            }
+            else {
+                categoryIndex = categoryIndex - 1;
 
             }
-        }
 
+            var category = $("#category_" + categoryIndex);
+            var catExists = document.getElementById("category_" + categoryIndex);
+
+            if (catExists != null && catExists != undefined) {
+                if (category != undefined) {
+
+
+
+                    $("#main-gallery-swiper").empty();
+                    $("#thumbs-gallery-swiper").empty();
+
+                    if (slider != undefined) {
+                        slider.destroy(false, true);
+
+                    }
+                    if (thumbs != undefined) {
+                        thumbs.destroy(false, true);
+
+                    }
+
+
+
+                    var catName = $(category).attr("data-section-name");
+                    var categoryItems = $(category).find(".product");
+
+
+
+                    $("#sectionTitle").text(catName);
+                    $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                    $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+
+                    let mainProducts = "";
+                    let thumbsProducts = "";
+
+
+                    $(categoryItems).each(function (index) {
+                        var name = $(categoryItems[index]).attr("data-name");
+                        var desc = $(categoryItems[index]).attr("data-desc");
+                        var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                        var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                        var image = $(categoryItems[index]).attr("data-photo");
+                        var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                        var hasPrice = $(categoryItems[index]).attr("data-has-price")
+                        var className = "";
+                        if (desc == undefined || desc == "") {
+                            className = "no-desc";
+                        }
+
+                        //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                        var dealsClass = "";
+                        //if (isDeals != undefined && isDeals == "True") {
+                        //    dealsClass = "deals";
+                        //}
+
+
+                        mainProducts +=
+                            '                <div class="swiper-slide">' +
+                            '                    <div class="text-photo-container ' + dealsClass + '">' +
+                            '                        <div class="product-info ' + className + '">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                                <p class="product-desc">' + desc + '</p>' +
+                            '                            </div>' +
+                            '                            <div class="product-price">';
+
+
+
+
+                        if (hasDiscount === "True") {
+
+                            mainProducts +=
+                                '                                <p class="final-price has-discount">' + finalPrice +
+                                '                                    <span class="original-price">' + originalPrice + '</span>' +
+                                '                                </p>';
+                        }
+                        else {
+
+                            if (hasPrice == "True") {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                    '                                </p>';
+                            }
+                            else {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price"></span>' +
+                                    '                                </p>';
+                            }
+
+                        }
+
+                        if (image != "" && image != undefined) {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <img src="' + image + '" class="product-photo">' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+
+
+                        }
+                        else {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <div src="" class="product-photo"></div>' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+                        }
+
+
+
+                        thumbsProducts +=
+                            '                <div class="swiper-slide"' + style + '>' +
+                            '                    <div class="text-photo-container">' +
+                            '                        <div class="product-info">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                </div>';
+
+                    });
+
+                    $("#main-gallery-swiper").prepend(mainProducts);
+                    $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+
+                    //Swiper to initial View Or Last Based On Swipe Direction
+
+
+                    var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
+
+                    if (next == false) {
+                        slider = new Swiper('.gallery-slider', {
+                            slidesPerView: 1,
+                            centeredSlides: false,
+                            cssMode: false,
+                            initialSlide: countSwipers,
+                            direction: 'horizontal',
+
+                        });
+
+                        thumbs = new Swiper('.gallery-thumbs', {
+                            slidesPerView: 'auto',
+                            spaceBetween: 20,
+                            centeredSlides: true,
+                            slideToClickedSlide: true,
+                            cssMode: false,
+                            initialSlide: countSwipers,
+                            direction: 'horizontal',
+
+
+                        });
+
+                    }
+                    else {
+                        slider = new Swiper('.gallery-slider', {
+                            slidesPerView: 1,
+                            centeredSlides: false,
+                            cssMode: false,
+                            initialSlide: 0,
+                            direction: 'horizontal',
+
+                        });
+
+                        thumbs = new Swiper('.gallery-thumbs', {
+                            slidesPerView: 'auto',
+                            spaceBetween: 20,
+                            centeredSlides: true,
+                            slideToClickedSlide: true,
+                            cssMode: false,
+                            initialSlide: 0,
+                            direction: 'horizontal',
+
+
+                        });
+
+
+                    }
+
+
+
+                    slider.on('slideChange', function () {
+                        thumbs.slideTo(slider.activeIndex)
+                    });
+                    thumbs.on('slideChange', function () {
+                        slider.slideTo(thumbs.activeIndex)
+                    });
+
+                    slider.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
+                                var swiped = s.touches.diff;
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+
+                                nextCatSwiper(categoryIndex, false);
+                            }
+                        }
+
+                    });
+                    thumbs.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
+                                var swiped = s.touches.diff;
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
+                                        nextCatSwiper(categoryIndex, false);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+
+                                nextCatSwiper(categoryIndex, false);
+                            }
+                        }
+
+                    });
+
+                    //slider.controller.control = thumbs;
+                    //thumbs.controller.control = slider;
+                    //slider.params.control = thumbs;
+                    //thumbs.params.control = slider;
+
+
+
+
+
+                }
+            }
+
+        }
+        else {
+
+            $(".gallery").removeClass("hide");
+            $(".loader-container").addClass("hide");
+
+            var categoryIndex = lastCategoryIndex;
+
+            if (next == true) {
+
+                categoryIndex = categoryIndex + 1;
+            }
+            else {
+                categoryIndex = categoryIndex - 1;
+
+            }
+
+            var category = $("#category_" + categoryIndex);
+            var catExists = document.getElementById("category_" + categoryIndex);
+
+            if (catExists != null && catExists != undefined) {
+                if (category != undefined) {
+
+
+
+                    $("#main-gallery-swiper").empty();
+
+                    if (slider != undefined) {
+                        slider.destroy(false, true);
+
+                    }
+
+
+
+
+                    var catName = $(category).attr("data-section-name");
+                    var categoryItems = $(category).find(".product");
+
+
+
+                    $("#sectionTitle").text(catName);
+                    $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                    $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+
+                    let mainProducts = "";
+
+
+                    $(categoryItems).each(function (index) {
+                        var name = $(categoryItems[index]).attr("data-name");
+                        var desc = $(categoryItems[index]).attr("data-desc");
+                        var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                        var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                        var image = $(categoryItems[index]).attr("data-photo");
+                        var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                        var hasPrice = $(categoryItems[index]).attr("data-has-price")
+
+                        var className = "";
+                        if (desc == undefined || desc == "") {
+                            className = "no-desc";
+                        }
+
+                        //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                        var dealsClass = "";
+                        //if (isDeals != undefined && isDeals == "True") {
+                        //    dealsClass = "deals";
+                        //}
+
+
+                        mainProducts +=
+                            '                <div class="swiper-slide">' +
+                            '                    <div class="text-photo-container ' + dealsClass + '">' +
+                            '                        <div class="product-info ' + className + '">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                                <p class="product-desc">' + desc + '</p>' +
+                            '                            </div>' +
+                            '                            <div class="product-price">';
+
+
+
+
+                        if (hasDiscount === "True") {
+
+                            mainProducts +=
+                                '                                <p class="final-price has-discount">' + finalPrice +
+                                '                                    <span class="original-price">' + originalPrice + '</span>' +
+                                '                                </p>';
+                        }
+                        else {
+
+                            if (hasPrice == "True") {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                    '                                </p>';
+                            }
+                            else {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price"></span>' +
+                                    '                                </p>';
+                            }
+
+                        }
+
+                        if (image != "" && image != undefined) {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <img src="' + image + '" class="product-photo">' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+
+
+                        }
+                        else {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <div src="" class="product-photo"></div>' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+                        }
+
+
+
+                    });
+
+                    $("#main-gallery-swiper").prepend(mainProducts);
+
+                    //Swiper to initial View Or Last Based On Swipe Direction
+
+
+                    var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
+
+                    if (next == false) {
+                        slider = new Swiper('.gallery-slider', {
+                            slidesPerView: 1,
+                            centeredSlides: false,
+                            cssMode: false,
+                            initialSlide: countSwipers,
+                            direction: 'horizontal',
+
+                        });
+
+
+
+                    }
+                    else {
+                        slider = new Swiper('.gallery-slider', {
+                            slidesPerView: 1,
+                            centeredSlides: false,
+                            cssMode: false,
+                            initialSlide: 0,
+                            direction: 'horizontal',
+
+                        });
+
+
+
+                    }
+
+
+
+                    slider.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
+                                var swiped = s.touches.diff;
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true , true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false, true);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
+                                        nextCatSwiper(categoryIndex, false, true);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+
+                                nextCatSwiper(categoryIndex, false, true);
+                            }
+                        }
+
+                    });
+    
+                }
+            }
+
+
+        }
+        
 
 
     }
+    function newCatSwiper(lastCategoryIndex, order = false) {
 
-    function newCatSwiper(lastCategoryIndex) {
+        if (order === false) {
+            $(".gallery").removeClass("hide");
+            $(".loader-container").addClass("hide");
 
-        $(".gallery").removeClass("hide");
-        $(".loader-container").addClass("hide");
+            var categoryIndex = lastCategoryIndex;
 
-        var categoryIndex = lastCategoryIndex;
-
-        var category = $("#category_" + categoryIndex);
-        var catExists = document.getElementById("category_" + categoryIndex);
-
-
+            var category = $("#category_" + categoryIndex);
+            var catExists = document.getElementById("category_" + categoryIndex);
 
 
-        if (catExists != null && catExists != undefined) {
-            if (category != undefined) {
+            if (catExists != null && catExists != undefined) {
+                if (category != undefined) {
 
 
-                $("#main-gallery-swiper").empty();
-                $("#thumbs-gallery-swiper").empty();
+                    $("#main-gallery-swiper").empty();
+                    $("#thumbs-gallery-swiper").empty();
 
-                if (slider != undefined) {
-                    slider.destroy(false, true);
+                    if (slider != undefined) {
+                        slider.destroy(false, true);
 
-                }
-                if (thumbs != undefined) {
-                    thumbs.destroy(false, true);
+                    }
+                    if (thumbs != undefined) {
+                        thumbs.destroy(false, true);
 
-                }
-
-
-
-                var catName = $(category).attr("data-section-name");
-                var categoryItems = $(category).find(".product");
-
-
-  
-
-                $("#sectionTitle").text(catName);
-                $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
-                $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
-
-
-
-                let mainProducts = "";
-                let thumbsProducts = "";
-
-
-                $(categoryItems).each(function (index) {
-                    var name = $(categoryItems[index]).attr("data-name");
-                    var desc = $(categoryItems[index]).attr("data-desc");
-                    var originalPrice = $(categoryItems[index]).attr("data-original-price");
-                    var finalPrice = $(categoryItems[index]).attr("data-final-price");
-                    var image = $(categoryItems[index]).attr("data-photo");
-                    var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
-                    var hasPrice = $(categoryItems[index]).attr("data-has-price")
-
-                    var className = "";
-                    if (desc == undefined || desc == "") {
-                        className = "no-desc";
                     }
 
-                    //var isDeals = $(categoryItems[index]).attr("data-is-deals");
-                    var dealsClass = "";
-                    //if (isDeals != undefined && isDeals == "True") {
-                    //    dealsClass = "deals";
-                    //}
 
 
-                    mainProducts +=
-                        '                <div class="swiper-slide">' +
-                        '                    <div class="text-photo-container ' + dealsClass + '">' +
-                        '                        <div class="product-info ' + className + '">' +
-                        '                            <div class="product-text">' +
-                        '                                <h3 class="product-name">' + name + '</h3>' +
-                        '                                <p class="product-desc">' + desc + '</p>' +
-                        '                            </div>' +
-                        '                            <div class="product-price">';
+                    var catName = $(category).attr("data-section-name");
+                    var categoryItems = $(category).find(".product");
 
 
 
 
-                    if (hasDiscount === "True") {
+                    $("#sectionTitle").text(catName);
+                    $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                    $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+
+
+                    let mainProducts = "";
+                    let thumbsProducts = "";
+
+
+                    $(categoryItems).each(function (index) {
+                        var name = $(categoryItems[index]).attr("data-name");
+                        var desc = $(categoryItems[index]).attr("data-desc");
+                        var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                        var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                        var image = $(categoryItems[index]).attr("data-photo");
+                        var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                        var hasPrice = $(categoryItems[index]).attr("data-has-price")
+
+                        var className = "";
+                        if (desc == undefined || desc == "") {
+                            className = "no-desc";
+                        }
+
+                        //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                        var dealsClass = "";
+                        //if (isDeals != undefined && isDeals == "True") {
+                        //    dealsClass = "deals";
+                        //}
+
 
                         mainProducts +=
-                            '                                <p class="final-price has-discount">' + finalPrice +
-                            '                                    <span class="original-price">' + originalPrice + '</span>' +
-                            '                                </p>';
-                    }
-                    else {
+                            '                <div class="swiper-slide">' +
+                            '                    <div class="text-photo-container ' + dealsClass + '">' +
+                            '                        <div class="product-info ' + className + '">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                                <p class="product-desc">' + desc + '</p>' +
+                            '                            </div>' +
+                            '                            <div class="product-price">';
 
-                        if (hasPrice == "True") {
+
+
+
+                        if (hasDiscount === "True") {
+
                             mainProducts +=
-                                '                                <p class="final-price">' +
-                                '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                '                                <p class="final-price has-discount">' + finalPrice +
+                                '                                    <span class="original-price">' + originalPrice + '</span>' +
                                 '                                </p>';
                         }
                         else {
-                            mainProducts +=
-                                '                                <p class="final-price">' +
-                                '                                       <span class="original-price"></span>' +
-                                '                                </p>';
-                        }
 
-                    }
-
-                    if (image != "" && image != undefined) {
-                        mainProducts +=
-                            '                            </div>' +
-                            '                        </div>' +
-                            '                        <div class="product-photo-container">' +
-                            '                           <img src="' + image + '" class="product-photo">' +
-                            '                        </div>' +
-                            '                    </div>' +
-                            '                   <div class="tags-container">';
-
-                        var tags = $(categoryItems[index]).find(".tags-container");
-                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
-                            var children = $(tags).clone();
-                            mainProducts += children.html();
-                            mainProducts += '</div></div>';
-
-                        }
-                        else {
-                            mainProducts += '</div></div>';
-                        }
-
-
-
-                    }
-                    else {
-                        mainProducts +=
-                            '                            </div>' +
-                            '                        </div>' +
-                            '                        <div class="product-photo-container">' +
-                            '                           <div src="" class="product-photo"></div>' +
-                            '                        </div>' +
-                            '                    </div>' +
-                            '                   <div class="tags-container">';
-
-                        var tags = $(categoryItems[index]).find(".tags-container");
-                        if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
-                            var children = $(tags).clone();
-                            mainProducts += children.html();
-                            mainProducts += '</div></div>';
-
-                        }
-                        else {
-                            mainProducts += '</div></div>';
-                        }
-
-                    }
-
-
-
-                    thumbsProducts +=
-                        '                <div class="swiper-slide"' + style + '>' +
-                        '                    <div class="text-photo-container">' +
-                        '                        <div class="product-info">' +
-                        '                            <div class="product-text">' +
-                        '                                <h3 class="product-name">' + name + '</h3>' +
-                        '                            </div>' +
-                        '                        </div>' +
-                        '                    </div>' +
-                        '                </div>';
-
-                });
-
-                $("#main-gallery-swiper").prepend(mainProducts);
-                $("#thumbs-gallery-swiper").prepend(thumbsProducts);
-
-                //Swiper to initial View Or Last Based On Swipe Direction
-
-
-                var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
-
-                slider = new Swiper('.gallery-slider', {
-                    slidesPerView: 1,
-                    centeredSlides: false,
-                    cssMode: false,
-                    initialSlide: 0,
-                    direction: 'horizontal',
-
-                });
-
-                thumbs = new Swiper('.gallery-thumbs', {
-                    slidesPerView: 'auto',
-                    spaceBetween: 20,
-                    centeredSlides: true,
-                    slideToClickedSlide: true,
-                    cssMode: false,
-                    initialSlide: 0,
-                    direction: 'horizontal',
-
-
-                });
-
-
-
-                slider.on('slideChange', function () {
-                    thumbs.slideTo(slider.activeIndex)
-                });
-                thumbs.on('slideChange', function () {
-                    slider.slideTo(thumbs.activeIndex)
-                });
-
-                slider.on('sliderMove', function (s, e) {
-
-                    var thisCat = document.getElementById("category_" + (categoryIndex))
-                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-                    //if is last swiper
-                    if (nextCat != null) {
-                        if (slider.isEnd) {
-                            var swiped = s.touches.diff;
-                            if (swiped < 0) {
-
-
-                                //$(".gallery").addClass("hide");
-                                //$(".loader-container").removeClass("hide");
-
-
-                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                                nextCatSwiper(categoryIndex, true);
+                            if (hasPrice == "True") {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                    '                                </p>';
                             }
                             else {
-                                if (swiped > 0) {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price"></span>' +
+                                    '                                </p>';
+                            }
 
-                                    if ($(thisCat).find(".product").length == 1) {
+                        }
 
+                        if (image != "" && image != undefined) {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <img src="' + image + '" class="product-photo">' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+
+
+                        }
+                        else {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <div src="" class="product-photo"></div>' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+                        }
+
+
+
+                        thumbsProducts +=
+                            '                <div class="swiper-slide"' + style + '>' +
+                            '                    <div class="text-photo-container">' +
+                            '                        <div class="product-info">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                            </div>' +
+                            '                        </div>' +
+                            '                    </div>' +
+                            '                </div>';
+
+                    });
+
+                    $("#main-gallery-swiper").prepend(mainProducts);
+                    $("#thumbs-gallery-swiper").prepend(thumbsProducts);
+
+                    //Swiper to initial View Or Last Based On Swipe Direction
+
+
+                    var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
+
+                    slider = new Swiper('.gallery-slider', {
+                        slidesPerView: 1,
+                        centeredSlides: false,
+                        cssMode: false,
+                        initialSlide: 0,
+                        direction: 'horizontal',
+
+                    });
+
+                    thumbs = new Swiper('.gallery-thumbs', {
+                        slidesPerView: 'auto',
+                        spaceBetween: 20,
+                        centeredSlides: true,
+                        slideToClickedSlide: true,
+                        cssMode: false,
+                        initialSlide: 0,
+                        direction: 'horizontal',
+
+
+                    });
+
+
+
+                    slider.on('slideChange', function () {
+                        thumbs.slideTo(slider.activeIndex)
+                    });
+                    thumbs.on('slideChange', function () {
+                        slider.slideTo(thumbs.activeIndex)
+                    });
+
+                    slider.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
+                                var swiped = s.touches.diff;
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
                                         nextCatSwiper(categoryIndex, false);
 
                                     }
@@ -1406,52 +1920,52 @@ $(document).ready(() => {
 
                             }
                         }
-                        else if (slider.activeIndex == 0) {
-                            if (prevCat != null) {
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+
+                                nextCatSwiper(categoryIndex, false);
+                            }
+                        }
+
+                    });
+                    thumbs.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
                                 var swiped = s.touches.diff;
-                                if (swiped > 0) {
-                                    nextCatSwiper(categoryIndex, false);
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false);
+
+                                        }
+                                    }
 
                                 }
                             }
-
-                        }
-                    }
-                    else {
-                        var swiped = s.touches.diff;
-                        if (swiped > 0) {
-
-                            nextCatSwiper(categoryIndex, false);
-                        }
-                    }
-
-                });
-                thumbs.on('sliderMove', function (s, e) {
-
-                    var thisCat = document.getElementById("category_" + (categoryIndex))
-                    var nextCat = document.getElementById("category_" + (categoryIndex + 1))
-                    var prevCat = document.getElementById("category_" + (categoryIndex + -1))
-
-                    //if is last swiper
-                    if (nextCat != null) {
-                        if (slider.isEnd) {
-                            var swiped = s.touches.diff;
-                            if (swiped < 0) {
-
-
-                                //$(".gallery").addClass("hide");
-                                //$(".loader-container").removeClass("hide");
-
-
-                                //setTimeout(nextCatSwiper, 400, categoryIndex, true);
-
-                                nextCatSwiper(categoryIndex, true);
-                            }
-                            else {
-                                if (swiped > 0) {
-
-                                    if ($(thisCat).find(".product").length == 1) {
-
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
                                         nextCatSwiper(categoryIndex, false);
 
                                     }
@@ -1459,38 +1973,255 @@ $(document).ready(() => {
 
                             }
                         }
-                        else if (slider.activeIndex == 0) {
-                            if (prevCat != null) {
-                                var swiped = s.touches.diff;
-                                if (swiped > 0) {
-                                    nextCatSwiper(categoryIndex, false);
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
 
-                                }
+                                nextCatSwiper(categoryIndex, false);
                             }
-
                         }
-                    }
-                    else {
-                        var swiped = s.touches.diff;
-                        if (swiped > 0) {
 
-                            nextCatSwiper(categoryIndex, false);
-                        }
-                    }
+                    });
 
-                });
-
-                //slider.controller.control = thumbs;
-                //thumbs.controller.control = slider;
-                //slider.params.control = thumbs;
-                //thumbs.params.control = slider;
+                    //slider.controller.control = thumbs;
+                    //thumbs.controller.control = slider;
+                    //slider.params.control = thumbs;
+                    //thumbs.params.control = slider;
 
 
 
 
 
+                }
             }
         }
+        else {
+            $(".gallery").removeClass("hide");
+            $(".loader-container").addClass("hide");
+
+            var categoryIndex = lastCategoryIndex;
+
+            var category = $("#category_" + categoryIndex);
+            var catExists = document.getElementById("category_" + categoryIndex);
+
+
+            if (catExists != null && catExists != undefined) {
+                if (category != undefined) {
+
+
+                    $("#main-gallery-swiper").empty();
+
+                    if (slider != undefined) {
+                        slider.destroy(false, true);
+
+                    }
+    
+
+
+
+                    var catName = $(category).attr("data-section-name");
+                    var categoryItems = $(category).find(".product");
+
+
+
+
+                    $("#sectionTitle").text(catName);
+                    $("#sectionTitle").attr("data-current-cat-id", "#category_" + categoryIndex);
+                    $("#sectionTitle").attr("data-real-cat-index", categoryIndex);
+
+
+
+                    let mainProducts = "";
+
+
+                    $(categoryItems).each(function (index) {
+                        var name = $(categoryItems[index]).attr("data-name");
+                        var desc = $(categoryItems[index]).attr("data-desc");
+                        var originalPrice = $(categoryItems[index]).attr("data-original-price");
+                        var finalPrice = $(categoryItems[index]).attr("data-final-price");
+                        var image = $(categoryItems[index]).attr("data-photo");
+                        var hasDiscount = $(categoryItems[index]).attr("data-activate-discount");
+                        var hasPrice = $(categoryItems[index]).attr("data-has-price")
+
+                        var className = "";
+                        if (desc == undefined || desc == "") {
+                            className = "no-desc";
+                        }
+
+                        //var isDeals = $(categoryItems[index]).attr("data-is-deals");
+                        var dealsClass = "";
+                        //if (isDeals != undefined && isDeals == "True") {
+                        //    dealsClass = "deals";
+                        //}
+
+
+                        mainProducts +=
+                            '                <div class="swiper-slide">' +
+                            '                    <div class="text-photo-container ' + dealsClass + '">' +
+                            '                        <div class="product-info ' + className + '">' +
+                            '                            <div class="product-text">' +
+                            '                                <h3 class="product-name">' + name + '</h3>' +
+                            '                                <p class="product-desc">' + desc + '</p>' +
+                            '                            </div>' +
+                            '                            <div class="product-price">';
+
+
+
+
+                        if (hasDiscount === "True") {
+
+                            mainProducts +=
+                                '                                <p class="final-price has-discount">' + finalPrice +
+                                '                                    <span class="original-price">' + originalPrice + '</span>' +
+                                '                                </p>';
+                        }
+                        else {
+
+                            if (hasPrice == "True") {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price">' + originalPrice + '</span>' +
+                                    '                                </p>';
+                            }
+                            else {
+                                mainProducts +=
+                                    '                                <p class="final-price">' +
+                                    '                                       <span class="original-price"></span>' +
+                                    '                                </p>';
+                            }
+
+                        }
+
+                        if (image != "" && image != undefined) {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <img src="' + image + '" class="product-photo">' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+
+
+                        }
+                        else {
+                            mainProducts +=
+                                '                            </div>' +
+                                '                        </div>' +
+                                '                        <div class="product-photo-container">' +
+                                '                           <div src="" class="product-photo"></div>' +
+                                '                        </div>' +
+                                '                    </div>' +
+                                '                   <div class="tags-container">';
+
+                            var tags = $(categoryItems[index]).find(".tags-container");
+                            if ((tags != undefined && tags.length) && $(tags.children()) != undefined && $(tags.children().length)) {
+                                var children = $(tags).clone();
+                                mainProducts += children.html();
+                                mainProducts += '</div></div>';
+
+                            }
+                            else {
+                                mainProducts += '</div></div>';
+                            }
+
+                        }
+
+
+                    });
+
+                    $("#main-gallery-swiper").prepend(mainProducts);
+
+                    //Swiper to initial View Or Last Based On Swipe Direction
+
+
+                    var countSwipers = $("#main-gallery-swiper").find(".swiper-slide").length;
+
+                    slider = new Swiper('.gallery-slider', {
+                        slidesPerView: 1,
+                        centeredSlides: false,
+                        cssMode: false,
+                        initialSlide: 0,
+                        direction: 'horizontal',
+
+                    });
+
+
+
+
+
+
+                    slider.on('sliderMove', function (s, e) {
+
+                        var thisCat = document.getElementById("category_" + (categoryIndex))
+                        var nextCat = document.getElementById("category_" + (categoryIndex + 1))
+                        var prevCat = document.getElementById("category_" + (categoryIndex + -1))
+
+                        //if is last swiper
+                        if (nextCat != null) {
+                            if (slider.isEnd) {
+                                var swiped = s.touches.diff;
+                                if (swiped < 0) {
+
+
+                                    //$(".gallery").addClass("hide");
+                                    //$(".loader-container").removeClass("hide");
+
+
+                                    //setTimeout(nextCatSwiper, 400, categoryIndex, true);
+
+                                    nextCatSwiper(categoryIndex, true, true);
+                                }
+                                else {
+                                    if (swiped > 0) {
+
+                                        if ($(thisCat).find(".product").length == 1) {
+
+                                            nextCatSwiper(categoryIndex, false, true);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            else if (slider.activeIndex == 0) {
+                                if (prevCat != null) {
+                                    var swiped = s.touches.diff;
+                                    if (swiped > 0) {
+                                        nextCatSwiper(categoryIndex, false , true);
+
+                                    }
+                                }
+
+                            }
+                        }
+                        else {
+                            var swiped = s.touches.diff;
+                            if (swiped > 0) {
+
+                                nextCatSwiper(categoryIndex, false , true);
+                            }
+                        }
+
+                    });
+
+                }
+            }
+        }
+
+
 
 
 
@@ -1948,7 +2679,10 @@ $(document).ready(() => {
 
         var newCategoryIndex = parseInt($(".overlay-category-item.selected").attr("data-real-cat-index"));
 
-        newCatSwiper(newCategoryIndex);
+        if (enableOrders === "True") {
+            newCatSwiper(newCategoryIndex, true);
+
+        }
 
 
 
