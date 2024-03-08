@@ -204,9 +204,10 @@
                                                 var dealName = product?.Content?.Value<string>("dealName") ?? "";
                                                 var dealPhoto = product?.Content?.Value<IPublishedContent>("dealPhoto")?.MediaUrl() ?? "";
                                                 var dealDescription = product?.Content?.Value<string>("dealDescription") ?? "";
-                                                var price = product?.Content?.Value<decimal>("price") ?? 0;
-
-                                                var hasPrice = price > 0;
+                                                var finalPrice = product?.Content?.Value<decimal>("finalPrice") ?? 0;
+                                                var originalPrice = product?.Content?.Value<decimal>("originalPrice") ?? 0;
+                                                var activateDiscount = product?.Content?.Value<bool>("activateDiscount") ?? false;
+                                                var hasPrice = originalPrice > 0;
 
                                                 <div class="swiper-slide product"
                                                      data-category="category_@counter"
@@ -214,10 +215,11 @@
                                                      data-product-index="@productIndex"
                                                      data-desc="@dealDescription"
                                                      data-name="@dealName"
-                                                     data-activate-discount="False"
                                                      data-photo="@dealPhoto"
-                                                     data-original-price="@price.ToString("F2")&#8364"
+                                                     data-original-price="@originalPrice.ToString("F2")&#8364"
+                                                     data-final-price="@finalPrice.ToString("F2")&#8364"
                                                      data-is-deals="True"
+                                                     data-activate-discount="@activateDiscount"
                                                      data-has-price="@hasPrice"
                                                      role="button">
 
@@ -234,9 +236,19 @@
                                                             <div class="special__prices">
                                                                 @if (product.Content.ContentType.Alias == "priceDealItem")
                                                                 {
-                                                                    var dealPrice = product?.Content?.Value<decimal>("price") ?? 0;
+                                                                    @if (activateDiscount && finalPrice != null && finalPrice > 0)
+                                                                    {
 
-                                                                    <div class="price__badge"><span class="final-price has-discount">@dealPrice.ToString("F2")&#8364</span></div>
+
+                                                                        <p class="final-price has-discount">@finalPrice.ToString("F2")&#8364</p>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p class="final-price">@originalPrice.ToString("F2")&#8364<span class="original-price"></span></p>
+
+                                                                    }
+
 
                                                                 }
                                                                 else if (product.Content.ContentType.Alias == "textDealItem")
