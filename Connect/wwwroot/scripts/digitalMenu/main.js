@@ -1,4 +1,4 @@
-
+﻿
 const navigation = document.getElementById('menuNav');
 const navInitPosition = navigation.offsetTop;
 const bottomContainer = document.getElementById('bottomContainer');
@@ -2477,8 +2477,33 @@ $(document).ready(() => {
     var allCategories = $(".category:not(.deals)");
 
     function multipleItemsIndex(items, term) {
+        var match = false;
 
-        return false;
+        if (items != undefined && items.length) {
+            $(items).each(function (index) {
+
+                var text = $(items[index]).text().normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+                if (text.indexOf(term) > -1) {
+                    match = true;
+                }
+                else {
+
+                    if ($(items[index]).attr("data-spicy") == "true")
+                    {
+                        if (("spicy").indexOf(term) > -1 || ("πικαντικο").indexOf(term) > -1)
+                        {
+                            match = true;
+
+                        }
+                    }
+                    
+                }
+            });
+
+        }
+
+        return match;
     }
 
     $("#searchInput").on("keyup", delay(function (e) {

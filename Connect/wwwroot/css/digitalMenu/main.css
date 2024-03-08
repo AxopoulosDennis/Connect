@@ -2451,8 +2451,14 @@ body {
   font-size: 0.785rem;
   font-weight: 500;
 }
-.ingridients__container .product_cart_item .shrinked_ingridients .title {
+.ingridients__container .product_cart_item .shrinked_ingridients .top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   font-size: 0.925rem;
+}
+.ingridients__container .product_cart_item .shrinked_ingridients .top .title {
+  font-size: 0.87rem;
 }
 .ingridients__container .product_cart_item .shrinked_ingridients .ingridients {
   display: flex;

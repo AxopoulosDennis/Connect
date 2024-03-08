@@ -2959,24 +2959,31 @@ body {
             font-size: .785rem;
             font-weight: 500;
 
-
-            .title {
+            .top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
                 font-size: .925rem;
+
+                .title{
+                    font-size: .87rem;
+                }
             }
 
+     
             .ingridients {
                 display: flex;
                 gap: .6em;
-                flex-wrap:wrap;
-                
+                flex-wrap: wrap;
+
 
                 .ingridient {
                     border-radius: 4px;
                     padding: 6px 10px;
                     background-color: #e3edf7;
                     display: flex;
-                    justify-content:center;
-                    align-items:center;
+                    justify-content: center;
+                    align-items: center;
                 }
             }
         }

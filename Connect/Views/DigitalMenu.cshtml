@@ -483,7 +483,7 @@
                                                                     {
                                                                         <div class="tags-container" data-filters-type="beer">
 
-                                                                            <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
+                                                                            <span class="tag" data-spiciness="@spiciness" data-spicy="true" style="background-color:@themeColor">
                                                                                 @if (spiciness == "1")
                                                                                 {
                                                                                     <i class="fa fa-pepper-hot"></i>
@@ -527,10 +527,9 @@
 
                                                                                 }
                                                                             }
-
                                                                             @if (spiciness != null && spiciness != "0" && spiciness != "")
                                                                             {
-                                                                                <span class="tag" data-abv="@spiciness" style="background-color:@themeColor">
+                                                                                <span class="tag" data-spiciness="@spiciness" data-spicy="true" style="background-color:@themeColor">
 
                                                                                     @if (spiciness == "1")
                                                                                     {
