@@ -232,6 +232,10 @@ $(document).ready(() => {
 
     window.addEventListener('scroll', () => {
 
+        if ($("#brand-info-content").hasClass("display")) {
+            return;
+        }
+
         clearTimeout($.data(this, 'scrollTimer'));
         $.data(this, 'scrollTimer', setTimeout(function () {
 
@@ -2370,6 +2374,9 @@ $(document).ready(() => {
         $("#brand-info-content").removeClass("display");
 
         eventsSwiper.destroy(true, true);
+
+
+
     });
 
 
@@ -2706,6 +2713,10 @@ $(document).ready(() => {
 
         if (enableOrders === "True") {
             newCatSwiper(newCategoryIndex, true);
+
+        }
+        else {
+            newCatSwiper(newCategoryIndex, false);
 
         }
 
