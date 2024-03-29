@@ -2943,16 +2943,8 @@ $(document).ready(() => {
                 } else {
                     priceInput[0].value = minVal;
                     priceInput[1].value = maxVal;
-                    if (minVal >= 1) {
+                    range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
 
-                        range.style.left = ((minVal-1) / rangeInput[0].max) * 100 + "%";
-
-                    }
-                    else {
-
-                        range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
-
-                    }
 
                     range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 

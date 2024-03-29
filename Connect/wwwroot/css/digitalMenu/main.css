@@ -2519,6 +2519,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 0.7em;
+  font-weight: 500;
 }
 .filters__container svg {
   font-size: 0.975rem;
@@ -2589,8 +2590,8 @@ body {
   -moz-appearance: none;
 }
 .modal input[type=range]::-webkit-slider-thumb {
-  height: 17px;
-  width: 17px;
+  height: 28px;
+  width: 28px;
   border-radius: 50%;
   background: #657789;
   pointer-events: auto;
@@ -2598,8 +2599,8 @@ body {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 .modal input[type=range]::-moz-range-thumb {
-  height: 17px;
-  width: 17px;
+  height: 28px;
+  width: 28px;
   border: none;
   border-radius: 50%;
   background: #657789;

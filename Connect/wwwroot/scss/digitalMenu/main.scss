@@ -3044,6 +3044,7 @@ body {
         justify-content: center;
         align-items: center;
         gap: .7em;
+        font-weight:500;
     }
 
     svg {
@@ -3131,8 +3132,8 @@ body {
     }
 
     input[type="range"]::-webkit-slider-thumb {
-        height: 17px;
-        width: 17px;
+        height: 28px;
+        width: 28px;
         border-radius: 50%;
         background: #657789;
         pointer-events: auto;
@@ -3141,8 +3142,8 @@ body {
     }
 
     input[type="range"]::-moz-range-thumb {
-        height: 17px;
-        width: 17px;
+        height: 28px;
+        width: 28px;
         border: none;
         border-radius: 50%;
         background: #657789;
