@@ -168,7 +168,24 @@
                         </div>
 
                         <div class="filters__container" id="filtersContainer" style="display:none;">
-                            <span filter-type="price-range" data-bs-toggle="modal" data-bs-target="#priceRangeModal" class="filter">Εύρος Τιμών<i class="fa-solid fa-coins"></i></span>
+                            <div class="filter">
+
+                                <div class="trigger__container" filter-type="price-range" data-bs-toggle="modal" data-bs-target="#priceRangeModal">
+                                    @(Umbraco.GetDictionaryValue("PriceRange", "Price Range"))
+                                    <i class="fa-solid fa-coins"></i>
+
+                                </div>
+
+                                <div class="price__range__container" style="display:none;" id="priceRangeValContainer">
+
+                                <span class="range__val" id="priceRangeVal">
+                                </span>
+
+                                <span class="close__icon" id="removePriceFilter"><i class="fa fa-close"></i>
+                                </span>
+
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Modal -->
@@ -176,7 +193,9 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="priceRangeModalLabel">Εύρος Τιμών</h1>
+                                        <h1 class="modal-title" id="priceRangeModalLabel">
+                                            @(Umbraco.GetDictionaryValue("PriceRange", "Price Range"))
+                                        </h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -184,12 +203,12 @@
 
                                             <div class="price-input">
                                                 <div class="field">
-                                                    <span>Από</span>
+                                                    <span>@(Umbraco.GetDictionaryValue("MinPriceRange", "Min"))</span>
                                                     <input type="number" class="input-min" id="input-min" value="@smallestPrice">
                                                 </div>
                                                 <div class="separator">-</div>
                                                 <div class="field">
-                                                    <span>Εώς</span>
+                                                    <span>@(Umbraco.GetDictionaryValue("MaxPriceRange", "Max"))</span>
                                                     <input type="number" class="input-max" id="input-max" value="@biggestPrice">
                                                 </div>
                                             </div>
@@ -204,8 +223,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        @*                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    *@                                        <button type="button" id="acceptPriceFilter" data-bs-dismiss="modal" class="btn btn-primary">Αποδοχή</button>
+                                        <button type="button" id="acceptPriceFilter" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("SubmitPriceRange", "Submit"))</button>
                                     </div>
                                 </div>
                             </div>
@@ -1434,7 +1452,7 @@
                     if (events?.Any() ?? false)
                     {
                         <div class="info-item-container">
-
+                           
                             <h3 class="s-title">
                                 @(Umbraco.GetDictionaryValue("UpcomingEvents") ?? "")
                             </h3>

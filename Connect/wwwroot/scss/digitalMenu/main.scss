@@ -3005,8 +3005,38 @@ body {
     color: #657789;
     display: flex;
     justify-content: end;
+    transition: all 0.5s ease;
+
+    .trigger__container {
+        display: flex;
+        gap: .5em;
+        align-items:center;
+        justify-content:center;
+    }
 
 
+
+    .price__range__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e3edf7;
+        padding: 4px 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: .835rem;
+        min-width: 40px;
+        min-height: 20px;
+        border-radius: 20px;
+        font-weight: 500;
+        gap: .4em;
+
+        .close__icon {
+            display: flex;
+            align-items: center;
+        }
+    }
 
     .filter {
         font-size: .875rem;
@@ -3022,6 +3052,10 @@ body {
 }
 
 .modal {
+    .modal-title {
+        font-size: .975rem;
+    }
+
     padding: 0 .4em;
 
 
@@ -3056,6 +3090,7 @@ body {
         text-align: center;
         border: 1px solid #999;
         -moz-appearance: textfield;
+        font-size: 1.025rem;
     }
 
     input[type="number"]::-webkit-outer-spin-button,
@@ -3066,7 +3101,7 @@ body {
     .price-input .separator {
         width: 130px;
         display: flex;
-        font-size: 19px;
+        font-size: .975rem;
         align-items: center;
         justify-content: center;
     }
@@ -3119,6 +3154,7 @@ body {
     .btn-primary {
         background-color: #657789;
         border-color: #657789;
+        font-size: .975rem;
     }
 
     .btn-close {

@@ -2485,6 +2485,33 @@ body {
   color: #657789;
   display: flex;
   justify-content: end;
+  transition: all 0.5s ease;
+}
+.filters__container .trigger__container {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+}
+.filters__container .price__range__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e3edf7;
+  padding: 4px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.835rem;
+  min-width: 40px;
+  min-height: 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  gap: 0.4em;
+}
+.filters__container .price__range__container .close__icon {
+  display: flex;
+  align-items: center;
 }
 .filters__container .filter {
   font-size: 0.875rem;
@@ -2499,6 +2526,9 @@ body {
 
 .modal {
   padding: 0 0.4em;
+}
+.modal .modal-title {
+  font-size: 0.975rem;
 }
 .modal .wrapper {
   background: #fff;
@@ -2526,6 +2556,7 @@ body {
   text-align: center;
   border: 1px solid #999;
   -moz-appearance: textfield;
+  font-size: 1.025rem;
 }
 .modal input[type=number]::-webkit-outer-spin-button,
 .modal input[type=number]::-webkit-inner-spin-button {
@@ -2534,7 +2565,7 @@ body {
 .modal .price-input .separator {
   width: 130px;
   display: flex;
-  font-size: 19px;
+  font-size: 0.975rem;
   align-items: center;
   justify-content: center;
 }
@@ -2579,6 +2610,7 @@ body {
 .modal .btn-primary {
   background-color: #657789;
   border-color: #657789;
+  font-size: 0.975rem;
 }
 .modal .btn-close {
   background-color: transparent !important;

@@ -2383,18 +2383,34 @@ $(document).ready(() => {
 
     //#region Search
 
-
+    var allCategories = $(".category:not(.deals)");
+    const biggestPriceVal = $("#biggestPriceValue").val();
+    const smallestPriceVal = parseInt($("#smallestPriceValue").val());
+    var hasPriceFilter = false;
+    var globalSearchTerm = "";
     var lastPosBeforeSearch = 0;
     $("#search-trigger").on("click", function () {
 
         if ($(this).hasClass("expanded")) {
+
+            $("#priceRangeVal").text()
+            $("#priceRangeValContainer").hide();
+            hasPriceFilter = false;
+            globalSearchTerm = "";
+
 
             $("#filtersContainer").hide();
 
             //$(".search-results").removeClass("show");
             $(".brand-container").show();
 
+            var prev = $(".out-of-stock-items").prev();
+            if (prev != undefined) {
+                $(prev).children().css("border-bottom", "1px solid rgba(237, 231, 225,0.75)");
+            }
             $(".out-of-stock-items").show();
+            $(".collapse").show();
+
             $(".category").show();
             $(".product").show();
 
@@ -2405,6 +2421,8 @@ $(document).ready(() => {
             $("#close-search-icon").removeClass("show");
             $("#open-search-icon").removeClass("hide");
             $("#searchInput").val("");
+
+
 
             $(this).removeClass("expanded");
 
@@ -2426,11 +2444,10 @@ $(document).ready(() => {
             }, 100);
 
 
-
-
         }//if going to expand
         else {
             lastPosBeforeSearch = window.scrollY;
+
 
             $(this).addClass("expanded")
 
@@ -2447,8 +2464,13 @@ $(document).ready(() => {
             $("#close-search-icon").addClass("show");
             //$(".search-results").addClass("show");
 
+            var prev = $(".out-of-stock-items").prev();
+            if (prev != undefined) {
+                $(prev).children().css("border-bottom", 0);
+            }
 
             $(".out-of-stock-items").hide();
+            $(".collapse").hide();
 
             $("#filtersContainer").show();
             //window.scrollTo({
@@ -2489,13 +2511,355 @@ $(document).ready(() => {
     //    }
 
     //});
+    function applyPriceFilter(minPrice, maxPrice) {
+        $(".category:not(.deals)").show();
+
+        $(allCategories).each(function (index) {
+
+            var categoriesProducts = $(this).find(".product");
+
+            $(categoriesProducts).each(function (index) {
+
+                var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                var dataOriginalPrice = $(this).attr("data-original-price");
+                var dataFinalPrice = $(this).attr("data-final-price");
+
+
+                if (activateDiscount === "true") {
+
+                    if (dataFinalPrice != undefined) {
+
+                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                        if (
+                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                        ) {
+                            $(categoriesProducts[index]).show();
+                        }
+                        else {
+                            $(categoriesProducts[index]).hide();
+
+                        }
+                    }
+
+
+                }
+                else {
+
+                    if (dataOriginalPrice != undefined) {
+                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                        if (
+                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                        ) {
+                            var prod = $(categoriesProducts[index]);
+                            if ($(prod).is(":hidden")) {
+                                $(prod).show();
+
+                            }
+
+                        }
+                        else {
+                            $(categoriesProducts[index]).hide();
+
+
+                        }
+                    }
 
 
 
-    const biggestPriceVal = $("#biggestPriceValue").val();
+                }
+
+
+            });
+
+            if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                $(this).hide();
+            }
+            else {
+                $(this).show();
+            }
+
+
+        });
+
+        if ($(".category:not(:hidden)").length == 0) {
+            $("#no-results").show();
+        }
+        else {
+            $("#no-results").hide();
+
+        }
+
+
+    }
+    function applySearchTerm(searchTerm) {
+        searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+
+        var singleTerm = searchTerm.trim();
+
+        if (hasPriceFilter === true) {
+            var minPrice = $("#input-min").val();
+            var maxPrice = $("#input-max").val();
+
+            $(allCategories).each(function (index) {
+
+                var categoriesProducts = $(this).find(".product");
+
+                $(categoriesProducts).each(function (index) {
+
+                    var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var tags = $(this).find(".tag");
+
+                    var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                    var dataOriginalPrice = $(this).attr("data-original-price");
+                    var dataFinalPrice = $(this).attr("data-final-price");
+
+
+
+                    if (
+                        (dataCat.indexOf(singleTerm) > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataDesc.indexOf(singleTerm) > -1)
+                        || multipleItemsIndex(tags, singleTerm)
+
+
+                    ) {
+
+                        $(categoriesProducts[index]).show();
+
+                        if (activateDiscount === "true") {
+
+                            if (dataFinalPrice != undefined) {
+
+                                dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                                if (
+                                    dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                                ) {
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+                                }
+                            }
+
+
+                        }
+                        else {
+
+                            if (dataOriginalPrice != undefined) {
+                                dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                                if (
+                                    dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                                ) {
+
+
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+
+                                }
+                            }
+
+
+
+                        }
+
+                    }
+                    else {
+                        let searchTermSplit = searchTerm.split(' ');
+                        //filter input space
+                        searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        if (searchTermSplit.length > 1) {
+
+                            $(searchTermSplit).each(function (index) {
+
+
+                                if (
+                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+
+
+                                ) {
+                                    $(categoriesProducts[index]).show();
+
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+                                }
+                            })
+
+                        }
+                        else {
+
+                            $(categoriesProducts[index]).hide();
+
+                        }
+
+
+                    }
+
+
+
+
+                });
+
+                if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+
+
+            });
+
+        }
+        else {
+            $(allCategories).each(function (index) {
+
+                var categoriesProducts = $(this).find(".product");
+
+                $(categoriesProducts).each(function (index) {
+
+                    var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var tags = $(this).find(".tag");
+
+
+
+                    if (
+                        (dataCat.indexOf(singleTerm) > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataDesc.indexOf(singleTerm) > -1)
+                        || multipleItemsIndex(tags, singleTerm)
+
+
+                    ) {
+
+                        $(categoriesProducts[index]).show();
+
+                    }
+                    else {
+                        let searchTermSplit = searchTerm.split(' ');
+                        //filter input space
+                        searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        if (searchTermSplit.length > 1) {
+
+                            $(searchTermSplit).each(function (index) {
+
+
+                                if (
+                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+
+
+                                ) {
+                                    $(categoriesProducts[index]).show();
+
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+                                }
+                            })
+
+                        }
+                        else {
+
+                            $(categoriesProducts[index]).hide();
+
+                        }
+
+
+                    }
+
+
+
+
+                });
+
+                if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+
+
+            });
+
+        }
+
+
+
+        if ($(".category:not(:hidden)").length == 0) {
+            $("#no-results").show();
+        }
+        else {
+            $("#no-results").hide();
+
+        }
+
+    }
+
+
 
     if (biggestPriceVal != undefined) {
-        const smallestPriceVal = parseInt($("#smallestPriceValue").val());
 
 
         $("#input-min").attr("value",smallestPriceVal);
@@ -2597,108 +2961,48 @@ $(document).ready(() => {
         });
     }
 
-    var allCategories = $(".category:not(.deals)");
 
     $("#acceptPriceFilter").on("click", function () {
+
         var minPrice = $("#input-min").val();
         var maxPrice = $("#input-max").val();
 
+        applyPriceFilter(minPrice, maxPrice);
+       
+        hasPriceFilter = true;
 
-        $(".category:not(.deals)").show();
+        if (globalSearchTerm.trim() != "" && globalSearchTerm != undefined) {
 
-        $(allCategories).each(function (index) {
+            applySearchTerm(globalSearchTerm);
 
-            var categoriesProducts = $(this).find(".product");
-
-            $(categoriesProducts).each(function (index) {
-
-                var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
-                var dataOriginalPrice = $(this).attr("data-original-price");
-                var dataFinalPrice = $(this).attr("data-final-price");
-
-                
-
-
-                if (activateDiscount === "true") {
-
-                    if (dataFinalPrice != undefined) {
-
-                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
-
-                        if (
-                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
-                        ) {
-                            $(categoriesProducts[index]).show();
-                        }
-                        else {
-                            $(categoriesProducts[index]).hide();
-
-                        }
-                    }
-
-
-                }
-                else {
-
-                    if (dataOriginalPrice != undefined) {
-                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
-
-                        if (
-                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
-                        )
-                        {
-                            var prod = $(categoriesProducts[index]);
-                            if ($(prod).is(":hidden")) {
-                                $(prod).show();
-
-                            }
-
-                        }
-                        else {
-                            $(categoriesProducts[index]).hide();
-
-                        }
-                    }
-
-
-               
-                }
-
-
-
-
-
-            });
-
-            if ($(this).find(".product:not(:hidden)").length == 0) {
-
-                $(this).hide();
-            }
-            else {
-                $(this).show();
-            }
-
-
-        });
-
-        if ($(".category:not(:hidden)").length == 0) {
-            $("#no-results").show();
         }
-        else {
-            $("#no-results").hide();
+
+
+        $("#priceRangeVal").text(minPrice + " - " + maxPrice)
+        $("#priceRangeValContainer").show();
+    });
+
+    $("#removePriceFilter").on("click", function () {
+        $("#priceRangeVal").text()
+        $("#priceRangeValContainer").hide();
+
+        applyPriceFilter(smallestPriceVal, biggestPriceVal);
+
+
+        hasPriceFilter = false;
+
+        if (globalSearchTerm.trim() != "" && globalSearchTerm != undefined) {
+
+            applySearchTerm(globalSearchTerm);
 
         }
 
     });
-
-
 
 
     $('textarea').on('touchstart', function () {
         $(this).trigger("focus");
     });
-
-
 
     function multipleItemsIndex(items, term) {
         var match = false;
@@ -2730,120 +3034,22 @@ $(document).ready(() => {
         return match;
     }
 
+
     $("#searchInput").on("keyup", delay(function (e) {
 
-
-
         $(".category:not(.deals)").show();
+        globalSearchTerm = this.value;
 
-        var searchTerm = this.value;
+        if (globalSearchTerm != undefined) {
 
-        if (searchTerm.trim() != "" && searchTerm != undefined)
-
-        searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
-
-        var singleTerm = searchTerm.trim();
-        $(allCategories).each(function (index) {
-
-            var categoriesProducts = $(this).find(".product");
-
-            $(categoriesProducts).each(function (index) {
-
-                var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                var tags = $(this).find(".tag");
-
-                if (
-                    (dataCat.indexOf(singleTerm) > -1)
-                    ||
-                    (dataCat.indexOf(singleTerm + "s") > -1)
-                    ||
-                    (dataCat.indexOf(singleTerm.slice(0, -1)) > -1)
-                    ||
-                    (dataName.indexOf(singleTerm) > -1)
-                    ||
-                    (dataName.indexOf(singleTerm + "s") > -1)
-                    ||
-                    (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
-                    ||
-                    (dataDesc.indexOf(singleTerm) > -1)
-                    || multipleItemsIndex(tags, singleTerm)
-
-
-                ) {
-
-                    $(categoriesProducts[index]).show();
-
-                }
-                else {
-                    let searchTermSplit = searchTerm.split(' ');
-                    //filter input space
-                    searchTermSplit = searchTermSplit.filter((item) => item != '');
-
-                    if (searchTermSplit.length > 1) {
-
-                        $(searchTermSplit).each(function (index) {
-
-
-                            if (
-                                (dataCat.indexOf(searchTermSplit[index]) > -1)
-                                ||
-                                (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
-                                ||
-                                (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                ||
-                                (dataName.indexOf(searchTermSplit[index]) > -1)
-                                ||
-                                (dataName.indexOf(searchTermSplit[index] + "s") > -1)
-                                ||
-                                (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                ||
-                                (dataDesc.indexOf(searchTermSplit[index]) > -1)
-                                 
-
-                            ) {
-                                $(categoriesProducts[index]).show();
-
-                            }
-                            else {
-                                $(categoriesProducts[index]).hide();
-
-                            }
-                        })
-
-                    }
-                    else {
-
-                        $(categoriesProducts[index]).hide();
-
-                    }
-
-                }
-
-
-            });
-
-            if ($(this).find(".product:not(:hidden)").length == 0) {
-
-                $(this).hide();
-            }
-            else {
-                $(this).show();
-            }
-            
-
-        });
-
-        if ($(".category:not(:hidden)").length == 0) {
-            $("#no-results").show();
-        }
-        else {
-            $("#no-results").hide();
+            applySearchTerm(globalSearchTerm);
 
         }
 
 
+        $([document.documentElement, document.body]).animate({
+            scrollTop: 0
+        }, 120);
 
     }, 500));
 
