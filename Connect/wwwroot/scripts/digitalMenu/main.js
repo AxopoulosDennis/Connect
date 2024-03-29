@@ -2389,6 +2389,8 @@ $(document).ready(() => {
 
         if ($(this).hasClass("expanded")) {
 
+            $("#filtersContainer").hide();
+
             //$(".search-results").removeClass("show");
             $(".brand-container").show();
 
@@ -2448,6 +2450,7 @@ $(document).ready(() => {
 
             $(".out-of-stock-items").hide();
 
+            $("#filtersContainer").show();
             //window.scrollTo({
             //    top: 0,
             //    left: 0,
@@ -2476,12 +2479,214 @@ $(document).ready(() => {
 
  
     });
+
+    //$(".filter").on("click", function () {
+
+    //    var type = $(this).attr("filter-type");
+    //    if (type == "price-range") {
+
+
+    //    }
+
+    //});
+
+
+
+    const biggestPriceVal = $("#biggestPriceValue").val();
+
+    if (biggestPriceVal != undefined) {
+        const smallestPriceVal = parseInt($("#smallestPriceValue").val());
+
+
+        $("#input-min").attr("value",smallestPriceVal);
+        $("#input-max").attr("value", biggestPriceVal);
+
+        $("#rangeMin").attr("max", biggestPriceVal);
+        $("#rangeMax").attr("max", biggestPriceVal);
+
+        $("#rangeMin").attr("min", smallestPriceVal);
+        $("#rangeMax").attr("min", smallestPriceVal);
+
+        $("#rangeMin").val(smallestPriceVal)
+        $("#rangeMax").val(biggestPriceVal)
+
+        const rangeInput = document.querySelectorAll(".range-input input"),
+            priceInput = document.querySelectorAll(".price-input input"),
+            range = document.querySelector(".slider .progress");
+        let priceGap = 1;
+
+        priceInput.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minPrice = parseInt(priceInput[0].value),
+                    maxPrice = parseInt(priceInput[1].value);
+
+
+                if (maxPrice > biggestPriceVal) {
+                    maxPrice = biggestPriceVal;
+                    $("#input-max").val(maxPrice);
+
+                }
+
+                if (maxPrice < smallestPriceVal) {
+                    maxPrice = smallestPriceVal + priceGap;
+                    $("#input-max").val(maxPrice);
+
+                }
+
+
+                if (minPrice < smallestPriceVal) {
+                    minPrice = smallestPriceVal;
+                    $("#input-min").val(minPrice);
+
+                }
+
+                if (minPrice > biggestPriceVal) {
+                    minPrice = biggestPriceVal - priceGap;
+                    $("#input-min").val(minPrice);
+                }
+
+
+
+                if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
+                    if (e.target.className === "input-min") {
+                        rangeInput[0].value = minPrice;
+                        range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+
+
+                    } else {
+
+
+                        rangeInput[1].value = maxPrice;
+                        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                    }
+                }
+            });
+        });
+
+        rangeInput.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minVal = parseInt(rangeInput[0].value),
+                    maxVal = parseInt(rangeInput[1].value);
+
+
+
+                if (maxVal - minVal < priceGap) {
+                    if (e.target.className === "range-min") {
+                        rangeInput[0].value = maxVal - priceGap;
+                    } else {
+                        rangeInput[1].value = minVal + priceGap;
+                    }
+                } else {
+                    priceInput[0].value = minVal;
+                    priceInput[1].value = maxVal;
+                    if (minVal >= 1) {
+
+                        range.style.left = ((minVal-1) / rangeInput[0].max) * 100 + "%";
+
+                    }
+                    else {
+
+                        range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+
+                    }
+
+                    range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+
+                }
+            });
+        });
+    }
+
+    var allCategories = $(".category:not(.deals)");
+
+    $("#acceptPriceFilter").on("click", function () {
+        var minPrice = $("#input-min").val();
+        var maxPrice = $("#input-max").val();
+
+
+        $(allCategories).each(function (index) {
+
+            var categoriesProducts = $(this).find(".product");
+
+            $(categoriesProducts).each(function (index) {
+
+                var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                var dataOriginalPrice = $(this).attr("data-original-price");
+                var dataFinalPrice = $(this).attr("data-final-price");
+
+                
+
+
+                if (activateDiscount === "true") {
+
+                    if (dataFinalPrice != undefined) {
+
+                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                        if (
+                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                        ) {
+                            $(categoriesProducts[index]).show();
+
+                        }
+                        else {
+                            $(categoriesProducts[index]).hide();
+
+                        }
+                    }
+
+
+                }
+                else {
+
+                    if (dataOriginalPrice != undefined) {
+                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                        if (
+                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                        ) {
+                            $(categoriesProducts[index]).show();
+
+                        }
+                        else {
+                            $(categoriesProducts[index]).hide();
+
+                        }
+                    }
+
+
+               
+                }
+
+
+
+
+            });
+
+
+            if ($(allCategories[index]).find(".product:not(:hidden)").length == 0) {
+
+                $(this).hide();
+            }
+            else {
+                $(this).show();
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+
     $('textarea').on('touchstart', function () {
         $(this).trigger("focus");
     });
 
 
-    var allCategories = $(".category:not(.deals)");
 
     function multipleItemsIndex(items, term) {
         var match = false;
@@ -2514,6 +2719,8 @@ $(document).ready(() => {
     }
 
     $("#searchInput").on("keyup", delay(function (e) {
+
+
 
         $(".category:not(.deals)").show();
 
@@ -2616,7 +2823,7 @@ $(document).ready(() => {
 
         });
 
-        if ($(".category:visible").length == 0) {
+        if ($(allCategories[index]).find(".product:not(:hidden)").length == 0) {
             $("#no-results").show();
         }
         else {

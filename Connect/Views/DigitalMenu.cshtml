@@ -27,6 +27,9 @@
     var isDemo = Model?.Value<bool>("isDemo") ?? false;
     string enableOrders = Model?.Value<bool>("enableOrders").ToString() ?? "false";
     var pageId = Model?.Id;
+
+    decimal biggestPrice = 0;
+    decimal smallestPrice = 0;
 }
 
 
@@ -162,10 +165,62 @@
                                 </nav>
                             </div>
 
-
-
                         </div>
 
+                        <div class="filters__container" id="filtersContainer" style="display:none;">
+                            <span filter-type="price-range" data-bs-toggle="modal" data-bs-target="#priceRangeModal" class="filter">Εύρος Τιμών<i class="fa-solid fa-coins"></i></span>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="priceRangeModal" aria-hidden="true" tabindex="-1" aria-labelledby="priceRangeModalLabel">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="priceRangeModalLabel">Εύρος Τιμών</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="wrapper">
+
+                                            <div class="price-input">
+                                                <div class="field">
+                                                    <span>Από</span>
+                                                    <input type="number" class="input-min" id="input-min" value="@smallestPrice">
+                                                </div>
+                                                <div class="separator">-</div>
+                                                <div class="field">
+                                                    <span>Εώς</span>
+                                                    <input type="number" class="input-max" id="input-max" value="@biggestPrice">
+                                                </div>
+                                            </div>
+                                            <div class="slider">
+                                                <div class="progress"></div>
+                                            </div>
+                                            <div class="range-input">
+                                                <input type="range" class="range-min" min="@smallestPrice" id="rangeMin" max="@biggestPrice" value="@smallestPrice" step="1">
+                                                <input type="range" class="range-max" min="@smallestPrice+1" id="rangeMax" max="@biggestPrice" value="@biggestPrice - 1" step="1">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        @*                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    *@                                        <button type="button" id="acceptPriceFilter" data-bs-dismiss="modal" class="btn btn-primary">Αποδοχή</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <style>
+                            .slider .progress {
+                                height: 100%;
+                                left: 0%;
+                                right: 0%;
+                                position: absolute;
+                                border-radius: 5px;
+                                background: @themeColor;
+                            }
+                        </style>
                     }
 
                     <!-- MENU CONTENT -->
@@ -265,6 +320,47 @@
                                                     </div>
                                                 </div>
 
+                                                @if(activateDiscount && finalPrice > 0 && finalPrice > biggestPrice)
+                                                {
+                                                    biggestPrice = finalPrice;
+
+
+                                                }
+                                                else if(originalPrice > biggestPrice)
+                                                {
+                                                    biggestPrice = originalPrice;                                          
+                                                }
+
+
+                                                if(smallestPrice == 0)
+                                                {
+                                                    if(activateDiscount && finalPrice > 0)
+                                                    {
+                                                        smallestPrice = finalPrice;
+                                                    }
+                                                    else
+                                                    {
+                                                        smallestPrice = originalPrice;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (activateDiscount && finalPrice > 0)
+                                                    {
+                                                        if(finalPrice < smallestPrice)
+                                                        {
+                                                            smallestPrice = finalPrice;
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if(originalPrice < smallestPrice)
+                                                        {
+                                                            smallestPrice = finalPrice;
+
+                                                        }                                                    }
+                                                }
 
                                             }
                                         </div>
@@ -589,7 +685,46 @@
 
                                                         </div>
 
+                                                        @if (activateDiscount && finalPrice > 0 && finalPrice > biggestPrice)
+                                                        {
+                                                            biggestPrice = finalPrice;
 
+                                                        }
+                                                        else if (originalPrice > biggestPrice)
+                                                        {
+                                                            biggestPrice = originalPrice;
+                                                        }
+
+                                                        if (smallestPrice == 0)
+                                                        {
+                                                            if (activateDiscount && finalPrice > 0)
+                                                            {
+                                                                smallestPrice = finalPrice;
+                                                            }
+                                                            else
+                                                            {
+                                                                smallestPrice = originalPrice;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (activateDiscount && finalPrice > 0)
+                                                            {
+                                                                if (finalPrice < smallestPrice)
+                                                                {
+                                                                    smallestPrice = finalPrice;
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (originalPrice < smallestPrice)
+                                                                {
+                                                                    smallestPrice = finalPrice;
+
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -1167,6 +1302,11 @@
 
                             }
                         }
+
+
+
+                        <input type="hidden" id="biggestPriceValue" value="@Math.Ceiling(biggestPrice)"/>
+                        <input type="hidden" id="smallestPriceValue" value="@Math.Floor(smallestPrice)" />
 
                         <div id="no-results" style="display: none;">
                             Δεν βρέθηκαν αποτελέσματα αναζήτησης
