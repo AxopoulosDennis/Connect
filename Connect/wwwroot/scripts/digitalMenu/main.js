@@ -2409,7 +2409,7 @@ $(document).ready(() => {
                 $(prev).children().css("border-bottom", "1px solid rgba(237, 231, 225,0.75)");
             }
             $(".out-of-stock-items").show();
-            $(".collapse").show();
+            //$(".collapse").show();
 
             $(".category").show();
             $(".product").show();
@@ -2470,7 +2470,8 @@ $(document).ready(() => {
             }
 
             $(".out-of-stock-items").hide();
-            $(".collapse").hide();
+            $('.collapse').collapse("hide");
+
 
             $("#filtersContainer").show();
             //window.scrollTo({
