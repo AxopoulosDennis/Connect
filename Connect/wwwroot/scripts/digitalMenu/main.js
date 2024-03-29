@@ -2604,6 +2604,8 @@ $(document).ready(() => {
         var maxPrice = $("#input-max").val();
 
 
+        $(".category:not(.deals)").show();
+
         $(allCategories).each(function (index) {
 
             var categoriesProducts = $(this).find(".product");
@@ -2627,7 +2629,6 @@ $(document).ready(() => {
                             dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
                         ) {
                             $(categoriesProducts[index]).show();
-
                         }
                         else {
                             $(categoriesProducts[index]).hide();
@@ -2644,8 +2645,13 @@ $(document).ready(() => {
 
                         if (
                             dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
-                        ) {
-                            $(categoriesProducts[index]).show();
+                        )
+                        {
+                            var prod = $(categoriesProducts[index]);
+                            if ($(prod).is(":hidden")) {
+                                $(prod).show();
+
+                            }
 
                         }
                         else {
@@ -2661,21 +2667,27 @@ $(document).ready(() => {
 
 
 
+
             });
 
-
-            if ($(allCategories[index]).find(".product:not(:hidden)").length == 0) {
+            if ($(this).find(".product:not(:hidden)").length == 0) {
 
                 $(this).hide();
             }
             else {
                 $(this).show();
             }
+
+
         });
 
+        if ($(".category:not(:hidden)").length == 0) {
+            $("#no-results").show();
+        }
+        else {
+            $("#no-results").hide();
 
-
-
+        }
 
     });
 
@@ -2812,7 +2824,7 @@ $(document).ready(() => {
 
             });
 
-            if ($(this).find(".product:visible").length == 0) {
+            if ($(this).find(".product:not(:hidden)").length == 0) {
 
                 $(this).hide();
             }
@@ -2823,7 +2835,7 @@ $(document).ready(() => {
 
         });
 
-        if ($(allCategories[index]).find(".product:not(:hidden)").length == 0) {
+        if ($(".category:not(:hidden)").length == 0) {
             $("#no-results").show();
         }
         else {
