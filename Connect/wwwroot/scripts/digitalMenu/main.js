@@ -2595,6 +2595,7 @@ $(document).ready(() => {
 
 
     }
+
     function applySearchTerm(searchTerm) {
         searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
 
@@ -2858,6 +2859,245 @@ $(document).ready(() => {
 
     }
 
+    function calcSearchResults() {
+
+        var minPrice = $("#input-min").val();
+        var maxPrice = $("#input-max").val();
+
+        var counter = 0;
+        var singleTerm = globalSearchTerm.trim();
+
+        if (singleTerm != "" && singleTerm != undefined) {
+            var minPrice = $("#input-min").val();
+            var maxPrice = $("#input-max").val();
+
+
+            var searchTerm = globalSearchTerm;
+
+            $(allCategories).each(function (index) {
+
+                var categoriesProducts = $(this).find(".product");
+
+                $(categoriesProducts).each(function (index) {
+
+                    var dataName = $(this).attr("data-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataCat = $(this).attr("data-category-name").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var dataDesc = $(this).attr("data-desc").normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    var tags = $(this).find(".tag");
+
+                    var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                    var dataOriginalPrice = $(this).attr("data-original-price");
+                    var dataFinalPrice = $(this).attr("data-final-price");
+
+
+
+                    if (
+                        (dataCat.indexOf(singleTerm) > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataCat.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm) > -1)
+                        ||
+                        (dataName.indexOf(singleTerm + "s") > -1)
+                        ||
+                        (dataName.indexOf(singleTerm.slice(0, -1)) > -1)
+                        ||
+                        (dataDesc.indexOf(singleTerm) > -1)
+                        || multipleItemsIndex(tags, singleTerm)
+
+
+                    ) {
+
+                        $(categoriesProducts[index]).show();
+
+                        if (activateDiscount === "true") {
+
+                            if (dataFinalPrice != undefined) {
+
+                                dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                                if (
+                                    dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                                ) {
+                                    //continue to price filter
+
+                                }
+                                else {
+                                    return;
+
+                                }
+                            }
+
+
+                        }
+                        else {
+
+                            if (dataOriginalPrice != undefined) {
+                                dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                                if (
+                                    dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                                ) {
+                                    //continue to price filter
+
+
+                                }
+                                else {
+                                    return;
+
+
+                                }
+                            }
+
+
+
+                        }
+
+                    }
+                    else {
+                        let searchTermSplit = searchTerm.split(' ');
+                        //filter input space
+                        searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        if (searchTermSplit.length > 1) {
+
+                            $(searchTermSplit).each(function (index) {
+
+
+                                if (
+                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index]) > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                                    ||
+                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                                    ||
+                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+
+
+                                ) {
+                                    //continue to price filter
+                                }
+                                else {
+                                    return;
+                                }
+                            })
+
+                        }
+                        else {
+
+                            return;
+                        }
+
+
+                    }
+
+                    if (activateDiscount === "true") {
+
+                        if (dataFinalPrice != undefined) {
+
+                            dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                            if (
+                                dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                            ) {
+                                counter = counter + 1;
+                            }
+
+                        }
+
+
+                    }
+                    else {
+
+                        if (dataOriginalPrice != undefined) {
+                            dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                            if (
+                                dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                            ) {
+                                counter = counter + 1;
+
+
+                            }
+
+                        }
+                    }
+
+
+                });
+
+
+
+
+            });
+
+        }
+        else {
+            $(allCategories).each(function (index) {
+
+                var categoriesProducts = $(this).find(".product");
+
+                $(categoriesProducts).each(function (index) {
+
+                    var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                    var dataOriginalPrice = $(this).attr("data-original-price");
+                    var dataFinalPrice = $(this).attr("data-final-price");
+
+
+                    if (activateDiscount === "true") {
+
+                        if (dataFinalPrice != undefined) {
+
+                            dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                            if (
+                                dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                            ) {
+                                counter = counter + 1;
+                            }
+
+                        }
+
+
+                    }
+                    else {
+
+                        if (dataOriginalPrice != undefined) {
+                            dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                            if (
+                                dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                            ) {
+                                counter = counter + 1;
+
+
+                            }
+
+                        }
+                    }
+
+
+                });
+
+
+
+            });
+
+        }
+
+
+        return counter;
+
+    }
+
 
 
     if (biggestPriceVal != undefined) {
@@ -2925,6 +3165,10 @@ $(document).ready(() => {
                         range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
                     }
                 }
+
+
+                var results = calcSearchResults();
+                $("#priceRangeResults").text(results + " ");
             });
         });
 
@@ -2950,6 +3194,9 @@ $(document).ready(() => {
                     range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 
                 }
+
+                var results = calcSearchResults();
+                $("#priceRangeResults").html(results + " ");
             });
         });
     }
