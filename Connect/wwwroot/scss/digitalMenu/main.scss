@@ -3165,3 +3165,15 @@ body {
     }
 }
 
+.price__range_extras {
+    margin: 1.2em .6em;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    .total__results__container{
+        display:flex;
+        justify-content:end;
+        align-items:end;
+        gap: .4em;
+    }
+}

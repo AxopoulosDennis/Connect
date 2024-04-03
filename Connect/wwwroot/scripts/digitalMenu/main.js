@@ -2867,6 +2867,12 @@ $(document).ready(() => {
         var counter = 0;
         var singleTerm = globalSearchTerm.trim();
 
+        var searchFood = $("#foodCheckbox").prop("checked");
+        var searchDrinks = $("#drinksCheckbox").prop("checked");
+        var searchBoth = $("#bothCheckbox").prop("checked");
+
+
+
         if (singleTerm != "" && singleTerm != undefined) {
             var minPrice = $("#input-min").val();
             var maxPrice = $("#input-max").val();
@@ -3051,6 +3057,31 @@ $(document).ready(() => {
                     var dataOriginalPrice = $(this).attr("data-original-price");
                     var dataFinalPrice = $(this).attr("data-final-price");
 
+                    var dataIsFood = $(this).attr("data-is-food");
+
+                    if (searchBoth === true) {
+                        //continue
+
+                    }
+                    else if (searchDrinks === true) {
+
+                        if (dataIsFood === "False") {
+                            //continue
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    else if (searchFood === true) {
+
+                        if (dataIsFood === "True") {
+
+                        }
+                        else {
+                            return;
+
+                        }
+                    }
 
                     if (activateDiscount === "true") {
 

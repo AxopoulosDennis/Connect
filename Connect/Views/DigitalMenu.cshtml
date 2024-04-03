@@ -221,9 +221,42 @@
                                             </div>
                                         </div>
 
-                                        <div class="total__results__container">
-                                            <span class="results__number" id="priceRangeResults">All </span> <span class="results__text">Results</span>
+
+                                        <div class="price__range_extras">
+
+                                            <div class="drinks__or__food">
+
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="foodCheckbox" value="option1">
+                                                    <label class="form-check-label" for="foodCheckbox">
+                                                        Food
+                                                    </label>
+                                                </div><div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="drinksCheckbox" value="option1">
+                                                    <label class="form-check-label" for="drinksCheckbox">
+                                                        Drinks
+                                                    </label>
+                                                </div><div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="bothCheckbox" value="option1" checked>
+                                                    <label class="form-check-label" for="bothCheckbox">
+                                                        Both
+                                                    </label>
+                                                </div>
+
+
+
+
+
+                                            </div>
+
+                                            <div class="total__results__container">
+                                                <span class="results__number" id="priceRangeResults">All</span> <span class="results__text">Results</span>
+                                            </div>
+
+
                                         </div>
+
 
                                     </div>
                                     <div class="modal-footer">
@@ -438,6 +471,13 @@
                                                     string discountType = product.Content.Value<string>("discountType") ?? "";
                                                     bool hasVariations = false;
                                                     bool activateDiscount = product.Content.Value<bool>("activateDiscount");
+
+                                                    bool isFood = false;
+                                                    if (alias == "foodItem")
+                                                    {
+                                                        isFood = true;
+                                                    }
+
 @*                                                     var productUdi = product.ContentUdi;
  *@
                                                     var productKey = product.Content.Key;
@@ -507,7 +547,8 @@
                                                                  data-activate-discount="@activateDiscount"
                                                                  data-photo="@mainPhoto"
                                                                  data-has-price="@hasPrice"
-                                                                 role="button">
+                                                                 role="button"
+                                                                 data-is-food="@isFood">
 
                                                                 @{
                                                                     productIndex++;
