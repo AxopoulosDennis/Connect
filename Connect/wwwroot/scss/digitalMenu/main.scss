@@ -423,8 +423,8 @@ body {
         .promo-text {
             font-size: 0.915rem;
             font-weight: 500;
-            opacity: 60%;
-            line-height: 1.30rem;
+            opacity: 55%;
+            line-height: 1.32rem;
 
             p {
                 padding: 0;
@@ -3065,7 +3065,7 @@ body {
     .wrapper {
         background: #fff;
         border-radius: 10px;
-        padding: 20px 25px 40px;
+        padding: 15px 25px 40px;
     }
 
 
@@ -3166,14 +3166,41 @@ body {
 }
 
 .price__range_extras {
-    margin: 1.2em .6em;
+    margin: 1.8em .6em;
     margin-bottom: 0;
     display: flex;
     justify-content: space-between;
-    .total__results__container{
-        display:flex;
-        justify-content:end;
-        align-items:end;
+    font-weight: 500;
+    opacity: 85%;
+
+    .total__results__container {
+        display: flex;
+        justify-content: center;
+        align-items: end;
         gap: .4em;
     }
+
+    .filters__title {
+        padding-bottom: .6em;
+        font-weight: 500;
+    }
+
+    .form-check-input:checked {
+        background-color: #657789 !important;
+        border-color: #657789 !important;
+    }
+    
+   
+
+    .form-check {
+        input[type=radio] {
+            height:20px;
+            width:20px;
+
+            margin-top: 4px;
+        }
+    }
 }
+
+
+

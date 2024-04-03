@@ -2379,6 +2379,11 @@ $(document).ready(() => {
 
     });
 
+    $(".trigger__container").on("click", function () {
+        var res = calcSearchResults();
+        $("#priceRangeResults").text(res + " ");
+
+    });
 
 
     //#region Search
@@ -2512,78 +2517,251 @@ $(document).ready(() => {
     //    }
 
     //});
-    function applyPriceFilter(minPrice, maxPrice) {
+    function applyPriceFilter(minPrice, maxPrice, clear = false) {
         $(".category:not(.deals)").show();
 
-        $(allCategories).each(function (index) {
 
-            var categoriesProducts = $(this).find(".product");
+        var radio = $('input[name="range__radio"]:checked').val();
 
-            $(categoriesProducts).each(function (index) {
+        if (radio === "both" || clear === true) {
+                $(allCategories).each(function (index) {
 
-                var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
-                var dataOriginalPrice = $(this).attr("data-original-price");
-                var dataFinalPrice = $(this).attr("data-final-price");
+                    var categoriesProducts = $(this).find(".product");
 
+                    $(categoriesProducts).each(function (index) {
 
-                if (activateDiscount === "true") {
-
-                    if (dataFinalPrice != undefined) {
-
-                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
-
-                        if (
-                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
-                        ) {
-                            $(categoriesProducts[index]).show();
-                        }
-                        else {
-                            $(categoriesProducts[index]).hide();
-
-                        }
-                    }
+                        var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                        var dataOriginalPrice = $(this).attr("data-original-price");
+                        var dataFinalPrice = $(this).attr("data-final-price");
 
 
-                }
-                else {
+                        if (activateDiscount === "true") {
 
-                    if (dataOriginalPrice != undefined) {
-                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+                            if (dataFinalPrice != undefined) {
 
-                        if (
-                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
-                        ) {
-                            var prod = $(categoriesProducts[index]);
-                            if ($(prod).is(":hidden")) {
-                                $(prod).show();
+                                dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
 
+                                if (
+                                    dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                                ) {
+                                    $(categoriesProducts[index]).show();
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+                                }
                             }
 
+
                         }
                         else {
-                            $(categoriesProducts[index]).hide();
+
+                            if (dataOriginalPrice != undefined) {
+                                dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                                if (
+                                    dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                                ) {
+                                    var prod = $(categoriesProducts[index]);
+                                    if ($(prod).is(":hidden")) {
+                                        $(prod).show();
+
+                                    }
+
+                                }
+                                else {
+                                    $(categoriesProducts[index]).hide();
+
+
+                                }
+                            }
+
 
 
                         }
+
+
+                    });
+
+                    if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
                     }
 
 
-
-                }
-
-
-            });
-
-            if ($(this).find(".product:not(:hidden)").length == 0) {
-
-                $(this).hide();
+                });
             }
             else {
-                $(this).show();
+                //we want food
+                if (radio === "food") {
+                    $(allCategories).each(function (index) {
+
+                        var categoriesProducts = $(this).find(".product");
+
+                        $(categoriesProducts).each(function (index) {
+
+                            var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                            var dataOriginalPrice = $(this).attr("data-original-price");
+                            var dataFinalPrice = $(this).attr("data-final-price");
+                            var dataIsFood = $(this).attr("data-is-food");
+
+                            //its not food hide
+                            if (dataIsFood === "False") {
+                                $(categoriesProducts[index]).hide();
+
+                            }
+                            else {
+                                if (activateDiscount === "true") {
+
+                                    if (dataFinalPrice != undefined) {
+
+                                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                                        if (
+                                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                                        ) {
+                                            $(categoriesProducts[index]).show();
+                                        }
+                                        else {
+                                            $(categoriesProducts[index]).hide();
+
+                                        }
+                                    }
+
+
+                                }
+                                else {
+
+                                    if (dataOriginalPrice != undefined) {
+                                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                                        if (
+                                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                                        ) {
+                                            var prod = $(categoriesProducts[index]);
+                                            if ($(prod).is(":hidden")) {
+                                                $(prod).show();
+
+                                            }
+
+                                        }
+                                        else {
+                                            $(categoriesProducts[index]).hide();
+
+
+                                        }
+                                    }
+
+
+
+                                }
+                            }
+
+
+
+
+                        });
+
+                        if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+
+
+                    });
+                }// we want drinks
+                else {
+                    $(allCategories).each(function (index) {
+
+                        var categoriesProducts = $(this).find(".product");
+
+                        $(categoriesProducts).each(function (index) {
+
+                            var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
+                            var dataOriginalPrice = $(this).attr("data-original-price");
+                            var dataFinalPrice = $(this).attr("data-final-price");
+                            var dataIsFood = $(this).attr("data-is-food");
+
+                            //its food hide
+                            if (dataIsFood === "True") {
+                                $(categoriesProducts[index]).hide();
+
+                            }
+                            else {
+                                if (activateDiscount === "true") {
+
+                                    if (dataFinalPrice != undefined) {
+
+                                        dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                                        if (
+                                            dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                                        ) {
+                                            $(categoriesProducts[index]).show();
+                                        }
+                                        else {
+                                            $(categoriesProducts[index]).hide();
+
+                                        }
+                                    }
+
+
+                                }
+                                else {
+
+                                    if (dataOriginalPrice != undefined) {
+                                        dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                                        if (
+                                            dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                                        ) {
+                                            var prod = $(categoriesProducts[index]);
+                                            if ($(prod).is(":hidden")) {
+                                                $(prod).show();
+
+                                            }
+
+                                        }
+                                        else {
+                                            $(categoriesProducts[index]).hide();
+
+
+                                        }
+                                    }
+
+
+
+                                }
+                            }
+
+
+
+
+                        });
+
+                        if ($(this).find(".product:not(:hidden)").length == 0) {
+
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+
+
+                    });
+
+                }
             }
 
 
-        });
+
+
 
         if ($(".category:not(:hidden)").length == 0) {
             $("#no-results").show();
@@ -2604,6 +2782,7 @@ $(document).ready(() => {
         if (hasPriceFilter === true) {
             var minPrice = $("#input-min").val();
             var maxPrice = $("#input-max").val();
+
 
             $(allCategories).each(function (index) {
 
@@ -2895,6 +3074,31 @@ $(document).ready(() => {
                     var dataOriginalPrice = $(this).attr("data-original-price");
                     var dataFinalPrice = $(this).attr("data-final-price");
 
+                    var dataIsFood = $(this).attr("data-is-food");
+
+                    if (searchBoth === true) {
+                        //continue
+
+                    }
+                    else if (searchDrinks === true) {
+
+                        if (dataIsFood === "False") {
+                            //continue
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    else if (searchFood === true) {
+
+                        if (dataIsFood === "True") {
+
+                        }
+                        else {
+                            return;
+
+                        }
+                    }
 
 
                     if (
@@ -3024,7 +3228,8 @@ $(document).ready(() => {
                     else {
 
                         if (dataOriginalPrice != undefined) {
-                            dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                            dataOriginalPrice = parseFloat(dataOriginalPrice);
 
                             if (
                                 dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
@@ -3102,7 +3307,7 @@ $(document).ready(() => {
                     else {
 
                         if (dataOriginalPrice != undefined) {
-                            dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+                            dataOriginalPrice = parseFloat(dataOriginalPrice);
 
                             if (
                                 dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
@@ -3232,6 +3437,11 @@ $(document).ready(() => {
         });
     }
 
+    $('input[type=radio][name=range__radio]').change(function () {
+        var results = calcSearchResults();
+        $("#priceRangeResults").text(results + " ");
+    });
+
 
     $("#acceptPriceFilter").on("click", function () {
 
@@ -3257,10 +3467,11 @@ $(document).ready(() => {
         $("#priceRangeVal").text()
         $("#priceRangeValContainer").hide();
 
-        applyPriceFilter(smallestPriceVal, biggestPriceVal);
-
-
         hasPriceFilter = false;
+
+        applyPriceFilter(smallestPriceVal, biggestPriceVal, true);
+
+
 
         if (globalSearchTerm.trim() != "" && globalSearchTerm != undefined) {
 

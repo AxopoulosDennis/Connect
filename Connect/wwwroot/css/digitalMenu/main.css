@@ -339,8 +339,10 @@ body .qr-code.show .container .qr-container {
   line-height: 1.9rem;
 }
 .brand-container .brand-info-container .promo-text {
-  opacity: 60%;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
+  font-weight: 500;
+  opacity: 55%;
+  line-height: 1.32rem;
 }
 .brand-container .brand-info-container .promo-text p {
   padding: 0;
@@ -2534,7 +2536,7 @@ body {
 .modal .wrapper {
   background: #fff;
   border-radius: 10px;
-  padding: 20px 25px 40px;
+  padding: 15px 25px 40px;
 }
 .modal .price-input {
   width: 100%;
@@ -2615,4 +2617,32 @@ body {
 }
 .modal .btn-close {
   background-color: transparent !important;
+}
+
+.price__range_extras {
+  margin: 1.8em 0.6em;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  opacity: 85%;
+}
+.price__range_extras .total__results__container {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 0.4em;
+}
+.price__range_extras .filters__title {
+  padding-bottom: 0.6em;
+  font-weight: 500;
+}
+.price__range_extras .form-check-input:checked {
+  background-color: #657789 !important;
+  border-color: #657789 !important;
+}
+.price__range_extras .form-check input[type=radio] {
+  height: 20px;
+  width: 20px;
+  margin-top: 4px;
 }

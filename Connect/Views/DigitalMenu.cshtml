@@ -171,8 +171,8 @@
                             <div class="filter">
 
                                 <div class="trigger__container" filter-type="price-range" data-bs-toggle="modal" data-bs-target="#priceRangeModal">
-                                    @(Umbraco.GetDictionaryValue("PriceRange", "Price Range"))
-                                    <i class="fa-solid fa-coins"></i>
+                                    @(Umbraco.GetDictionaryValue("PriceRange", "Price Range & Filters"))
+                                    <i class="fa fa-filter"></i>
 
                                 </div>
 
@@ -194,7 +194,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title" id="priceRangeModalLabel">
-                                            @(Umbraco.GetDictionaryValue("PriceRange", "Price Range"))
+                                            @(Umbraco.GetDictionaryValue("PriceRange", "Price Range & Filters"))
                                         </h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
@@ -227,20 +227,23 @@
                                             <div class="drinks__or__food">
 
 
+                                                <div class="filters__title">
+                                                    @(Umbraco.GetDictionaryValue("LookingFor", "I'm looking for...?"))
+                                                </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="range__radio" id="foodCheckbox" value="option1">
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="foodCheckbox" value="food">
                                                     <label class="form-check-label" for="foodCheckbox">
-                                                        Food
+                                                        @(Umbraco.GetDictionaryValue("Food", "Food"))
                                                     </label>
                                                 </div><div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="range__radio" id="drinksCheckbox" value="option1">
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="drinksCheckbox" value="drinks">
                                                     <label class="form-check-label" for="drinksCheckbox">
-                                                        Drinks
+                                                        @(Umbraco.GetDictionaryValue("Drinks", "Drinks"))
                                                     </label>
                                                 </div><div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="range__radio" id="bothCheckbox" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="range__radio" id="bothCheckbox" value="both" checked>
                                                     <label class="form-check-label" for="bothCheckbox">
-                                                        Both
+                                                        @(Umbraco.GetDictionaryValue("Both", "Both"))
                                                     </label>
                                                 </div>
 
@@ -251,7 +254,7 @@
                                             </div>
 
                                             <div class="total__results__container">
-                                                <span class="results__number" id="priceRangeResults">All</span> <span class="results__text">Results</span>
+                                                <span class="results__number" id="priceRangeResults"></span> <span class="results__text">@(Umbraco.GetDictionaryValue("Results", "Results"))</span>
                                             </div>
 
 
@@ -275,6 +278,17 @@
                                 border-radius: 5px;
                                 background: transparent;
                             }
+
+                            .total__results__container {
+                                font-weight: 500;
+                                border-bottom: 3px solid @themeColor;
+                            }
+                            .trigger__container{
+                                border-bottom: 3px solid @themeColor;
+                            }
+
+
+
                         </style>
                     }
 
