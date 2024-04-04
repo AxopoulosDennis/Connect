@@ -30,27 +30,22 @@ namespace Connect.Controllers
         [HttpGet]
         public ActionResult RedirectQRCode([FromQuery] string num, [FromQuery] string? table)
         {
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
             var redirectUrl = "https://tonny.gr/";
 
-            switch (num)
-            {
-                case "1":
-                    redirectUrl += "demo";
+            var mapping = config[$"WebsitesMapping:{num}"];
 
-                    break;
-                case "2":
-                    // code block
-                    break;
-                default:
-                    // code block
-                    break;
+            if(!string.IsNullOrEmpty(mapping))
+            {
+                redirectUrl += mapping;
+                if (table != null)
+                {
+                    redirectUrl = redirectUrl + "?table=" + table;
+                }
             }
 
-            if (table != null)
-            {
-                redirectUrl = redirectUrl + "?table=" + table;
-            }
+
 
 
             return Redirect(redirectUrl);
