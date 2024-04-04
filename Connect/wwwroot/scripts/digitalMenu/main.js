@@ -2775,6 +2775,11 @@ $(document).ready(() => {
     }
 
     function applySearchTerm(searchTerm) {
+
+        var searchFood = $("#foodCheckbox").prop("checked");
+        var searchDrinks = $("#drinksCheckbox").prop("checked");
+        var searchBoth = $("#bothCheckbox").prop("checked");
+
         searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
 
         var singleTerm = searchTerm.trim();
@@ -2798,6 +2803,32 @@ $(document).ready(() => {
                     var activateDiscount = $(this).attr("data-activate-discount").toLowerCase();
                     var dataOriginalPrice = $(this).attr("data-original-price");
                     var dataFinalPrice = $(this).attr("data-final-price");
+
+                    var dataIsFood = $(this).attr("data-is-food");
+
+                    if (searchBoth === true) {
+                        //continue
+
+                    }
+                    else if (searchDrinks === true) {
+
+                        if (dataIsFood === "False") {
+                            //continue
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    else if (searchFood === true) {
+
+                        if (dataIsFood === "True") {
+
+                        }
+                        else {
+                            return;
+
+                        }
+                    }
 
 
 
@@ -2864,47 +2895,91 @@ $(document).ready(() => {
 
                     }
                     else {
-                        let searchTermSplit = searchTerm.split(' ');
-                        //filter input space
-                        searchTermSplit = searchTermSplit.filter((item) => item != '');
 
-                        if (searchTermSplit.length > 1) {
-
-                            $(searchTermSplit).each(function (index) {
+                        $(categoriesProducts[index]).hide();
 
 
-                                if (
-                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+                        //let searchTermSplit = searchTerm.split(' ');
+                        ////filter input space
+                        //searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        //if (searchTermSplit.length > 1) {
+
+                        //    $(searchTermSplit).each(function (index) {
 
 
-                                ) {
-                                    $(categoriesProducts[index]).show();
+                        //        if (
+                        //            (dataCat.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataDesc.indexOf(searchTermSplit[index]) > -1)
 
-                                }
-                                else {
-                                    $(categoriesProducts[index]).hide();
 
-                                }
-                            })
+                        //        ) {
+                        //            $(categoriesProducts[index]).show();
 
-                        }
-                        else {
+                        //            if (activateDiscount === "true") {
 
-                            $(categoriesProducts[index]).hide();
+                        //                if (dataFinalPrice != undefined) {
 
-                        }
+                        //                    dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                        //                    if (
+                        //                        dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                        //                    ) {
+                        //                    }
+                        //                    else {
+                        //                        $(categoriesProducts[index]).hide();
+
+                        //                    }
+                        //                }
+
+
+                        //            }
+                        //            else {
+
+                        //                if (dataOriginalPrice != undefined) {
+                        //                    dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                        //                    if (
+                        //                        dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                        //                    ) {
+
+
+                        //                    }
+                        //                    else {
+                        //                        $(categoriesProducts[index]).hide();
+
+
+                        //                    }
+                        //                }
+
+
+
+                        //            }
+
+                        //        }
+                        //        else {
+                        //            $(categoriesProducts[index]).hide();
+
+                        //        }
+                        //    })
+
+                        //}
+                        //else {
+
+                        //    $(categoriesProducts[index]).hide();
+
+                        //}
 
 
                     }
@@ -2963,50 +3038,95 @@ $(document).ready(() => {
 
                     }
                     else {
-                        let searchTermSplit = searchTerm.split(' ');
-                        //filter input space
-                        searchTermSplit = searchTermSplit.filter((item) => item != '');
 
-                        if (searchTermSplit.length > 1) {
-
-                            $(searchTermSplit).each(function (index) {
+                        $(categoriesProducts[index]).hide();
 
 
-                                if (
-                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+                        //let searchTermSplit = searchTerm.split(' ');
+                        ////filter input space
+                        //searchTermSplit = searchTermSplit.filter((item) => item != '');
+
+                        //if (searchTermSplit.length > 1) {
+
+                        //    $(searchTermSplit).each(function (index) {
 
 
-                                ) {
-                                    $(categoriesProducts[index]).show();
+                        //        if (
+                        //            (dataCat.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataDesc.indexOf(searchTermSplit[index]) > -1)
 
-                                }
-                                else {
-                                    $(categoriesProducts[index]).hide();
 
-                                }
-                            })
+                        //        ) {
+                        //            $(categoriesProducts[index]).show();
 
-                        }
-                        else {
+                        //            if (activateDiscount === "true") {
 
-                            $(categoriesProducts[index]).hide();
+                        //                if (dataFinalPrice != undefined) {
 
-                        }
+                        //                    dataFinalPrice = parseFloat(dataFinalPrice.slice(0, -1));
+
+                        //                    if (
+                        //                        dataFinalPrice >= minPrice && dataFinalPrice <= maxPrice
+                        //                    ) {
+                        //                    }
+                        //                    else {
+                        //                        $(categoriesProducts[index]).hide();
+
+                        //                    }
+                        //                }
+
+
+                        //            }
+                        //            else {
+
+                        //                if (dataOriginalPrice != undefined) {
+                        //                    dataOriginalPrice = parseFloat(dataOriginalPrice.slice(0, -1));
+
+                        //                    if (
+                        //                        dataOriginalPrice >= minPrice && dataOriginalPrice <= maxPrice
+                        //                    ) {
+
+
+                        //                    }
+                        //                    else {
+                        //                        $(categoriesProducts[index]).hide();
+
+
+                        //                    }
+                        //                }
+
+
+
+                        //            }
+
+                        //        }
+                        //        else {
+                        //            $(categoriesProducts[index]).hide();
+
+                        //        }
+                        //    })
+
+                        //}
+                        //else {
+
+                        //    $(categoriesProducts[index]).hide();
+
+                        //}
 
 
                     }
+
 
 
 
@@ -3044,7 +3164,6 @@ $(document).ready(() => {
         var maxPrice = $("#input-max").val();
 
         var counter = 0;
-        var singleTerm = globalSearchTerm.trim();
 
         var searchFood = $("#foodCheckbox").prop("checked");
         var searchDrinks = $("#drinksCheckbox").prop("checked");
@@ -3052,12 +3171,17 @@ $(document).ready(() => {
 
 
 
-        if (singleTerm != "" && singleTerm != undefined) {
+        if (globalSearchTerm != "" && globalSearchTerm != undefined) {
+
+            //used in split
+            var searchTerm = globalSearchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+            var singleTerm = searchTerm.trim();
+
+
             var minPrice = $("#input-min").val();
             var maxPrice = $("#input-max").val();
 
 
-            var searchTerm = globalSearchTerm;
 
             $(allCategories).each(function (index) {
 
