@@ -3244,7 +3244,7 @@ $(document).ready(() => {
 
                     ) {
 
-                        $(categoriesProducts[index]).show();
+                        //$(categoriesProducts[index]).show();
 
                         if (activateDiscount === "true") {
 
@@ -3291,44 +3291,47 @@ $(document).ready(() => {
 
                     }
                     else {
-                        let searchTermSplit = searchTerm.split(' ');
-                        //filter input space
-                        searchTermSplit = searchTermSplit.filter((item) => item != '');
 
-                        if (searchTermSplit.length > 1) {
+                        return;
 
-                            $(searchTermSplit).each(function (index) {
+                        //let searchTermSplit = searchTerm.split(' ');
+                        ////filter input space
+                        //searchTermSplit = searchTermSplit.filter((item) => item != '');
 
+                        //if (searchTermSplit.length > 1) {
 
-                                if (
-                                    (dataCat.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index]) > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index] + "s") > -1)
-                                    ||
-                                    (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
-                                    ||
-                                    (dataDesc.indexOf(searchTermSplit[index]) > -1)
+                        //    $(searchTermSplit).each(function (index) {
 
 
-                                ) {
-                                    //continue to price filter
-                                }
-                                else {
-                                    return;
-                                }
-                            })
+                        //        if (
+                        //            (dataCat.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataCat.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index]) > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index] + "s") > -1)
+                        //            ||
+                        //            (dataName.indexOf(searchTermSplit[index].slice(0, -1)) > -1)
+                        //            ||
+                        //            (dataDesc.indexOf(searchTermSplit[index]) > -1)
 
-                        }
-                        else {
 
-                            return;
-                        }
+                        //        ) {
+                        //            //continue to price filter
+                        //        }
+                        //        else {
+                        //            return;
+                        //        }
+                        //    })
+
+                        //}
+                        //else {
+
+                        //    return;
+                        //}
 
 
                     }
