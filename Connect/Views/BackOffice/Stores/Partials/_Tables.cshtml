@@ -1,0 +1,65 @@
+﻿@using Connect.Models;
+@using System.Globalization
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    Layout = null;
+
+    List<StoreTable> storeTables = ViewBag.StoreTables;
+
+}
+
+@if (storeTables?.Any() ?? false)
+{
+
+    <div class="tables__actions">
+        <span class="edit__tables">
+            Edit tables
+        </span>
+    </div>
+
+    <div class="tables__container">
+
+        <div class="top__space">
+        </div>
+
+        @foreach (var table in storeTables)
+        {
+
+            <div class="table">
+                <span class="tableId">@table.TableId</span>
+            </div>
+        }
+
+
+        <div class="bottom_space">
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="no__tables__container">
+        <div class="inner_tables__container">
+            <div class="title">
+                Seems like you have not added any tables yet.
+                <br />
+                Use the interface below to get started.
+            </div>
+            <div class="form-outline w-100">
+                <input id="tablesQuantity" type="number" placeholder="How many tables to add?" name="tables__quantity" class="form-control inputNumber" />
+                <span class="error" style="display:none;" id="quantityError">Please specify the range of tables to be added</span>
+            </div>
+            <span class="add__table" onclick="addTable()">
+                Add Tables
+                <i class="fa fa-plus-circle"></i>
+            </span>
+        </div>
+
+    </div>
+}
+

@@ -2088,7 +2088,8 @@ footer .footer-content .terms {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 3em;
+  /*    gap: 3em;
+  */
   flex-grow: 1;
 }
 
@@ -2452,6 +2453,8 @@ body {
   gap: 0.8em;
   font-size: 0.785rem;
   font-weight: 500;
+  max-height: 100px;
+  overflow: clip;
 }
 .ingridients__container .product_cart_item .shrinked_ingridients .top {
   display: flex;
@@ -2645,4 +2648,19 @@ body {
   height: 20px;
   width: 20px;
   margin-top: 4px;
+}
+
+.add__container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: forestgreen;
+  padding: 1.4em;
+  font-size: 1.2rem;
+  gap: 1em;
+  font-weight: 500;
+}
+.add__container .add_basket_button {
+  font-size: 1rem;
 }

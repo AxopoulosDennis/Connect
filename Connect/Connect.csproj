@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,6 +7,65 @@
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="Views\Partials\grid\_coverSection.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\Contentment\backoffice\contentment\index.html" />
+    <Content Include="App_Plugins\Contentment\components\blocks-editor.html" />
+    <Content Include="App_Plugins\Contentment\components\cards-editor.html" />
+    <Content Include="App_Plugins\Contentment\components\list-editor.html" />
+    <Content Include="App_Plugins\Contentment\components\stack-editor.html" />
+    <Content Include="App_Plugins\Contentment\contentment.css" />
+    <Content Include="App_Plugins\Contentment\editors\buttons.html" />
+    <Content Include="App_Plugins\Contentment\editors\cascading-dropdown-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\checkbox-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\code-editor.html" />
+    <Content Include="App_Plugins\Contentment\editors\configuration-editor.html" />
+    <Content Include="App_Plugins\Contentment\editors\configuration-editor.inline.html" />
+    <Content Include="App_Plugins\Contentment\editors\configuration-editor.overlay.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-blocks.blueprint.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-blocks.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-blocks.overlay.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-cards.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-source.html" />
+    <Content Include="App_Plugins\Contentment\editors\content-stack.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-list.editor.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-list.preview.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-picker.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-picker.overlay.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-source.preview.html" />
+    <Content Include="App_Plugins\Contentment\editors\data-table.html" />
+    <Content Include="App_Plugins\Contentment\editors\dictionary-picker.html" />
+    <Content Include="App_Plugins\Contentment\editors\dropdown-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\editor-notes.html" />
+    <Content Include="App_Plugins\Contentment\editors\icon-picker.html" />
+    <Content Include="App_Plugins\Contentment\editors\item-picker.html" />
+    <Content Include="App_Plugins\Contentment\editors\item-picker.overlay.html" />
+    <Content Include="App_Plugins\Contentment\editors\macro-picker.html" />
+    <Content Include="App_Plugins\Contentment\editors\notes.html" />
+    <Content Include="App_Plugins\Contentment\editors\number-input.html" />
+    <Content Include="App_Plugins\Contentment\editors\radio-button-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\readonly-node-preview.html" />
+    <Content Include="App_Plugins\Contentment\editors\render-macro.html" />
+    <Content Include="App_Plugins\Contentment\editors\rich-text-editor.html" />
+    <Content Include="App_Plugins\Contentment\editors\social-links.html" />
+    <Content Include="App_Plugins\Contentment\editors\social-links.overlay.html" />
+    <Content Include="App_Plugins\Contentment\editors\tags.html" />
+    <Content Include="App_Plugins\Contentment\editors\templated-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\text-input.html" />
+    <Content Include="App_Plugins\Contentment\editors\textbox-list.html" />
+    <Content Include="App_Plugins\Contentment\editors\_empty.html" />
+    <Content Include="App_Plugins\Contentment\editors\_json-editor.html" />
+    <Content Include="App_Plugins\Contentment\Lang\da.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\en.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\es.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\fr.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\nl.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\pt.xml" />
+    <Content Include="App_Plugins\Contentment\Lang\sv.xml" />
+    <Content Include="App_Plugins\StoresSection\backoffice\css\styles.css" />
+    <Content Include="App_Plugins\StoresSection\backoffice\storesTree\Overview.html" />
+    <Content Include="App_Plugins\StoresSection\Lang\en-us.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +84,29 @@
   <ItemGroup>
     <Folder Include="Views\Partials\DigitalMenu\" />
     <Folder Include="wwwroot\css\digitalMenu\" />
-    <Folder Include="wwwroot\scss\digitalMenu\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="App_Plugins\Contentment\backoffice\contentment\kilroy.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\contentment\lee-was-here.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-contentment.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-discord.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-facebook.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-github.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-instagram.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-linkedin.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-mastodon.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-threads.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-tiktok.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-twitter.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-x-twitter.svg" />
+    <None Include="App_Plugins\Contentment\backoffice\icons\icon-youtube.svg" />
+    <None Include="App_Plugins\Contentment\contentment.js" />
+    <None Include="App_Plugins\Contentment\package.manifest" />
+    <None Include="App_Plugins\Contentment\render\ContentBlockPreview.cshtml" />
+    <None Include="App_Plugins\Contentment\render\_ViewImports.cshtml" />
+    <None Include="App_Plugins\StoresSection\backoffice\js\stores.controller.js" />
+    <None Include="App_Plugins\StoresSection\backoffice\package.manifest" />
     <None Include="compilerconfig.json" />
     <None Include="wwwroot\plugins\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\plugins\bootstrap\dist\css\bootstrap-grid.min.css.map" />

@@ -35,35 +35,54 @@
 
         }
 
-    <div class="ingridients__container">
+    @if (ingredients?.Any() ?? false)
+    {
+        var counter = 0;
+
+        var ingredientsCounter = 0;
+        var maxIngredients = 4;
+
+         <div class="ingridients__container">
         @*     <div class="ingridients__title">
     Υλικά
     </div> *@
 
         <div class="product_cart_item list-group list-group-light">
-            @if (ingredients?.Any() ?? false)
-            {
-                var counter = 0;
 
-                <div class="shrinked_ingridients">
+
+                <div class="shrinked_ingridients" id="shrinkedIngridients">
                     <div class="top">
                         <span class="title">Υλικά</span>
                         <i class="fa fa-edit"></i>
                     </div>
 
                     <div class="ingridients">
+
                         @foreach (var ingridient in ingredients)
                         {
-                            if (ingridient == ingredients.Last())
+                            if (ingredientsCounter < maxIngredients)
                             {
-                                <span class="ingridient">@ingridient</span>
+                                if (ingridient == ingredients.Last())
+                                {
+                                    <span class="ingridient">@ingridient</span>
 
+                                }
+                                else
+                                {
+                                    <span class="ingridient">@(ingridient + ",")</span>
+
+                                }
+
+                                ingredientsCounter++;
                             }
                             else
                             {
-                                <span class="ingridient">@(ingridient + ",")</span>
+                                <span class="ingridient">+@ingredients.Count()</span>
 
+                                break;
                             }
+
+
                         }
                     </div>
                 </div>
@@ -84,9 +103,10 @@
 
                 }
 
-            }
+            
         </div>
     </div>
+    }
 }
 
 

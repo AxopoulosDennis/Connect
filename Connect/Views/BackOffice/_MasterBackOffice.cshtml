@@ -1,0 +1,65 @@
+﻿@{
+    var currentController = this.Context.Request.RouteValues["controller"].ToString().ToLower().Trim();
+    var currentAction = this.Context.Request.RouteValues["action"].ToString().ToLower().Trim();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zervakis</title>
+
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/plugins/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/plugins/fontawesome-free-6.4.2-web/css/all.min.css" />
+    <link rel="stylesheet" href="~/plugins/swiper/swiper10.3.1.min.css" />
+    <link href="~/backoffice/adminlte/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    
+    <!-- Custom style -->
+    <link rel="stylesheet" href="/css/digitalMenu/backoffice.min.css" />
+
+    @RenderSection("BeforeHeadCloseScripts", required: false)
+
+</head>
+<body class="frame-container">
+
+    @RenderBody()
+
+
+    <script src="~/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="~/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/plugins/fontawesome-free-6.4.2-web/js/all.min.js"></script>
+    <script src="~/plugins/swiper/swiper10.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        var currentController = '@currentController';
+        var currentAction = '@currentAction';
+    </script>
+
+
+    <script src="/BackOffice/scripts/FormSidebar.js"></script>
+    <script src="~/backoffice/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+    <script type="text/javascript">
+        currentLanguage = '@System.Threading.Thread.CurrentThread.CurrentUICulture.Name';
+        // langs = translations[currentLanguage];
+    </script>
+    <script src="~/scripts/digitalmenu/backend.js"></script>
+
+    @RenderSection("BeforeBodyCloseScripts", required: false)
+
+
+</body>
+</html>

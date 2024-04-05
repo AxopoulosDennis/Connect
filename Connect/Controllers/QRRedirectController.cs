@@ -47,7 +47,6 @@ namespace Connect.Controllers
 
 
 
-
             return Redirect(redirectUrl);
 
         }

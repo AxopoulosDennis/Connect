@@ -7,4 +7,9 @@
     "outputFile": "wwwroot/css/tonny/main.css",
     "inputFile": "wwwroot/scss/tonny/main.scss"
   }
+  ,
+  {
+    "outputFile": "wwwroot/css/digitalMenu/backoffice.css",
+    "inputFile": "wwwroot/scss/digitalMenu/backoffice.scss"
+  }
 ]

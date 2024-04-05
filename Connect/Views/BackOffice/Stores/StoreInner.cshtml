@@ -1,0 +1,88 @@
+﻿@using Connect.Models;
+@using System.Globalization
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    Layout = "../BackOffice/_MasterBackOffice";
+
+    UserStore UserStore = ViewBag.UserStore;
+    List<IPublishedContent> stores = new List<IPublishedContent>();
+
+
+}
+
+@if(UserStore != null)
+{
+    var store = Umbraco.ContentAtRoot().Where(x => x.Id == UserStore.StoreId).FirstOrDefault();
+    if(store != null)
+    {
+        <input type="hidden" id="storeId" value="@UserStore.StoreId" />
+
+
+        var storeName = store.Name;
+
+        <div class="content__container">
+@*             <div class="prenav">
+                <span class="store__name">@storeName</span>        
+            </div>
+ *@
+            <nav>
+                <div class="back__container">
+                    <span class="go__back" id="allStores" >
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+
+                <ul class="nav nav-pills nav-links">
+                    @if (UserStore.OrdersEnabled)
+                    {
+                        <li class="nav-item">
+                            <a class="nav__link nav-link" data-link="Tables">Tables</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav__link nav-link" data-link="SyncProducts">Sync Products</a>
+                        </li>
+                    }
+
+
+                </ul>
+
+                <div class="nav__container">
+                    <ul class="nav-links">
+                        @if (UserStore.OrdersEnabled)
+                        {
+                            <li><a class="nav__link" data-link="Tables">Tables</a></li>
+
+                        }
+                        <li class="nav-item">
+                            <a class="nav__link nav-link" data-link="SyncProducts">Sync Products</a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </nav>
+
+
+
+            <div class="tab-panels">
+
+                <section id="currentView" class="tab-panel">
+
+                </section>
+            </div>
+
+        </div>
+
+    }
+
+}

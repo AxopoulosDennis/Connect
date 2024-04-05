@@ -2562,8 +2562,8 @@ footer {
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    gap: 3em;
-    flex-grow:1;
+/*    gap: 3em;
+*/    flex-grow:1;
 }
 
 .gallery-thumbs {
@@ -2960,6 +2960,8 @@ body {
             gap: .8em;
             font-size: .785rem;
             font-weight: 500;
+            max-height: 100px;
+            overflow:clip;
 
             .top {
                 display: flex;
@@ -2998,8 +3000,6 @@ body {
             gap: 1em;
         }
     }
-
- 
 }
 
 .filters__container {
@@ -3203,4 +3203,18 @@ body {
 }
 
 
+.add__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: forestgreen;
+    padding: 1.4em;
+    font-size: 1.2rem;
+    gap: 1em;
+    font-weight: 500;
 
+    .add_basket_button{
+        font-size:1rem;
+    }
+}

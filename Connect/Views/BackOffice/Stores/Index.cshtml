@@ -1,0 +1,83 @@
+﻿@using Connect.Models;
+@using System.Globalization
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    Layout = "../BackOffice/_MasterBackOffice";
+
+    List<UserStore> UserStores = ViewBag.UserStores;
+    List<IPublishedContent> stores = new List<IPublishedContent>();
+
+    foreach (var item in UserStores)
+    {
+        var store =  Umbraco.ContentAtRoot().Where(x => x.Id == item.StoreId).FirstOrDefault();
+        if(store != null)
+        {
+            stores.Add(store);
+        }
+    }
+}
+<div class="wrapper">
+    <div class="all__stores__container">
+        @if (UserStores?.Any() ?? false)
+        {
+            <h1 class="stores__title">Your Stores</h1>
+
+            foreach (var item in UserStores)
+            {
+                var store = Umbraco.ContentAtRoot().Where(x => x.Id == item.StoreId).FirstOrDefault();
+                var classEnabledOrders = "";
+                if (item.OrdersEnabled)
+                {
+                    classEnabledOrders = "orders__enabled";
+                }
+
+                if (store != null)
+                {
+                    var name = store.Name;
+                    var id = store.Id;
+                    var profilePhotoUrl = store?.Value<IPublishedContent>("profilePhoto")?.MediaUrl() ?? "";
+                    var jsId = "store" + id;
+
+                    <form id="@jsId" method="post" asp-area="BackOffice" asp-action="OpenStore" asp-controller="Stores" class="stores__container">
+
+
+                        <input type="hidden" name="StoreId" value="@id" />
+                        <input type="hidden" name="StoreName" value="@name" />
+
+
+                        <button type="submit" value="submit" name="submit" class="store__screen @classEnabledOrders">
+                            <div class="select__button"><i class="fa fa-plus-circle"></i></div>
+                            <div class="profile__photo__container">
+                                <img class="logo__image" src="@profilePhotoUrl">
+                            </div>
+                            <div class="store__details">
+
+                                <span>@name</span>
+                                <span>@id</span>
+
+                            </div>
+                            @if (item.OrdersEnabled)
+                            {
+                                <span class="premium">PREMIUM</span>
+                            }
+
+                        </button>
+
+                    </form>
+                }
+
+
+            }
+
+
+
+        }
+    </div>
+
+</div>
+

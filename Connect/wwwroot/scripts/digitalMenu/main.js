@@ -686,7 +686,17 @@ $(document).ready(() => {
 
                 success: function (data) {
 
-                    $(".thumbs-container").append(data);
+                    if ($(".ingridients__container").length) {
+
+                        $(".ingridients__container").replaceWith(data);
+
+                    }
+                    else {
+                        $(".thumbs-container").prepend(data);
+
+                    }
+
+     
 
                 },
                 error: function () {

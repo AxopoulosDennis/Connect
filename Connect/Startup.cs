@@ -1,3 +1,8 @@
+using Connect.Infrastructure;
+using Connect.Infrastructure.DataServices.IServices;
+using Connect.Infrastructure.DataServices.Services;
+using Umbraco.Cms.Core.Notifications;
+
 namespace Connect
 {
     public class Startup
@@ -29,11 +34,15 @@ namespace Connect
         /// </remarks>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUsersStoresDataService, UsersStoresDataService>();
+
             services.AddUmbraco(_env, _config)
                 .AddBackOffice()
                 .AddWebsite()
                 .AddDeliveryApi()
                 .AddComposers()
+                .AddNotificationHandler<ContentPublishedNotification, PublishedEvent>()
+                .AddNotificationHandler<ContentMovedToRecycleBinNotification, RecycledEvent>()              
                 .Build();
         }
 

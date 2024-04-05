@@ -1,0 +1,9 @@
+﻿{
+  "javascript": [
+    "~/App_Plugins/StoresSection/backoffice/js/stores.controller.js",
+    "~/BackOffice/scripts/FrameContainer.js"
+  ],
+  "css": [
+    "~/App_Plugins/StoresSection/backoffice/css/styles.css"
+  ]
+}

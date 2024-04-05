@@ -1,0 +1,220 @@
+﻿//
+// Component: Control Sidebar
+//
+
+
+$form-sidebar-width: 100%;
+$form-sidebar-width-sm: 500px;
+
+html.form-sidebar-animate {
+  overflow-x: hidden;
+}
+
+.form-sidebar {
+    bottom: $main-footer-height;
+    position: fixed;
+    top: $main-header-height;
+    //z-index: $zindex-control-sidebar + 5;
+    //θέλουμε να είναι μεγαλύτερο από το backdrop του summernote
+    z-index: 1041;
+
+    &,
+    &::before {
+        bottom: $main-footer-height;
+        display: none;
+        //(xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)
+        right: -$form-sidebar-width;
+        width: $form-sidebar-width;
+
+        @media (min-width: map-get($grid-breakpoints, sm)) {
+            right: -$form-sidebar-width-sm;
+            width: $form-sidebar-width-sm;
+        }
+        /* @media (min-width: map-get($grid-breakpoints, lg)) {
+            right: -80%;
+            width: 80%;
+        }*/
+
+
+
+        @include transition(right $transition-speed $transition-fn, display $transition-speed $transition-fn);
+    }
+
+    &::before {
+        content: "";
+        display: block;
+        position: fixed;
+        top: 0;
+        z-index: -1;
+    }
+}
+
+body.text-sm {
+    .form-sidebar {
+        bottom: $main-footer-height-sm;
+        top: $main-header-height-sm;
+    }
+}
+
+.main-header.text-sm ~ .form-sidebar {
+  top: $main-header-height-sm;
+}
+
+.main-footer.text-sm ~ .form-sidebar {
+  bottom: $main-footer-height-sm;
+}
+
+.form-sidebar-push-slide {
+  .content-wrapper,
+  .main-footer {
+    @include transition(margin-right $transition-speed $transition-fn);
+  }
+}
+
+// Control sidebar open state
+.form-sidebar-open {
+    .form-sidebar {
+        display: block;
+
+        &,
+        &::before {
+            right: 0;
+        }
+    }
+
+    &.form-sidebar-push,
+    &.form-sidebar-push-slide {
+        .content-wrapper,
+        .main-footer {
+            margin-right: $form-sidebar-width;
+
+            @media (min-width: map-get($grid-breakpoints, sm)) {
+                margin-right: $form-sidebar-width-sm;
+            }
+        }
+    }
+}
+
+// Control sidebar slide over content state
+.form-sidebar-slide-open {
+    .form-sidebar {
+        display: block;
+
+        &,
+        &::before {
+            right: 0;
+            @include transition(right $transition-speed $transition-fn, display $transition-speed $transition-fn);
+        }
+    }
+
+    &.form-sidebar-push,
+    &.form-sidebar-push-slide {
+        .content-wrapper,
+        .main-footer {
+            margin-right: $form-sidebar-width;
+
+            @media (min-width: map-get($grid-breakpoints, sm)) {
+                margin-right: $form-sidebar-width-sm;
+            }
+        }
+    }
+}
+
+// Dark skin
+.form-sidebar-dark {
+  background-color: $sidebar-dark-bg;
+
+  &,
+  a,
+  .nav-link {
+    color: $sidebar-dark-color;
+  }
+
+  a:hover {
+    color: $sidebar-dark-hover-color;
+  }
+
+  // Headers and labels
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  label {
+    color: $sidebar-dark-hover-color;
+  }
+
+  // Tabs
+  .nav-tabs {
+    background-color: $sidebar-dark-hover-bg;
+    border-bottom: 0;
+    margin-bottom: 5px;
+
+    .nav-item {
+      margin: 0;
+    }
+
+    .nav-link {
+      border-radius: 0;
+      padding: 10px 20px;
+      position: relative;
+      text-align: center;
+
+      &,
+      &:hover,
+      &:active,
+      &:focus,
+      &.active {
+        border: 0;
+      }
+
+      &:hover,
+      &:active,
+      &:focus,
+      &.active {
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        color: $sidebar-dark-hover-color;
+      }
+
+      &.active {
+        background-color: $sidebar-dark-bg;
+      }
+    }
+  }
+
+  .tab-pane {
+    padding: 10px 15px;
+  }
+}
+
+// Light skin
+.form-sidebar-light {
+  color: lighten($sidebar-light-color, 10%);
+
+  //  Background
+  background-color: $sidebar-light-bg;
+  border-left: $main-header-bottom-border;
+}
+
+
+.form-sidebar {
+    .expanded-card {
+        height: 100%;
+
+        .card {
+            height: 100%;
+            display: flex;
+
+            .card-header{
+                border-radius:0;
+            }
+
+            .card-body{
+                overflow: auto;
+            }
+        }
+    }
+}
