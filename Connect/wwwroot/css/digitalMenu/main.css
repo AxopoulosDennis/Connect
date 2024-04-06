@@ -2435,7 +2435,7 @@ body {
 }
 
 .ingridients__container {
-  margin: 1em;
+  margin: 0.4em 0.8em;
   display: flex;
   flex-direction: column;
   gap: 0.8em;

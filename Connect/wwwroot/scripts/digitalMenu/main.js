@@ -688,7 +688,7 @@ $(document).ready(() => {
 
                     if ($(".ingridients__container").length) {
 
-                        $(".ingridients__container").replaceWith(data);
+                        $(".thumbs-container").replaceWith(data);
 
                     }
                     else {
@@ -4157,6 +4157,85 @@ function resetMemory(ele) {
             $(type).find(".ingredients__container").replaceWith(modalEditIngredientsMem);
 
         }
+    }
+
+}
+
+function saveOption(ele) {
+    var type = $(ele).attr("data-type");
+    if (type == "#expandIngredients") {
+
+        var ingredients = $(type).find(".ingredients__container").find(".form-check");
+        if (ingredients.length) {
+            var listIngredients = [];
+
+            $(ingredients).each(function (index) {
+
+                var input = $(ingredients[index]).find("input");
+                var itemIsChecked = $(input).prop("checked");
+
+
+                if (itemIsChecked) {
+                    var label = $("label[for='" + $(input).attr('id') + "']").text();
+
+                    if (label != undefined && label != "") {
+
+                        listIngredients.push(label.trim());
+                    }
+                }
+
+
+            });
+
+            if (listIngredients.length) {
+                var myHtml = "";
+                var maxIngredients = $("maxIngredients").val();
+
+                if (maxIngredients == undefined || maxIngredients < 4) {
+                    maxIngredients = 4;
+                }
+
+                $(listIngredients).each(function (index) {
+
+                    if (index < maxIngredients) {
+
+                        var total = listIngredients.length - 1;
+                        if (listIngredients[index] == listIngredients[total]) {
+                            myHtml += '<span class="ingridient">' + listIngredients[index] + '</span>';
+
+                        }
+                        else {
+                            myHtml += '<span class="ingridient">' + listIngredients[index] + ',</span>';
+
+                        }
+                    }
+                    else {
+
+                        var total = listIngredients.length - maxIngredients > 0;
+                        if (total == true) {
+
+                            myHtml += '<span class="ingridient">+' + (listIngredients.length - maxIngredients) + '</span>';
+                            return false;
+                        }
+                        else {
+                            myHtml += '<span class="ingridient">' + listIngredients[index] + '</span>';
+
+                        }
+
+                    }
+
+
+
+
+                });
+
+
+                var container = $("#shrinkedIngridients").find(".ingridients");
+                $(container).html(myHtml);
+                
+            }
+        }
+
     }
 
 }

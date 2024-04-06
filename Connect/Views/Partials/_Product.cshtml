@@ -42,6 +42,8 @@
         var ingredientsCounter = 0;
         var maxIngredients = 4;
 
+        <input type="hidden" id="maxIngredients" value="@maxIngredients"/>
+
          <div class="ingridients__container">
 
             <div class="product_cart_item list-group list-group-light" >
@@ -73,7 +75,7 @@
                             }
                             else
                             {
-                                <span class="ingridient">+@ingredients.Count()</span>
+                                <span class="ingridient">+@(ingredients.Count() - maxIngredients)</span>
 
                                 break;
                             }
@@ -115,7 +117,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Save", "Αποθήκευση"))</button>
+                                <button data-type="#expandIngredients" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Save", "Αποθήκευση"))</button>
                             </div>
                         </div>
                     </div>
