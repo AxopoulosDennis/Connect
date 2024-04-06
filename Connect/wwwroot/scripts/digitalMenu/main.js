@@ -1,9 +1,12 @@
 ﻿
 const navigation = document.getElementById('menuNav');
-const navInitPosition = navigation.offsetTop;
+let navInitPosition;
 const bottomContainer = document.getElementById('bottomContainer');
 var whiteSpaceLove = document.getElementById('whiteSpaceLove');
 
+if (navigation) {
+    navInitPosition = navigation.offsetTop;
+}
 
 let previousScrollY = 0;
 let lastPosBeforeSearch = 0;
