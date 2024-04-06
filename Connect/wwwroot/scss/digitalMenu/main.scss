@@ -3,7 +3,6 @@
 
 
 
-
 * {
     font-family: 'inter', sans-serif;
     box-sizing: border-box;
@@ -2961,7 +2960,7 @@ body {
             font-size: .785rem;
             font-weight: 500;
             max-height: 100px;
-            overflow:clip;
+            overflow: clip;
 
             .top {
                 display: flex;
@@ -2998,6 +2997,44 @@ body {
             flex-direction: row;
             justify-content: start;
             gap: 1em;
+        }
+
+        .extra__ingredients {
+            display: flex;
+            flex-direction: column;
+            gap: .8em;
+            font-size: .785rem;
+            font-weight: 500;
+            max-height: 100px;
+            overflow: clip;
+
+            .top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: .925rem;
+
+                .title {
+                    font-size: .87rem;
+                }
+            }
+
+
+            .ingridients {
+                display: flex;
+                gap: .6em;
+                flex-wrap: wrap;
+
+
+                .ingridient {
+                    border-radius: 4px;
+                    padding: 6px 10px;
+                    background-color: #e3edf7;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
         }
     }
 }
@@ -3217,4 +3254,54 @@ body {
     .add_basket_button{
         font-size:1rem;
     }
+}
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none;
+}
+
+.modal {
+    /* bug fix - custom overlay */
+    background-color: rgba(10,10,10,0.45);
+}
+
+.ingredients__container{
+    display:flex;
+    flex-direction:column;
+    justify-content:start;
+    align-items:start;
+    gap: .4em;
+}
+
+.gallery-container{
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+
+
+
+.product__cost {
+    color: forestgreen;
+}
+
+.extra__container {
+    width: 100%;
+}
+
+.extra__product {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: .975rem;
+    font-weight: 500;
+    margin: 0;
+
+    .form-check-label{
+        display:flex;
+        gap:.6em;
+    }
+}
+
+.add__icon{
+    font-size: 1.4em;
 }

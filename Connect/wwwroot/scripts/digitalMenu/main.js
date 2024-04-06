@@ -3892,9 +3892,6 @@ $(document).ready(() => {
 
 
 
-
-
-
 //, "zh-CN", "de-DE", "es-ES", "fr-FR", "hi-IN", "it-IT", "in-ID", "ja-JP", "ko-KR", "nl-NL", "no-NO", "pl-PL", "pt-BR", "sv-SE", "fi-FI", "th-TH", "tr-TR", "uk-UA", "vi-VN", "ru-RU", "he-IL"
 
     var selectedLanguages = $("#selectedLanguages").val();
@@ -4124,3 +4121,42 @@ $(".brand-image-container").on("click", function () {
         $(".dropdown-content").removeClass("expand");
     }, 80);
 })
+
+let modalEditIngredientsMem;
+
+function modalMemory(ele) {
+
+    modalEditIngredientsMem = undefined;
+
+    var target = $(ele).attr("data-bs-target");
+
+    if (target != undefined) {
+
+        if (target == "#expandIngredients") {
+
+            modalEditIngredientsMem = $(target).find(".ingredients__container").clone();
+
+        }
+        else if (type == "addExtra") {
+
+        }
+        else if (type == "comments") {
+
+        }
+    }
+
+
+
+}
+function resetMemory(ele) {
+
+    var type = $(ele).attr("data-type");
+    if (type == "#expandIngredients") {
+
+        if (modalEditIngredientsMem != undefined) {
+            $(type).find(".ingredients__container").replaceWith(modalEditIngredientsMem);
+
+        }
+    }
+
+}

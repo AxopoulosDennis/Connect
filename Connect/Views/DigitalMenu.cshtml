@@ -1443,28 +1443,32 @@
 
                 <div class="thumbs-container">
 
-                    @if(enableOrders == "True")
-                    {
-                     <div class="add__container">
-                            <div class="add_basket_button">Add to order</div>
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="swiper-container gallery-thumbs">
-                            <div class="swiper-wrapper" id="thumbs-gallery-swiper">
-                            </div>
-                        </div>
-
-                    }
-
 
                 </div>
+
+
             </div>
 
 
+
+            @if (enableOrders == "True")
+            {
+                <div class="add__container">
+                    <div class="add_basket_button">Add to order</div>
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </div>
+            }
+            else
+            {
+                <div class="swiper-container gallery-thumbs">
+                    <div class="swiper-wrapper" id="thumbs-gallery-swiper">
+                    </div>
+                </div>
+
+            }
         </div>
+
+
 
         <div id="itemsCategories" >
             <div class="categories-exit">

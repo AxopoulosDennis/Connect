@@ -4,7 +4,9 @@ using Examine;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using NPoco.fastJSON;
 using Org.BouncyCastle.Crypto.Prng;
+using StackExchange.Profiling.Internal;
 using System;
 using System.Data;
 using System.Text;
@@ -260,6 +262,37 @@ namespace Connect.Infrastructure.DataServices.Services
             if(store != null)
             {
                 var sections = store.Value<IEnumerable<BlockListItem>>("menuSections");
+                if(sections?.Any() ?? false)
+                {
+                    foreach (var section in sections.Where(x=>x.Content.Value<bool>("hide") == false))
+                    {
+                        var name = section.Content.Value<string>("sectionName");
+                        var items = section.Content.Value<IEnumerable<BlockListItem>>("sectionItems");
+
+                        if(items?.Any() ?? false)
+                        {
+                            foreach (var item in items.Where(x=>x.Content.Value<bool>("hide") == false))
+                            {
+
+                            }
+                        }
+                    }
+                }
+
+
+                //try
+                //{
+                //    var ser = Newtonsoft.Json.JsonConvert.SerializeObject(sections, Newtonsoft.Json.Formatting.Indented, 
+                //        new Newtonsoft.Json.JsonSerializerSettings()
+                //        {
+                //            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                //        });
+
+                //}
+                //catch (Exception ex)
+                //{
+
+                //}
             }
             return true;
         }

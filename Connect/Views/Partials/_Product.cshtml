@@ -9,7 +9,7 @@
 @if(product != null)
 {
         var ingredients = product.Content.Value<IEnumerable<string>>("ingredients");
-
+        var addExtra = product.Content.Value<IEnumerable<BlockListItem>>("addExtra");
 
         decimal originalPrice = product.Content.Value<decimal>("originalPrice");
         bool activateDiscount = product.Content.Value<bool>("activateDiscount");
@@ -43,14 +43,10 @@
         var maxIngredients = 4;
 
          <div class="ingridients__container">
-        @*     <div class="ingridients__title">
-    Υλικά
-    </div> *@
 
-        <div class="product_cart_item list-group list-group-light">
+            <div class="product_cart_item list-group list-group-light" >
 
-
-                <div class="shrinked_ingridients" id="shrinkedIngridients">
+                <div class="shrinked_ingridients" id="shrinkedIngridients" data-bs-toggle="modal" data-bs-target="#expandIngredients" onclick="modalMemory(this)">
                     <div class="top">
                         <span class="title">Υλικά</span>
                         <i class="fa fa-edit"></i>
@@ -87,28 +83,172 @@
                     </div>
                 </div>
 
+                <div class="modal fade" id="expandIngredients" aria-hidden="true" tabindex="-1" aria-labelledby="expandIngredientsLabel">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title" id="expandIngredientsLabel">
+                                    @(Umbraco.GetDictionaryValue("EditIngredients", "Επιλέξτε Υλικά"))
+                                </h1>
+                                <button data-type="#expandIngredients" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetMemory(this)"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="wrapper__ingredients">
+                                    
+                                    <div class="ingredients__container">
+                                        @{
+                                            var inCount = 0;
+                                        }
+                                        @foreach (var ingredient in ingredients)
+                                        {
+                                            inCount++;
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="@(ingredient + "_" + inCount)" checked>
+                                                <label class="form-check-label" for="@(ingredient + "_" + inCount)">
+                                                    @ingredient
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
 
-                @foreach (var ingridient in ingredients)
-                {
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Save", "Αποθήκευση"))</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+      
+          
+            </div>
+        </div>
+    }
+
+    if(addExtra?.Any() ?? false)
+    {
+        <div class="ingridients__container">
+
+            <div class="product_cart_item list-group list-group-light">
+
+                <div class="shrinked_ingridients" id="addExtraIngredients" data-bs-toggle="modal" data-bs-target="#expandAddExtra">
+                    <div class="top">
+                        <span class="title">Προσθέστε Extra</span>
+                        <i class="fa fa-edit"></i>
+                    </div>
+
+                    <div class="ingridients">
+
+                    </div>
+                </div>
+
+                <div class="modal fade" id="expandAddExtra" aria-hidden="true" tabindex="-1" aria-labelledby="expandAddExtraLabel">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title" id="expandAddExtraLabel">
+                                    @(Umbraco.GetDictionaryValue("AddIngredients", "Προσθέστε Extra"))
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="wrapper__ingredients">
+
+                                    <div class="ingredients__container">
+                                        @{
+                                            var inCount = 0;
+                                        }
+                                        @foreach (var item in addExtra)
+                                        {
+                                            inCount++;
+                                            var extraName = item.Content.Value<string>("ingredientName");
+                                            var extraCost = item.Content.Value<decimal>("extraCost");
 
 
 
-                    counter++;
 
 
-                    @*                 <div class="input__container">
-        <input class="form-check-input" type="checkbox" value="" id="ingridient_@counter" checked/>
-        <label class="form-check-label" for="ingridient_@counter">@ingridient</label>
-        </div> *@
+                                            <div class="form-check extra__product">
 
-                }
+                                                <input class="form-check-input" type="checkbox" value="" id="@(extraName + "_" + inCount)">
 
+                                                <label class="form-check-label" for="@(extraName + "_" + inCount)">
+                                                    <span class="product__name">@extraName</span>
+                                                    <span class="product__cost">@extraCost.ToString("F2")&#8364</span>
+                                                </label>
             
+                                            </div>
+      
+
+                                        }
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    }
+
+    <div class="ingridients__container">
+
+        <div class="product_cart_item list-group list-group-light">
+
+            <div class="shrinked_ingridients" id="addComments" data-bs-toggle="modal" data-bs-target="#expandComments" >
+                <div class="top">
+                    <span class="title">Σχόλια</span>
+                    <i class="fa fa-edit"></i>
+                </div>
+
+                <div class="ingridients">
+                </div>
+            </div>
+
+            <div class="modal fade" id="expandComments" aria-hidden="true" tabindex="-1" aria-labelledby="expandCommentsLabel">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="expandCommentsLabel">
+                                @(Umbraco.GetDictionaryValue("Comments", "Σχόλια"))
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="wrapper__ingredients">
+
+                                <div class="comments__container form-group">
+                                        <textarea class="form-control" id="commentsArea" rows="3"></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
     </div>
-    }
 }
-
 
 
 
