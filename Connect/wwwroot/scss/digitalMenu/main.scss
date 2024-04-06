@@ -2959,7 +2959,6 @@ body {
             gap: .8em;
             font-size: .785rem;
             font-weight: 500;
-            max-height: 100px;
             overflow: clip;
 
             .top {
@@ -3304,4 +3303,45 @@ body {
 
 .add__icon{
     font-size: 1.4em;
+}
+
+
+.thumbs-container{
+    margin-bottom: .4em;
+}
+
+.loader__ajax__container{
+    min-height:200px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+/* HTML: <div class="loader"></div> */
+.loader__ajax {
+    width: 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 3s infinite linear alternate;
+}
+
+@keyframes l5 {
+    0% {
+        box-shadow: 20px 0 #000, -20px 0 #0002;
+        background: #000
+    }
+
+    33% {
+        box-shadow: 20px 0 #000, -20px 0 #0002;
+        background: #0002
+    }
+
+    66% {
+        box-shadow: 20px 0 #0002,-20px 0 #000;
+        background: #0002
+    }
+
+    100% {
+        box-shadow: 20px 0 #0002,-20px 0 #000;
+        background: #000
+    }
 }

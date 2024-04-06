@@ -8,7 +8,7 @@
 }
 @if(product != null)
 {
-        var ingredients = product.Content.Value<IEnumerable<string>>("ingredients");
+        var ingredients = product.Content.Value<IEnumerable<BlockListItem>>("itemIngredients");
         var addExtra = product.Content.Value<IEnumerable<BlockListItem>>("addExtra");
 
         decimal originalPrice = product.Content.Value<decimal>("originalPrice");
@@ -40,7 +40,7 @@
         var counter = 0;
 
         var ingredientsCounter = 0;
-        var maxIngredients = 4;
+        var maxIngredients = 3;
 
         <input type="hidden" id="maxIngredients" value="@maxIngredients"/>
 
@@ -56,18 +56,26 @@
 
                     <div class="ingridients">
 
-                        @foreach (var ingridient in ingredients)
+                        @{
+                            var defaultIngre = ingredients.Where(x => x.Content.Value<bool>
+                            ("default") == true);
+                        }
+
+
+                        @foreach (var ingridient in defaultIngre)
                         {
+                            var name = ingridient.Content.Value<string>("ingredientName");
+
                             if (ingredientsCounter < maxIngredients)
                             {
                                 if (ingridient == ingredients.Last())
                                 {
-                                    <span class="ingridient">@ingridient</span>
+                                    <span class="ingridient">@name</span>
 
                                 }
                                 else
                                 {
-                                    <span class="ingridient">@(ingridient + ",")</span>
+                                    <span class="ingridient">@(name + ",")</span>
 
                                 }
 
@@ -75,7 +83,18 @@
                             }
                             else
                             {
-                                <span class="ingridient">+@(ingredients.Count() - maxIngredients)</span>
+                                var total = defaultIngre.Count() - maxIngredients;
+
+                                if(total > 0)
+                                {
+                                    <span class="ingridient">+@(total)</span>
+
+                                }
+                                else
+                                {
+                                    <span class="ingridient">@name</span>
+
+                                }
 
                                 break;
                             }
@@ -85,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="expandIngredients" aria-hidden="true" tabindex="-1" aria-labelledby="expandIngredientsLabel">
+                <div class="modal fade" id="expandIngredients" aria-hidden="true" tabindex="-1" aria-labelledby="expandIngredientsLabel" data-bs-backdrop="static" data-bs-keyboard="false">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -103,11 +122,23 @@
                                         }
                                         @foreach (var ingredient in ingredients)
                                         {
+                                            var name = ingredient.Content.Value<string>("ingredientName");
+                                            var active = ingredient.Content.Value<bool>("default");
+
                                             inCount++;
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="@(ingredient + "_" + inCount)" checked>
-                                                <label class="form-check-label" for="@(ingredient + "_" + inCount)">
-                                                    @ingredient
+                                                @if(active)
+                                                {
+                                                    <input class="form-check-input" type="checkbox" value="" id="@(name + "_" + inCount)" checked>
+
+                                                }
+                                                else
+                                                {
+                                                 <input class="form-check-input" type="checkbox" value="" id="@(name + "_" + inCount)" >
+
+                                                }
+                                                <label class="form-check-label" for="@(name + "_" + inCount)">
+                                                    @name
                                                 </label>
                                             </div>
                                         }
@@ -170,9 +201,6 @@
                                             var extraCost = item.Content.Value<decimal>("extraCost");
 
 
-
-
-
                                             <div class="form-check extra__product">
 
                                                 <input class="form-check-input" type="checkbox" value="" id="@(extraName + "_" + inCount)">
@@ -192,7 +220,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                                <button data-type="#expandAddExtra" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
                             </div>
                         </div>
                     </div>

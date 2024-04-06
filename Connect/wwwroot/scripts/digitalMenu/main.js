@@ -686,17 +686,15 @@ $(document).ready(() => {
 
                 success: function (data) {
 
-                    if ($(".ingridients__container").length) {
+                    var myHtml = '                    <div class="loader__ajax__container">' +
+                        '                        <div class="loader__ajax"></div>' +
+                        '                    </div>';
 
-                        $(".thumbs-container").replaceWith(data);
+                    $(".thumbs-container").html(myHtml);
 
-                    }
-                    else {
-                        $(".thumbs-container").prepend(data);
+                    $(".thumbs-container").html(data);
 
-                    }
 
-     
 
                 },
                 error: function () {
@@ -4189,10 +4187,10 @@ function saveOption(ele) {
 
             if (listIngredients.length) {
                 var myHtml = "";
-                var maxIngredients = $("maxIngredients").val();
+                var maxIngredients = $("#maxIngredients").val();
 
                 if (maxIngredients == undefined || maxIngredients < 4) {
-                    maxIngredients = 4;
+                    maxIngredients = 3;
                 }
 
                 $(listIngredients).each(function (index) {
@@ -4232,9 +4230,14 @@ function saveOption(ele) {
 
                 var container = $("#shrinkedIngridients").find(".ingridients");
                 $(container).html(myHtml);
-                
+
             }
         }
+
+    }
+    else if (type == "#expandAddExtra") {
+
+
 
     }
 

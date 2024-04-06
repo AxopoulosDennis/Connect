@@ -2453,7 +2453,6 @@ body {
   gap: 0.8em;
   font-size: 0.785rem;
   font-weight: 500;
-  max-height: 100px;
   overflow: clip;
 }
 .ingridients__container .product_cart_item .shrinked_ingridients .top {
@@ -2742,4 +2741,42 @@ body {
 
 .add__icon {
   font-size: 1.4em;
+}
+
+.thumbs-container {
+  margin-bottom: 0.4em;
+}
+
+.loader__ajax__container {
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader__ajax {
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 3s infinite linear alternate;
+}
+
+@keyframes l5 {
+  0% {
+    box-shadow: 20px 0 #000, -20px 0 rgba(0, 0, 0, 0.1333333333);
+    background: #000;
+  }
+  33% {
+    box-shadow: 20px 0 #000, -20px 0 rgba(0, 0, 0, 0.1333333333);
+    background: rgba(0, 0, 0, 0.1333333333);
+  }
+  66% {
+    box-shadow: 20px 0 rgba(0, 0, 0, 0.1333333333), -20px 0 #000;
+    background: rgba(0, 0, 0, 0.1333333333);
+  }
+  100% {
+    box-shadow: 20px 0 rgba(0, 0, 0, 0.1333333333), -20px 0 #000;
+    background: #000;
+  }
 }
