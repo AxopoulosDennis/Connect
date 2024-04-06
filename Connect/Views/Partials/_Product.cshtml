@@ -8,7 +8,7 @@
 }
 @if(product != null)
 {
-        var ingredients = product.Content.Value<IEnumerable<BlockListItem>>("itemIngredients");
+        var ingredients = product.Content.Value<string[]>("itemIngredients");
         var addExtra = product.Content.Value<IEnumerable<BlockListItem>>("addExtra");
 
         decimal originalPrice = product.Content.Value<decimal>("originalPrice");
@@ -54,28 +54,28 @@
                         <i class="fa fa-edit"></i>
                     </div>
 
-                    <div class="ingridients">
-
+                    <div class="ingridients top__margin">
+@* 
                         @{
                             var defaultIngre = ingredients.Where(x => x.Content.Value<bool>
                             ("default") == true);
-                        }
+                        } *@
 
 
-                        @foreach (var ingridient in defaultIngre)
+                        @foreach (var ingridient in ingredients)
                         {
-                            var name = ingridient.Content.Value<string>("ingredientName");
-
+@*                             var name = ingridient.Content.Value<string>("ingredientName");
+ *@
                             if (ingredientsCounter < maxIngredients)
                             {
                                 if (ingridient == ingredients.Last())
                                 {
-                                    <span class="ingridient">@name</span>
+                                    <span class="ingridient">@ingridient</span>
 
                                 }
                                 else
                                 {
-                                    <span class="ingridient">@(name + ",")</span>
+                                    <span class="ingridient">@(ingridient + ",")</span>
 
                                 }
 
@@ -83,7 +83,7 @@
                             }
                             else
                             {
-                                var total = defaultIngre.Count() - maxIngredients;
+                                var total = ingredients.Count() - maxIngredients;
 
                                 if(total > 0)
                                 {
@@ -92,7 +92,7 @@
                                 }
                                 else
                                 {
-                                    <span class="ingridient">@name</span>
+                                    <span class="ingridient">@ingridient</span>
 
                                 }
 
@@ -122,23 +122,24 @@
                                         }
                                         @foreach (var ingredient in ingredients)
                                         {
-                                            var name = ingredient.Content.Value<string>("ingredientName");
-                                            var active = ingredient.Content.Value<bool>("default");
+                                           @*  var name = ingredient.Content.Value<string>("ingredientName");
+                                            var active = ingredient.Content.Value<bool>("default"); *@
 
                                             inCount++;
                                             <div class="form-check">
-                                                @if(active)
+@*                                                 @if(active)
                                                 {
                                                     <input class="form-check-input" type="checkbox" value="" id="@(name + "_" + inCount)" checked>
 
                                                 }
                                                 else
                                                 {
-                                                 <input class="form-check-input" type="checkbox" value="" id="@(name + "_" + inCount)" >
 
-                                                }
-                                                <label class="form-check-label" for="@(name + "_" + inCount)">
-                                                    @name
+                                                } *@
+                                                <input class="form-check-input" type="checkbox" value="" id="@(ingredient + "_" + inCount)" checked>
+
+                                                <label class="form-check-label" for="@(ingredient + "_" + inCount)">
+                                                    @ingredient
                                                 </label>
                                             </div>
                                         }
@@ -167,7 +168,7 @@
 
             <div class="product_cart_item list-group list-group-light">
 
-                <div class="shrinked_ingridients" id="addExtraIngredients" data-bs-toggle="modal" data-bs-target="#expandAddExtra">
+                <div onclick="modalMemory(this)" class="shrinked_ingridients" id="addExtraIngredients" data-bs-toggle="modal" data-bs-target="#expandAddExtra">
                     <div class="top">
                         <span class="title">Προσθέστε Extra</span>
                         <i class="fa fa-edit"></i>
@@ -185,7 +186,7 @@
                                 <h1 class="modal-title" id="expandAddExtraLabel">
                                     @(Umbraco.GetDictionaryValue("AddIngredients", "Προσθέστε Extra"))
                                 </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button data-type="#expandAddExtra" onclick="resetMemory(this)" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="wrapper__ingredients">
@@ -220,7 +221,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button data-type="#expandAddExtra" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                                <button data-type="#expandAddExtra" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
                             </div>
                         </div>
                     </div>
@@ -237,7 +238,7 @@
 
         <div class="product_cart_item list-group list-group-light">
 
-            <div class="shrinked_ingridients" id="addComments" data-bs-toggle="modal" data-bs-target="#expandComments" >
+            <div onclick="modalMemory(this)" class="shrinked_ingridients" id="addComments" data-bs-toggle="modal" data-bs-target="#expandComments" >
                 <div class="top">
                     <span class="title">Σχόλια</span>
                     <i class="fa fa-edit"></i>
@@ -254,20 +255,20 @@
                             <h1 class="modal-title" id="expandCommentsLabel">
                                 @(Umbraco.GetDictionaryValue("Comments", "Σχόλια"))
                             </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button data-type="#expandComments"  onclick="resetMemory(this)" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="wrapper__ingredients">
 
                                 <div class="comments__container form-group">
-                                        <textarea class="form-control" id="commentsArea" rows="3"></textarea>
+                                    <textarea maxlength="50" class="form-control" id="commentsArea" rows="3"></textarea>
                                 </div>
 
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                            <button data-type="#expandComments" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
                         </div>
                     </div>
                 </div>
