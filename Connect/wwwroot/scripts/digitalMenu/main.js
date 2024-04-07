@@ -521,7 +521,12 @@ $(document).ready(() => {
                 //    dealsClass = "deals";
                 //}
 
-
+                var dataPrice = originalPrice;
+                if (hasDiscount === "True") {
+                    if (finalPrice != undefined) {
+                        dataPrice = finalPrice;
+                    }
+                }
 
 
 
@@ -533,7 +538,7 @@ $(document).ready(() => {
                     '                                <h3 class="product-name">' + name + '</h3>' +
                     '                                <p class="product-desc">' + desc + '</p>' +
                     '                            </div>' +
-                    '                            <div class="product-price">';
+                '                            <div class="product-price" data-price="' + dataPrice +'">';
 
 
 
@@ -712,8 +717,17 @@ $(document).ready(() => {
                 }
             });
 
+            var price = $(this).attr("data-final-price");
+            if (price != undefined) {
+          
+                    $(".total__product__price").text(price);
+
+            }
+
             $(".item-info").addClass("display");
             $("body").addClass("no-scroll");
+
+
 
 
 
@@ -4349,7 +4363,7 @@ function buttonPlus(ele) {
 
     var amount = Number($n.val());
 
-    if (amount < 100) {
+    if (amount < 99) {
         $n.val(Number($n.val()) + 1);
 
     }
@@ -4371,8 +4385,8 @@ function checkQuantity(ele) {
     if (amount < 1) {
         $(ele).val(1);
     }
-    else if (amount > 100) {
-        $(ele).val(100);
+    else if (amount > 99) {
+        $(ele).val(99);
 
     }
 }
