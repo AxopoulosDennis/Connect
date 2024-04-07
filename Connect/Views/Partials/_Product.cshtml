@@ -1,169 +1,126 @@
-﻿@using Umbraco.Cms.Core.Models.Blocks
+﻿@using Connect.Models
+@using Umbraco.Cms.Core.Models.Blocks
 @using Umbraco.Community.Contentment.DataEditors
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
-
 @{
     Layout = "";
-    BlockListItem product = ViewBag.Item;
+    ProductModel product = ViewBag.Item;
 }
-@if(product != null)
+@if (product != null)
 {
-        var ingredients = product.Content.Value<string[]>("itemIngredients");
-        var addExtra = product.Content.Value<IEnumerable<BlockListItem>>("addExtra");
 
-        decimal originalPrice = product.Content.Value<decimal>("originalPrice");
-        bool activateDiscount = product.Content.Value<bool>("activateDiscount");
-        string discountType = product.Content.Value<string>("discountType") ?? "";
-        decimal discountAmount = product.Content.Value<decimal>("discountAmount");
-        decimal finalPrice = originalPrice;
+        <input type="hidden" name="PageId" value="@product.PageId" />
+        <input type="hidden" name="SectionKey" value="@product.SectionKey" />
+        <input type="hidden" name="ProductKey" value="@product.ProductKey" />
 
-        var hasPrice = originalPrice > 0;
-
-        if (discountType == "Final Price")
+        @if (product.Ingredients?.Any() ?? false)
         {
-            finalPrice = discountAmount;
-        }
-        else if (discountType == "Fixed Price")
-        {
-            finalPrice = originalPrice - discountAmount;
+            var counter = 0;
 
-        }
-        else if (discountType == "Percentage")
-        {
-            var discountPercentage = (discountAmount / 100) * (originalPrice / 1);
-            finalPrice = Math.Ceiling((finalPrice - discountPercentage) * 20) / 20;
+            var ingredientsCounter = 0;
+            var maxIngredients = 3;
 
-        }
+            <input type="hidden" id="maxIngredients" value="@maxIngredients" />
 
-    @if (ingredients?.Any() ?? false)
-    {
-        var counter = 0;
+            <div class="ingridients__container">
+                <div class="product_cart_item list-group list-group-light">
 
-        var ingredientsCounter = 0;
-        var maxIngredients = 3;
+                    <div class="shrinked_ingridients" id="shrinkedIngridients" data-bs-toggle="modal" data-bs-target="#expandIngredients" onclick="modalMemory(this)">
+                        <div class="top">
+                            <span class="title">Υλικά</span>
+                            <i class="fa fa-edit"></i>
+                        </div>
 
-        <input type="hidden" id="maxIngredients" value="@maxIngredients"/>
+                        <div class="ingridients top__margin">
 
-         <div class="ingridients__container">
-
-            <div class="product_cart_item list-group list-group-light" >
-
-                <div class="shrinked_ingridients" id="shrinkedIngridients" data-bs-toggle="modal" data-bs-target="#expandIngredients" onclick="modalMemory(this)">
-                    <div class="top">
-                        <span class="title">Υλικά</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-
-                    <div class="ingridients top__margin">
-@* 
-                        @{
-                            var defaultIngre = ingredients.Where(x => x.Content.Value<bool>
-                            ("default") == true);
-                        } *@
-
-
-                        @foreach (var ingridient in ingredients)
-                        {
-@*                             var name = ingridient.Content.Value<string>("ingredientName");
- *@
-                            if (ingredientsCounter < maxIngredients)
+                            @foreach (var ingridient in product.Ingredients)
                             {
-                                if (ingridient == ingredients.Last())
+                                if (ingredientsCounter < maxIngredients)
                                 {
-                                    <span class="ingridient">@ingridient</span>
+                                    if (ingridient == product.Ingredients.Last())
+                                    {
+                                        <span class="ingridient">@ingridient.IngredientName</span>
 
+                                    }
+                                    else
+                                    {
+                                        <span class="ingridient">@(ingridient.IngredientName + ",")</span>
+
+                                    }
+
+                                    ingredientsCounter++;
                                 }
                                 else
                                 {
-                                    <span class="ingridient">@(ingridient + ",")</span>
+                                    var total = product.Ingredients.Count() - maxIngredients;
 
+                                    if (total > 0)
+                                    {
+                                        <span class="ingridient">+@(total)</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="ingridient">@ingridient.IngredientName</span>
+
+                                    }
+
+                                    break;
                                 }
 
-                                ingredientsCounter++;
+
                             }
-                            else
-                            {
-                                var total = ingredients.Count() - maxIngredients;
-
-                                if(total > 0)
-                                {
-                                    <span class="ingridient">+@(total)</span>
-
-                                }
-                                else
-                                {
-                                    <span class="ingridient">@ingridient</span>
-
-                                }
-
-                                break;
-                            }
-
-
-                        }
+                        </div>
                     </div>
-                </div>
 
-                <div class="modal fade" id="expandIngredients" aria-hidden="true" tabindex="-1" aria-labelledby="expandIngredientsLabel" data-bs-backdrop="static" data-bs-keyboard="false">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title" id="expandIngredientsLabel">
-                                    @(Umbraco.GetDictionaryValue("EditIngredients", "Επιλέξτε Υλικά"))
-                                </h1>
-                                <button data-type="#expandIngredients" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetMemory(this)"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="wrapper__ingredients">
-                                    
-                                    <div class="ingredients__container">
-                                        @{
-                                            var inCount = 0;
-                                        }
-                                        @foreach (var ingredient in ingredients)
-                                        {
-                                           @*  var name = ingredient.Content.Value<string>("ingredientName");
-                                            var active = ingredient.Content.Value<bool>("default"); *@
+                    <div class="modal fade" id="expandIngredients" aria-hidden="true" tabindex="-1" aria-labelledby="expandIngredientsLabel" data-bs-backdrop="static" data-bs-keyboard="false">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title" id="expandIngredientsLabel">
+                                        @(Umbraco.GetDictionaryValue("EditIngredients", "Επιλέξτε Υλικά"))
+                                    </h1>
+                                    <button data-type="#expandIngredients" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetMemory(this)"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="wrapper__ingredients">
 
-                                            inCount++;
+                                        <div class="ingredients__container">
+                                            @{
+                                                var inCount = 0;
+                                            }
+
+                                            @for (var index = 0; index < product.Ingredients.Count(); index++)
+                                            {
+                                                var name = product.Ingredients[index].IngredientName + "_" + index;
+
                                             <div class="form-check">
-@*                                                 @if(active)
-                                                {
-                                                    <input class="form-check-input" type="checkbox" value="" id="@(name + "_" + inCount)" checked>
 
-                                                }
-                                                else
-                                                {
 
-                                                } *@
-                                                <input class="form-check-input" type="checkbox" value="" id="@(ingredient + "_" + inCount)" checked>
-
-                                                <label class="form-check-label" for="@(ingredient + "_" + inCount)">
-                                                    @ingredient
+                                                <input data-name="@product.Ingredients[index].IngredientName" class="form-check-input" type="checkbox" asp-for="@product.Ingredients[index].IsIngredientSelected" class="form-check-input" />
+                                                <label class="form-check-label" asp-for="@product.Ingredients[index].IsIngredientSelected">
+                                                    <span class="product__name">@product.Ingredients[index].IngredientName</span>
                                                 </label>
                                             </div>
-                                        }
+
+                                            }
+                                        </div>
+
                                     </div>
 
                                 </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button data-type="#expandIngredients" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Save", "Αποθήκευση"))</button>
+                                <div class="modal-footer">
+                                    <button data-type="#expandIngredients" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Save", "Αποθήκευση"))</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-      
-          
             </div>
-        </div>
-    }
+        }
 
-    if(addExtra?.Any() ?? false)
-    {
+        if(product.Extras?.Any() ?? false)
+        {
         <div class="ingridients__container">
 
             <div class="product_cart_item list-group list-group-light">
@@ -175,7 +132,6 @@
                     </div>
 
                     <div class="ingridients">
-
                     </div>
                 </div>
 
@@ -195,26 +151,48 @@
                                         @{
                                             var inCount = 0;
                                         }
-                                        @foreach (var item in addExtra)
+
+                                        @for (var index = 0; index < product.Extras.Count(); index++)
                                         {
-                                            inCount++;
-                                            var extraName = item.Content.Value<string>("ingredientName");
-                                            var extraCost = item.Content.Value<decimal>("extraCost");
+                                            var extraName = product.Extras[index].ExtraName;
+                                            var extraCost = product.Extras[index].ExtraPrice;
+                                            var isSelected = product.Extras[index].IsExtraSelected;
 
+                                            <div class="form-check  extra__product">
 
-                                            <div class="form-check extra__product">
-
-                                                <input class="form-check-input" type="checkbox" value="" id="@(extraName + "_" + inCount)">
-
-                                                <label class="form-check-label" for="@(extraName + "_" + inCount)">
+                                                <input data-name="@extraName" data-price="@extraCost" class="form-check-input" type="checkbox" asp-for="@product.Extras[index].IsExtraSelected" class="form-check-input" />
+                                                <label class="form-check-label" asp-for="@product.Extras[index].IsExtraSelected">
                                                     <span class="product__name">@extraName</span>
                                                     <span class="product__cost">+@extraCost.ToString("F2")&#8364</span>
                                                 </label>
-            
-                                            </div>
-      
 
+
+                                            </div>
                                         }
+
+                                        @*                                         @foreach (var item in product.Extras)
+                                    {
+                                    inCount++;
+                                    var extraName = item.ExtraName;
+                                    var extraCost = item.ExtraPrice;
+
+
+                                    <div class="form-check extra__product">
+
+                                    @Html.CheckBoxFor(p => item.IsExtraSelected, new { @class = "form-check-input" })
+                                    @Html.LabelFor(p => item.IsExtraSelected, item.ExtraName, new { @class = "form-check-label" })
+
+                                    <input class="form-check-input" type="checkbox" value="" id="@(extraName + "_" + inCount)">
+
+                                    <label class="form-check-label" for="@(extraName + "_" + inCount)">
+                                    <span class="product__name">@extraName</span>
+                                    <span class="product__cost">+@extraCost.ToString("F2")&#8364</span>
+                                    </label>
+
+                                    </div>
+
+
+                                    } *@
                                     </div>
 
                                 </div>
@@ -232,53 +210,69 @@
 
             </div>
         </div>
-    }
+        }
 
-    <div class="ingridients__container">
+        <div class="ingridients__container">
 
-        <div class="product_cart_item list-group list-group-light">
+            <div class="product_cart_item list-group list-group-light">
 
-            <div onclick="modalMemory(this)" class="shrinked_ingridients" id="addComments" data-bs-toggle="modal" data-bs-target="#expandComments" >
-                <div class="top">
-                    <span class="title">Σχόλια</span>
-                    <i class="fa fa-edit"></i>
+                <div onclick="modalMemory(this)" class="shrinked_ingridients" id="addComments" data-bs-toggle="modal" data-bs-target="#expandComments">
+                    <div class="top">
+                        <span class="title">Σχόλια</span>
+                        <i class="fa fa-edit"></i>
+                    </div>
+
+                    <div class="ingridients">
+                    </div>
                 </div>
 
-                <div class="ingridients">
-                </div>
-            </div>
+                <div class="modal fade" id="expandComments" aria-hidden="true" tabindex="-1" aria-labelledby="expandCommentsLabel">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title" id="expandCommentsLabel">
+                                    @(Umbraco.GetDictionaryValue("Comments", "Σχόλια"))
+                                </h1>
+                                <button data-type="#expandComments" onclick="resetMemory(this)" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="wrapper__ingredients">
 
-            <div class="modal fade" id="expandComments" aria-hidden="true" tabindex="-1" aria-labelledby="expandCommentsLabel">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title" id="expandCommentsLabel">
-                                @(Umbraco.GetDictionaryValue("Comments", "Σχόλια"))
-                            </h1>
-                            <button data-type="#expandComments"  onclick="resetMemory(this)" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="wrapper__ingredients">
+                                    <div class="comments__container form-group">
+                                        <textarea asp-for="@product.Comments" maxlength="50" class="form-control" id="commentsArea" rows="3"></textarea>
+                                    </div>
 
-                                <div class="comments__container form-group">
-                                    <textarea maxlength="50" class="form-control" id="commentsArea" rows="3"></textarea>
                                 </div>
 
                             </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button data-type="#expandComments" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                            <div class="modal-footer">
+                                <button data-type="#expandComments" onclick="saveOption(this)" type="button" id="acceptIngredients" data-bs-dismiss="modal" class="btn btn-primary">@(Umbraco.GetDictionaryValue("Done", "Done"))</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
-    </div>
+
+        <div class="add__container">
+
+            <div class="qty-container">
+                <button onclick="buttonMinus(this)" class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                <input name="QuantityInBasket" type="number" name="qty" value="@product.QuantityInBasket" class="input-qty" oninput="checkQuantity(this);" />
+
+                <button onclick="buttonPlus(this)" class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+            </div>
+            <button class="add_basket_button_container" type="sumbit" value="sumbit">
+
+
+                <div class="add_basket_button">Add to order@* <i class="fa fa-plus-circle"></i> *@</div>
+                <div class="total__product__price">
+                    @product.FinalPrice.ToString("F2")&#8364
+                </div>
+            </button>
+        </div>
+
+
 }
 
 

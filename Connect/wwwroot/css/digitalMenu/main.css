@@ -2700,6 +2700,16 @@ body {
   margin-top: 4px;
 }
 
+.thumbs-container.orders {
+  padding-bottom: 100px;
+}
+
+.add__container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+}
 .add__container .add_basket_button {
   font-size: 1rem;
 }
@@ -2809,7 +2819,7 @@ body {
   text-align: center;
   padding: 5px 10px;
   border: none;
-  max-width: 55px;
+  max-width: 54px;
   background-color: transparent;
 }
 .add__container .qty-container .qty-btn-minus,
@@ -2817,8 +2827,8 @@ body {
   border: none;
   padding: 10px 13px;
   font-size: 10px;
-  height: 38px;
-  width: 38px;
+  height: 32px;
+  width: 32px;
   transition: 0.3s;
 }
 .add__container .qty-container .qty-btn-plus {
@@ -2841,28 +2851,36 @@ body {
 }
 .add__container .add_basket_button_container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   border-radius: 4px;
   background-color: forestgreen;
   flex-grow: 4;
+  height: 100%;
+  min-height: 36px;
+  width: 100%;
+  padding: 0.2em 0.8em;
+  border: 0;
 }
 .add__container .total__product__price {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 0.8em;
   font-size: 1rem;
   color: white;
   opacity: 95%;
+  font-size: 0.935rem;
 }
 .add__container .add_basket_button {
-  padding: 0.5em 1.2em;
-  border-radius: 4px;
   position: relative;
   color: white;
   opacity: 95%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.935rem;
+}
+
+.modal-body {
+  min-height: 90px;
 }

@@ -8,6 +8,7 @@
 
 @{
     Layout = "Layouts/DigitalMenu";
+   string enableOrders = ViewBag.EnableOrders ?? "False";
 
 
     var triggerColor = Model?.Value("aboutTriggerColor") ?? "ffffff";
@@ -25,7 +26,6 @@
     var themeColor = "#" + Model?.Value<string>("navigationAndTagsColor");
 
     var isDemo = Model?.Value<bool>("isDemo") ?? false;
-    string enableOrders = Model?.Value<bool>("enableOrders").ToString() ?? "false";
     var pageId = Model?.Id;
 
     decimal biggestPrice = 0;
@@ -1440,12 +1440,22 @@
 
                     
                 </div>
+                @if (enableOrders == "True")
+                {
 
-                <div class="thumbs-container">
-                    <div class="loader__ajax__container">
-                        <div class="loader__ajax"></div>
-                    </div>
-                </div>
+                    <form  id="productForm" method="post" class="thumbs-container orders">
+                        @Html.AntiForgeryToken()
+                        <div class="loader__ajax__container">
+                            <div class="loader__ajax"></div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                   <div class="thumbs-container">
+
+                    </div>                    
+                }
 
             </div>
 
@@ -1454,22 +1464,7 @@
             @if (enableOrders == "True")
             {
 
-                <div class="add__container">
-                    
-                    <div class="qty-container">
-                        <button onclick="buttonMinus(this)" class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-                        <input type="number" name="qty"  value="1" class="input-qty" oninput="checkQuantity(this);" />
 
-                        <button  onclick="buttonPlus(this)" class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-                    </div>
-                    <div class="add_basket_button_container">
-
-                        
-                        <div class="add_basket_button">Add to order@* <i class="fa fa-plus-circle"></i> *@</div>
-                        <div class="total__product__price">
-                        </div>
-                    </div>
-                </div>
             }
             else
             {

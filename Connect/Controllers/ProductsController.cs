@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Connect.Models;
+using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
@@ -44,7 +45,7 @@ namespace Connect.Controllers
         [HttpGet]
         public ActionResult GetItemInfo(string pageId,string sKey, string pKey)
         {
-            BlockListItem? item;
+            BlockListItem? item = null;
 
             var document = _umbracoHelper.Content(pageId);
             var sections = document.Value<IEnumerable<BlockListItem>>("menuSections");
@@ -57,14 +58,17 @@ namespace Connect.Controllers
 
                     if(item != null)
                     {
-                        ViewBag.Item = item;
+                        var model = new ProductModel(item, pageId, sKey, pKey);
+                        ViewBag.Item = model;
+
+                        //save product to db as object and have a reference number later
                     }
 
                 }
             }
-            //var final = item.Where(x=>x.Content.Value<>)
 
-            return PartialView("_Product" );
+
+            return PartialView("_Product");
         }
     }
 
