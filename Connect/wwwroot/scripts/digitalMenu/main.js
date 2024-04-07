@@ -464,6 +464,8 @@ $(document).ready(() => {
     {
         if (enableOrders === "True") {
 
+            $(".input-qty").val(1);
+
             lastPosBeforeItemOpen = window.scrollY;
 
             $(".main-content-page").addClass("blur");
@@ -518,6 +520,10 @@ $(document).ready(() => {
                 //if (isDeals != undefined && isDeals == "True") {
                 //    dealsClass = "deals";
                 //}
+
+
+
+
 
                 mainProducts +=
                     '                <div class="swiper-slide" data-product-key="' + pKey + '"  data-section-key="' + sKey +'">' +
@@ -4334,3 +4340,40 @@ function saveOption(ele) {
     }
 
 }
+
+
+function buttonPlus(ele) {
+    var $n = $(ele)
+        .parent(".qty-container")
+        .find(".input-qty");
+
+    var amount = Number($n.val());
+
+    if (amount < 100) {
+        $n.val(Number($n.val()) + 1);
+
+    }
+};
+
+function buttonMinus(ele) {
+    var $n = $(ele)
+        .parent(".qty-container")
+        .find(".input-qty");
+    var amount = Number($n.val());
+    if (amount > 1) {
+        $n.val(amount - 1);
+    }
+    
+};
+
+function checkQuantity(ele) {
+    var amount = $(ele).val();
+    if (amount < 1) {
+        $(ele).val(1);
+    }
+    else if (amount > 100) {
+        $(ele).val(100);
+
+    }
+}
+

@@ -3262,16 +3262,16 @@ body {
 .add__container {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: forestgreen;
-    padding: 1.4em;
+    padding: 1em;
     font-size: 1.2rem;
     gap: 1em;
     font-weight: 500;
+    border-top: 1px solid #d3d3d3;
 
-    .add_basket_button{
-        font-size:1rem;
+    .add_basket_button {
+        font-size: 1rem;
     }
 }
 .modal-backdrop {
@@ -3363,5 +3363,78 @@ body {
     100% {
         box-shadow: 20px 0 #0002,-20px 0 #000;
         background: #000
+    }
+}
+
+.add__container {
+    .qty-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .qty-container .input-qty {
+        text-align: center;
+        padding: 5px 10px;
+        border: none;
+        max-width: 70px;
+        background-color: transparent;
+    }
+
+    .qty-container .qty-btn-minus,
+    .qty-container .qty-btn-plus {
+        border: none;
+        padding: 10px 13px;
+        font-size: 10px;
+        height: 38px;
+        width: 38px;
+        transition: 0.3s;
+    }
+
+    .qty-container .qty-btn-plus {
+        margin-left: -1px;
+        border-radius: 4px;
+    }
+
+    .qty-container .qty-btn-minus {
+        margin-right: -1px;
+        border-radius: 4px;
+    }
+    /*---------------------------*/
+    .btn-cornered,
+    .input-cornered {
+        border-radius: 4px;
+    }
+
+    .btn-rounded {
+        border-radius: 50%;
+    }
+
+    .input-rounded {
+        border-radius: 50px;
+    }
+
+    .add_basket_button_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid lightgray;
+        border-radius: 4px;
+    }
+
+    .total__product__price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 .8em;
+    }
+
+    .add_basket_button {
+        background-color: forestgreen;
+        padding: .6em 1.2em;
+        border-radius: 4px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        position: relative;
     }
 }

@@ -1447,16 +1447,29 @@
                     </div>
                 </div>
 
-
             </div>
 
 
 
             @if (enableOrders == "True")
             {
+
                 <div class="add__container">
-                    <div class="add_basket_button">Add to order</div>
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    
+                    <div class="qty-container">
+                        <button onclick="buttonMinus(this)" class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                        <input type="number" name="qty"  value="1" class="input-qty" oninput="checkQuantity(this);" />
+
+                        <button  onclick="buttonPlus(this)" class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="add_basket_button_container">
+
+                        <div class="total__product__price">
+
+                        </div>
+                        <div class="add_basket_button"><i class="fa fa-plus-circle"></i></div>
+
+                    </div>
                 </div>
             }
             else

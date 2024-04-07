@@ -2703,13 +2703,13 @@ body {
 .add__container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: forestgreen;
-  padding: 1.4em;
+  padding: 1em;
   font-size: 1.2rem;
   gap: 1em;
   font-weight: 500;
+  border-top: 1px solid #d3d3d3;
 }
 .add__container .add_basket_button {
   font-size: 1rem;
@@ -2799,4 +2799,67 @@ body {
     box-shadow: 20px 0 rgba(0, 0, 0, 0.1333333333), -20px 0 #000;
     background: #000;
   }
+}
+.add__container {
+  /*---------------------------*/
+}
+.add__container .qty-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.add__container .qty-container .input-qty {
+  text-align: center;
+  padding: 5px 10px;
+  border: none;
+  max-width: 70px;
+  background-color: transparent;
+}
+.add__container .qty-container .qty-btn-minus,
+.add__container .qty-container .qty-btn-plus {
+  border: none;
+  padding: 10px 13px;
+  font-size: 10px;
+  height: 38px;
+  width: 38px;
+  transition: 0.3s;
+}
+.add__container .qty-container .qty-btn-plus {
+  margin-left: -1px;
+  border-radius: 4px;
+}
+.add__container .qty-container .qty-btn-minus {
+  margin-right: -1px;
+  border-radius: 4px;
+}
+.add__container .btn-cornered,
+.add__container .input-cornered {
+  border-radius: 4px;
+}
+.add__container .btn-rounded {
+  border-radius: 50%;
+}
+.add__container .input-rounded {
+  border-radius: 50px;
+}
+.add__container .add_basket_button_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+.add__container .total__product__price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.8em;
+}
+.add__container .add_basket_button {
+  background-color: forestgreen;
+  padding: 0.6em 1.2em;
+  border-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  position: relative;
 }
