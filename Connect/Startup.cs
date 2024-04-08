@@ -35,6 +35,7 @@ namespace Connect
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUsersStoresDataService, UsersStoresDataService>();
+            services.AddScoped<IOrdersDataService, OrdersDataService>();
 
             services.AddUmbraco(_env, _config)
                 .AddBackOffice()

@@ -28,22 +28,41 @@ namespace Connect.Controllers
 
 
         [HttpGet]
-        public ActionResult RedirectQRCode([FromQuery] string num, [FromQuery] string? table)
+        public ActionResult RedirectQRCode([FromQuery] string num, [FromQuery] string? table, [FromQuery] string? lang)
         {
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-            var redirectUrl = "https://tonny.gr/";
+            var redirectUrl = HttpContext.Request.Host.Value;
+
+            if(redirectUrl.StartsWith("http://") == false && redirectUrl.StartsWith("https://") == false) 
+            { 
+                redirectUrl = "https://" + redirectUrl;
+            }
 
             var mapping = config[$"WebsitesMapping:{num}"];
 
             if(!string.IsNullOrEmpty(mapping))
             {
-                redirectUrl += mapping;
+                redirectUrl += "/" + mapping;
+
+                if(lang != null)
+                {
+                    redirectUrl = redirectUrl + "/" + lang;
+                }
+                else
+                {
+                    redirectUrl = redirectUrl + "/el-gr";
+                }
+
                 if (table != null)
                 {
                     redirectUrl = redirectUrl + "?table=" + table;
                 }
+
+                
             }
+
+   
 
 
 

@@ -9,7 +9,8 @@ namespace Connect.Models
         public string SectionKey { get; set; }
         public string ProductKey { get; set; }
         public string? ProductName { get; set; }
-        public decimal QuantityInBasket { get; set; }
+        public string? ProductDescription { get; set; }
+        public int QuantityInBasket { get; set; }
         public List<ProductIngredient> Ingredients { get; set; } = new List<ProductIngredient>();
         public List<ProductExtra> Extras { get; set; } = new List<ProductExtra>();
         public string Comments { get; set; } = "";
@@ -37,6 +38,7 @@ namespace Connect.Models
             var alias = product.Content.ContentType.Alias;
             var ingredients = product.Content.Value<string[]>("itemIngredients");
             var addExtra = product.Content.Value<IEnumerable<BlockListItem>>("addExtra");
+            var productDesc = product.Content.Value<string>("itemDescription") ?? "";
 
 
             if (discountType == "Final Price")
@@ -59,6 +61,7 @@ namespace Connect.Models
             SectionKey = sectionKey ?? "";
             ProductKey = productKey ?? "";
             ProductName = productName ?? "";
+            ProductDescription = productDesc ?? "";
             QuantityInBasket = 1;
             OriginalPrice = originalPrice;
             DiscountType = discountType;

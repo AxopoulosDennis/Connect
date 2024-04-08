@@ -9,7 +9,7 @@ namespace Connect.Infrastructure.DataServices.IServices
         bool UserIsOwner(int userId, int storeId);
         List<StoreTable> getTables(int storeId);
         bool AddTable(int StoreId,int tableId);
-
         bool SyncProducts(int storeId);
+        StoreTable GetTable(int storeId, int tableId);
     }
 }

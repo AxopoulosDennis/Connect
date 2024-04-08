@@ -4,21 +4,10 @@
     {
         public int StoreId { get; set; }
         public int TableId { get; set; }
-        public Guid? OrderId { get; set; }
+        public int? OrderId { get; set; }
+        public DateTime? OderStartTime { get; set; }
     }
 
-    public class TablerOrder
-    {
-        public Guid? OrderId { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
-    }
 
-    public class OrderItem
-    {
-        public string ItemName { get; set; }
-        public string ItemDescription { get; set; }
-        public int ItemQuantity { get; set; }
-
-
-    }
+    
 }

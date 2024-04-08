@@ -17,6 +17,7 @@ using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.UmbracoContext;
+using static Lucene.Net.Documents.Field;
 using static Umbraco.Cms.Core.Constants.HttpContext;
 
 namespace Connect.Infrastructure.DataServices.Services
@@ -140,8 +141,6 @@ namespace Connect.Infrastructure.DataServices.Services
 
         }
 
-
-
         public List<StoreTable> getTables(int storeId)
         {
             List<StoreTable> tables = new List<StoreTable>();
@@ -221,9 +220,6 @@ namespace Connect.Infrastructure.DataServices.Services
 
         }
 
-
-
-
         public void PopulateStore(UserStore store, DataRow dr)
         {
             store.StoreId = (int)dr["StoreId"];
@@ -240,7 +236,11 @@ namespace Connect.Infrastructure.DataServices.Services
             }
             else
             {
-                table.OrderId = (Guid)dr["OrderId"];
+                table.OrderId = (int)dr["OrderId"];
+            }
+            if(dr.IsNull("OrderStartTime"))
+            {
+                table.OderStartTime = null;
             }
 
         }
@@ -297,6 +297,38 @@ namespace Connect.Infrastructure.DataServices.Services
             return true;
         }
 
+        public StoreTable GetTable(int storeId, int tableId)
+        {
+            StoreTable table = null;
 
+            using (DataTable dt = new DataTable())
+            {
+                using (SqlConnection cn = new SqlConnection(_connectionString))
+                {
+                    cn.Open();
+                    using (SqlCommand cm = cn.CreateCommand())
+                    {
+                        cm.CommandType = CommandType.Text;
+                        cm.CommandText = "select * from storesTables where StoreId=@StoreId AND TableId = @TableId";
+                        cm.Parameters.AddWithValue("@StoreId", storeId);
+                        cm.Parameters.AddWithValue("@TableId", tableId);
+
+                        using (SqlDataReader dr = cm.ExecuteReader())
+                        {
+                            dt.Load(dr);
+                        }
+                    }
+                }
+
+                if (dt.Rows.Count > 0)
+                {
+                    table = new StoreTable();
+                    var dr = dt.Rows[0];
+                    PopulateTable(table, dr);
+                }
+            }
+
+            return table;
+        }
     }
 }
